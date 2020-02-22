@@ -1,31 +1,31 @@
-const express = require('express'); //backend framework
-const mongoose = require('mongoose'); //to interact with mongodb database
-const bodyParser = require('body-parser'); //to take requests and get data from body
-const cors = require('cors');
-const passport = require("passport");
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const mongoose = require("mongoose");
 
-const items = require('./routes/api/items');
-const vendors = require("./routes/api/Vendors");
-const customers = require("./routes/api/Customers");
+const app = express();
+const PORT = 4000;
 
-const app = express(); //initializing express into a variable named app
-
-app.use(bodyParser.json()); //bodyparser middleware
 app.use(cors());
-const db = require('./config/keys').mongoURI; //config DB
+app.use(bodyParser.json());
 
-mongoose.connect(db)
-    .then(() => console.log('Mongodb connected'))
-    .catch(err => console.log(err));
+// Connection to mongodb
+mongoose.connect("mongodb://127.0.0.1:27017/Dass45", {
+  useNewUrlParser: true
+});
+const connection = mongoose.connection;
+connection.once("open", function() {
+  console.log("MongoDB database connection established succesfully.");
+});
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// app.use(morgan('tiny'));
-app.use('/api/items', items);
-app.use(passport.initialize()); // Passport config
-require("./config/passport")(passport); // Routes
-app.use("/api/Vendors", vendors);
-app.use("/api/Customers", customers);
-const port = 5000;
-app.listen(port, () => console.log(`server started on ${port}`));
+// API endpoints
+//routes
+const adminRouter = require("./routes/admin");
+const monitorRouter = require("./routes/monitor");
+const validateRouter = require("./routes/validate");
+app.use("/api/admin", adminRouter);
+app.use("/api/monitor", monitorRouter);
+app.use("/api/validate", validateRouter);
+app.listen(PORT, function() {
+  console.log("Server is running on port: " + PORT);
+});
