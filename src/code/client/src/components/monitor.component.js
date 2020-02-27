@@ -16,7 +16,7 @@ export default class MonitorComponent extends Component {
           color="dark"
           dark
         >
-          <NavbarBrand>Mosquito Corridor Detection and Visulaization System</NavbarBrand>
+          <NavbarBrand>Mosquito Corridor Detection and Visualization System</NavbarBrand>
           <NavbarBrand>
             <LogoutUser />
           </NavbarBrand>

@@ -1,6 +1,18 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import { Navbar, NavbarBrand } from "reactstrap";
+import {
+  Navbar,
+  NavbarBrand,
+  Nav,
+  Card,
+  CardText,
+  CardBody,
+  CardHeader,
+  TabContent,
+  NavItem,
+  NavLink,
+  TabPane
+} from "reactstrap";
 import axios from "axios";
 import "../App.css";
 export default class LoginUser extends Component {
@@ -39,23 +51,23 @@ export default class LoginUser extends Component {
       password: this.state.password,
       type: this.state.type
     };
-    console.log(loginData)
+    console.log(loginData);
     axios
       .post("http://localhost:4000/api/validate", loginData)
       .then(res => {
-        console.log(res.data)
+        console.log(res.data);
         if (res.data === false) {
           this.setState({
             auth: false,
             logErr: true
           });
-          console.log(res.data)
+          console.log(res.data);
         } else {
           this.setState({
             auth: true,
             logErr: true
           });
-          console.log(res.data)
+          console.log(res.data);
           let storageItem = {
             id: res.data._id,
             type: this.state.type,
@@ -77,7 +89,12 @@ export default class LoginUser extends Component {
 
   render() {
     return (
-      <div className="Login">
+      <div
+        className="float-right"
+        style={{
+          "margin-top": 250
+        }}
+      >
         <Navbar
           style={{ marginBottom: "0" }}
           inverse
@@ -85,54 +102,74 @@ export default class LoginUser extends Component {
           color="dark"
           dark
         >
-          <NavbarBrand>Mosquito Corridor Detection and Visulaization System</NavbarBrand>
+          <NavbarBrand>
+            Mosquito Corridor Detection and Visualization System
+          </NavbarBrand>
         </Navbar>
-        <form onSubmit={this.onSubmit}>
-          <div className="form-group">
-            <br />
-            <br />
-            <label>Username: </label>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.username}
-              onChange={this.onChangeUsername}
-            />
-          </div>
-          <div className="form-group">
-            <label>Password: </label>
-            <input
-              type="password"
-              className="form-control"
-              value={this.state.password}
-              onChange={this.onChangePassword}
-            />
-          </div>
-          <select
-            className="browser-default custom-select"
-            onChange={this.onChangeType}
-          >
-            <option value="monitor">Monitor</option>
-            <option value="admin">Admin</option>
-          </select><p></p>
-          <div className="form-group">
-            <input
-              type="submit"
-              value="Login"
-              className="btn btn-primary"
-              onClick={this.onSubmit}
-            />
-          </div>
-          {this.state.logErr === true ? (
-            this.state.auth === false ? (
-              <p className="alert-danger">Incorrect Username or Password</p>
-            ) : this.state.type === "admin" ? (
-              <Redirect to="/admin/" />
-            ) : (
-              <Redirect to="/monitor/" />
-            )
-          ) : null}
-        </form>
+
+            <Card style={{ width: "22rem", height: "25rem" }}>
+              {/* <Nav tabs>
+                <NavItem>
+                  <NavLink>Admin</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink>Monitor</NavLink>
+                </NavItem>
+              </Nav> */}
+              <CardHeader>Sign in</CardHeader>
+              <CardBody>
+                <form onSubmit={this.onSubmit}>
+                  <div className="form-group">
+                    {/* <br /> */}
+                    {/* <br /> */}
+                    {/* <label>Username: </label> */}
+                    <CardText>Username: </CardText>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={this.state.username}
+                      onChange={this.onChangeUsername}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Password: </label>
+                    <input
+                      type="password"
+                      className="form-control"
+                      value={this.state.password}
+                      onChange={this.onChangePassword}
+                    />
+                  </div>
+                  <select
+                    className="browser-default custom-select"
+                    onChange={this.onChangeType}
+                  >
+                    <option value="monitor">Monitor</option>
+                    <option value="admin">Admin</option>
+                  </select>
+                  <p></p>
+                  <div className="form-group">
+                    <input
+                      type="submit"
+                      value="Login"
+                      className="btn btn-primary"
+                      onClick={this.onSubmit}
+                    />
+                  </div>
+                  {this.state.logErr === true ? (
+                    this.state.auth === false ? (
+                      <p className="alert-danger">
+                        Incorrect Username or Password
+                      </p>
+                    ) : this.state.type === "admin" ? (
+                      <Redirect to="/admin/" />
+                    ) : (
+                      <Redirect to="/monitor/" />
+                    )
+                  ) : null}
+                </form>
+              </CardBody>
+            </Card>
       </div>
     );
   }
