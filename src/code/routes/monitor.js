@@ -1,8 +1,8 @@
 const express = require('express');
 const monitorRouter = express.Router();
 const Monitor = require('../models/monitor')
-monitorRouter.get('/', function (req, res) {
-    Monitor.find(function (err, monitors) {
+monitorRouter.get('/', function(req, res) {
+    Monitor.find(function(err, monitors) {
         if (err) {
             console.log(err);
             res.status(400).send('Error');
@@ -11,9 +11,9 @@ monitorRouter.get('/', function (req, res) {
         }
     });
 });
-monitorRouter.get(('/:id'), function (req, res) {
+monitorRouter.get(('/:id'), function(req, res) {
     let id = req.params.id;
-    Monitor.findById(id, function (err, monitor) {
+    Monitor.findById(id, function(err, monitor) {
         if (err) {
             res.status(400).send("Unable to find monitor of given id")
         } else {
@@ -21,28 +21,27 @@ monitorRouter.get(('/:id'), function (req, res) {
         }
     });
 });
-monitorRouter.post(('/'), function (req, res) {
-    Monitor.findOne({username: req.body.username},function(err,monitor){
-        if(monitor != null){
+monitorRouter.post(('/'), function(req, res) {
+    Monitor.findOne({ username: req.body.username }, function(err, monitor) {
+        if (monitor != null) {
             res.status(400).send('Error');
             return;
-        }
-        else{
+        } else {
             let monitor = new Monitor(req.body);
             monitor.save().then(monitor => {
-            res.status(200).send(true);
-        })
-        .catch(err => {
-            console.log(err)
-            res.status(400).send('Error');
-        });
+                    res.status(200).send(true);
+                })
+                .catch(err => {
+                    console.log(err)
+                    res.status(400).send('Error');
+                });
         }
     })
-    
+
 });
-monitorRouter.delete(('/:id'), function (req, res) {
+monitorRouter.delete(('/:id'), function(req, res) {
     let id = req.params.id;
-    Monitor.findByIdAndDelete(id, function (err) {
+    Monitor.findByIdAndDelete(id, function(err) {
         if (err) {
             res.status(400).send('Error');
         } else {
@@ -50,9 +49,9 @@ monitorRouter.delete(('/:id'), function (req, res) {
         }
     });
 });
-monitorRouter.put('/:id', function (req, res) {
+monitorRouter.put('/:id', function(req, res) {
     let id = req.params.id;
-    Monitor.findByIdAndUpdate(id, req.body, function (err) {
+    Monitor.findByIdAndUpdate(id, req.body, function(err) {
         if (err) {
             res.status(400).send('Unable to update monitor');
         } else {
