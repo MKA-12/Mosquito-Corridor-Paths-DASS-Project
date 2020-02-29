@@ -4,6 +4,36 @@ const random = require('random')
 
 const sensorAddRouter = express.Router();
 
+// function here(items, res) {
+//     for (i = 0; i < items.length; i++) {
+//         const Temparature = random.float(min = 17, max = 40)
+//         const Humidity = random.float(min = 40, max = 75)
+//         const date = new Date;
+//         const time = "Last Sync: " + date.getDate() + "/" +
+//             (date.getMonth() + 1) + "/" +
+//             date.getFullYear() + " @ " +
+//             date.getHours() + ":" +
+//             date.getMinutes() + ":" +
+//             date.getSeconds();
+//         Sensor.findByIdAndUpdate(items[i].id, { $push: { data: { time, "Temparature": Temparature, "Humidity": Humidity + "%" } } })
+//             .then(() => {
+//                 console.log("Updated")
+//                 res.status(200).send(true);
+//             })
+//     }
+// }
+
+sensorAddRouter.get('/', function(req, res) {
+    Sensor.find(function(err, result) {
+        if (err) {
+            console.log(err);
+            res.status(400).send('Error');
+        } else {
+            res.json(result);
+        }
+    });
+});
+
 sensorAddRouter.post("/", function(req, res) {
     // Sensor.findOne({ id: req.body.id }, { latitude: req.body.latitude }, { longitude: req.body.longitude }, { data: [] }, function(err, sensor) {
     //     if (sensor != null) {
@@ -23,8 +53,8 @@ sensorAddRouter.post("/", function(req, res) {
     // })
 });
 sensorAddRouter.delete("/", function(req, res) {
-    console.log(req);
-    console.log(req.body.latitude);
+    // console.log(req);
+    // console.log(req.body.latitude);
     Sensor.findOneAndDelete({ latitude: req.body.latitude })
         .then(() => {
             console.log("Yeahhhhh");
@@ -35,29 +65,28 @@ sensorAddRouter.delete("/", function(req, res) {
     // console.log("Yeahhhhh" + items[i]);
 });
 sensorAddRouter.put("/", function(req, res) {
-    // Sensor.find()
-    //     .then((items) => {
-    //         res.json(items);
-    //         let i = 0;
-    //         console.log(items);
-    //         for (i = 0; i < items.length; i++) {
-    const Temparature = random.float(min = 17, max = 40)
-    const Humidity = random.float(min = 40, max = 75)
-    const date = new Date;
-    // const time = date.toUTCString();
-    const time = "Last Sync: " + date.getDate() + "/" +
-        (date.getMonth() + 1) + "/" +
-        date.getFullYear() + " @ " +
-        date.getHours() + ":" +
-        date.getMinutes() + ":" +
-        date.getSeconds();
-    Sensor.findByIdAndUpdate(req.body.id, { $push: { data: { time, "Temparature": Temparature, "Humidity": Humidity + "%" } } })
-        .then(() => {
-            console.log("Updated")
-            res.status(200).send(true);
-        })
-        // }
-        // });
+    Sensor.find(async function(err, items) {
+        res.json(items);
+        let i = 0;
+        console.log(items);
+        for (i = 0; i < items.length; i++) {
+            // here(items, res);
+            const Temparature = random.float(min = 17, max = 40)
+            const Humidity = random.float(min = 40, max = 75)
+            const date = new Date;
+            const time_date = date.getDate() + "/" +
+                (date.getMonth() + 1) + "/" +
+                date.getFullYear()
+            const time = date.getHours() + ":" +
+                date.getMinutes() + ":" +
+                date.getSeconds();
+            await Sensor.findByIdAndUpdate(items[i].id, { $push: { data: { "date": time_date, "time": time, "Temparature": Temparature, "Humidity": Humidity + "%" } } }, { useFindAndModify: false }, function(err) {
+                console.log("Updated")
+            })
+        }
+    })
+    res.status(200).send(true);
+
 });
 
 

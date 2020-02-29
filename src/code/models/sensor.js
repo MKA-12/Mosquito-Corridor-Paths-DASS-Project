@@ -2,14 +2,15 @@ const mongoose = require("mongoose");
 
 const Sensor = new mongoose.Schema({
     id: {
-        type: Number
+        type: String
+            // required: true
     },
     latitude: {
-        type: Number,
+        type: String,
         required: true
     },
     longitude: {
-        type: Number,
+        type: String,
         required: true
     },
     data: {
