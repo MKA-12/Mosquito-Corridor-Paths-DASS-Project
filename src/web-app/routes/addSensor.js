@@ -4,6 +4,27 @@ const random = require('random')
 
 const sensorAddRouter = express.Router();
 
+async function todo() {
+    // try {
+    let sensors = await Sensor.find()
+
+    for (const order of sensors) {
+        const Temparature = random.float(min = 17, max = 40)
+        const Humidity = random.float(min = 40, max = 75)
+        const date = new Date;
+        const time_date = date.getDate() + "/" +
+            (date.getMonth() + 1) + "/" +
+            date.getFullYear()
+        const time = date.getHours() + ":" +
+            date.getMinutes() + ":" +
+            date.getSeconds();
+        await Sensor.findByIdAndUpdate(order._id, { $push: { data: { "date": time_date, "time": time, "Temparature": Temparature, "Humidity": Humidity + "%" } } })
+    }
+    // return;
+    // } catch (err) {
+    // console.log(err);
+    // }
+}
 // function here(items, res) {
 //     for (i = 0; i < items.length; i++) {
 //         const Temparature = random.float(min = 17, max = 40)
@@ -88,6 +109,31 @@ sensorAddRouter.delete("/", function(req, res) {
 //     res.status(200).send(true);
 
 // });
+
+sensorAddRouter.put('/', () => { setInterval(todo, 10000) })
+
+// sensorAddRouter.put('/',async () => {
+// try {
+// let sensors = await Sensor.find()
+// 
+// for (const order of sensors) {
+// const Temparature = random.float(min = 17, max = 40)
+// const Humidity = random.float(min = 40, max = 75)
+// const date = new Date;
+// const time_date = date.getDate() + "/" +
+// (date.getMonth() + 1) + "/" +
+// date.getFullYear()
+// const time = date.getHours() + ":" +
+// date.getMinutes() + ":" +
+// date.getSeconds();
+// await Sensor.findByIdAndUpdate(order._id, { $push: { data: { "date": time_date, "time": time, "Temparature": Temparature, "Humidity": Humidity + "%" } } })
+// }
+// return;
+// } catch (err) {
+// console.log(err);
+// }
+// })
+
 
 
 // Sensor.find()
