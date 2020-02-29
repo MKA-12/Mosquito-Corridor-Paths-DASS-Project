@@ -64,30 +64,30 @@ sensorAddRouter.delete("/", function(req, res) {
         });
     // console.log("Yeahhhhh" + items[i]);
 });
-sensorAddRouter.put("/", function(req, res) {
-    Sensor.find(async function(err, items) {
-        res.json(items);
-        let i = 0;
-        console.log(items);
-        for (i = 0; i < items.length; i++) {
-            // here(items, res);
-            const Temparature = random.float(min = 17, max = 40)
-            const Humidity = random.float(min = 40, max = 75)
-            const date = new Date;
-            const time_date = date.getDate() + "/" +
-                (date.getMonth() + 1) + "/" +
-                date.getFullYear()
-            const time = date.getHours() + ":" +
-                date.getMinutes() + ":" +
-                date.getSeconds();
-            await Sensor.findByIdAndUpdate(items[i].id, { $push: { data: { "date": time_date, "time": time, "Temparature": Temparature, "Humidity": Humidity + "%" } } }, { useFindAndModify: false }, function(err) {
-                console.log("Updated")
-            })
-        }
-    })
-    res.status(200).send(true);
+// sensorAddRouter.put("/", function(req, res) {
+//     Sensor.find(async function(err, items) {
+//         res.json(items);
+//         let i = 0;
+//         console.log(items);
+//         for (i = 0; i < items.length; i++) {
+//             // here(items, res);
+//             const Temparature = random.float(min = 17, max = 40)
+//             const Humidity = random.float(min = 40, max = 75)
+//             const date = new Date;
+//             const time_date = date.getDate() + "/" +
+//                 (date.getMonth() + 1) + "/" +
+//                 date.getFullYear()
+//             const time = date.getHours() + ":" +
+//                 date.getMinutes() + ":" +
+//                 date.getSeconds();
+//             await Sensor.findByIdAndUpdate(items[i].id, { $push: { data: { "date": time_date, "time": time, "Temparature": Temparature, "Humidity": Humidity + "%" } } }, { useFindAndModify: false }, function(err) {
+//                 console.log("Updated")
+//             })
+//         }
+//     })
+//     res.status(200).send(true);
 
-});
+// });
 
 
 // Sensor.find()

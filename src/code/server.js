@@ -24,10 +24,12 @@ const adminRouter = require("./routes/admin");
 const monitorRouter = require("./routes/monitor");
 const validateRouter = require("./routes/validate");
 const macroWeatherDataRouter = require("./routes/macroWeatherData");
+const sensorAddRouter = require("./routes/addSensor");
 app.use("/api/admin", adminRouter);
 app.use("/api/monitor", monitorRouter);
 app.use("/api/validate", validateRouter);
 app.use("/api/macroWeatherData", macroWeatherDataRouter);
+app.use("/api/addSensor", sensorAddRouter);
 app.listen(PORT, function() {
     console.log("Server is running on port: " + PORT);
 });
