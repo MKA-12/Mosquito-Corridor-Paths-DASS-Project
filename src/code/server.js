@@ -11,11 +11,11 @@ app.use(bodyParser.json());
 
 // Connection to mongodb
 mongoose.connect("mongodb://127.0.0.1:27017/Dass45", {
-    useNewUrlParser: true
+  useNewUrlParser: true
 });
 const connection = mongoose.connection;
 connection.once("open", function() {
-    console.log("MongoDB database connection established succesfully.");
+  console.log("MongoDB database connection established succesfully.");
 });
 
 // API endpoints
@@ -25,11 +25,13 @@ const monitorRouter = require("./routes/monitor");
 const validateRouter = require("./routes/validate");
 const macroWeatherDataRouter = require("./routes/macroWeatherData");
 const sensorAddRouter = require("./routes/addSensor");
+const SOSReportRouter = require("./routes/SOSReport");
 app.use("/api/admin", adminRouter);
 app.use("/api/monitor", monitorRouter);
 app.use("/api/validate", validateRouter);
 app.use("/api/macroWeatherData", macroWeatherDataRouter);
 app.use("/api/addSensor", sensorAddRouter);
+app.use("/api/SOSReport", SOSReportRouter);
 app.listen(PORT, function() {
-    console.log("Server is running on port: " + PORT);
+  console.log("Server is running on port: " + PORT);
 });

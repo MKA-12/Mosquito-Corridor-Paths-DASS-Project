@@ -28,8 +28,8 @@ adminRouter.post(('/'), function (req, res) {
             return;
         }
         else{
-            let Admin = new Admin(req.body);
-            Admin.save().then(admin => {
+            let admin = new Admin(req.body);
+            admin.save().then(admin => {
             res.status(200).send(true);
         })
         .catch(err => {
