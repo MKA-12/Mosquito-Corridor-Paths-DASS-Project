@@ -1,7 +1,21 @@
 window.onload = init;
+//
+function Get_sensor_data(){
+    const url="http://localhost:4000/api/addSensor";
+    fetch(url)
+    .then((res)=>{
+        res.json()
+        console.log(res);
+    })
+    .catch(function(err){
+        console.log(err);
+    });
+
+}
+
 
 var location_store_blips = [[78.34866, 17.4480], [78.34856, 17.4470], [78.34846, 17.4460], [78.34740, 17.4455]];
-var sensor_location_store = [[78.3480, 17.4476],[78.3470,17.4456],[78.3470,17.4446],[78.3490,17.4456]];
+// var sensor_location_store = [[78.3480, 17.4476],[78.3470,17.4456],[78.3470,17.4446],[78.3490,17.4456]];
 function place_new_blip(array_index) {
     var Mobile_app_user_location_new = new ol.Feature({
         geometry: new ol.geom.Point(
@@ -42,12 +56,12 @@ function draw_path_between_points(arr1,arr2) {
         style: new ol.style.Style({
             fill: new ol.style.Fill({
                 color: [0, 0, 0, 0.6],
-                opacity: 0.3
+                opacity: 0.1
             }),
             stroke: new ol.style.Stroke({
                 color: [0, 0, 0, 1],
-                lineDash: [40, 40],
-                width: 1
+                lineDash: [5, 5],
+                width: 0.8
             })
         })
     });
@@ -73,7 +87,7 @@ function init() {
             center: [8721720.927831486, 1972719.6248556883],
             zoom: 18.5,
             maxZoom: 21,
-            minZoom: 17,
+            // minZoom: 17,
         }),
         layers: [openStreetMapHumanitarian],
         // layers: [
@@ -84,6 +98,13 @@ function init() {
         target: 'js-map'
     })
     //
+
+    Get_sensor_data();
+
+
+
+
+
     //iterate over mobile app users co-ordinates and place them on the map
     var Store_added_layer = [];
     for (i = 0; i < location_store_blips.length; i++) {
@@ -113,15 +134,6 @@ function init() {
         map.addLayer(NewLayer_sensor);
     }
     //
-    var point = new OpenLayers.Feature.Vector(
-        new OpenLayers.Geometry.Point(-111.04, 45.68));
-    
-    var layer = new OpenLayers.Layer.Vector("My Layer", {
-        style: OpenLayers.Feature.Vector.style["default"]
-    });
-    
-    map.addLayer(layer);
-    layer.addFeatures([point]);
     //
     // map.on('click', function(e) {
     // console.log(e.coordinate);
