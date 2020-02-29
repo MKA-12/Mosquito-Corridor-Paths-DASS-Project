@@ -12,7 +12,7 @@ const SOSReport = new mongoose.Schema({
     expire_at: {
         type: Date,
         default: Date.now,
-        expires: 300
+        expires: 1800
     }
 });
 

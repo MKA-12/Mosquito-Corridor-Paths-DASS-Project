@@ -120,11 +120,22 @@ async function init() {
                     [parseFloat(out[i].longitude), parseFloat(out[i].latitude)]);
             }
             //iterate over mobile app users co-ordinates and place them on the map
+            fetch('http://localhost:4000/api/SOSReport').then(res=>res.json()).then((out)=>{
+				   // console.log(out)
+				//    var new_list = [out]
+				for (let i = 0; i < out.length; i++) {
+					// console.log('Output: ', out[0].latitude);
+					location_store_blips.push(
+						[parseFloat(out[i].longitude), parseFloat(out[i].latitude)]);
+				}	
+				// console.log(location_store_blips)
+			}).then(()=>{
             var Store_added_layer = [];
-            for (i = 0; i < location_store_blips.length; i++) {
-                Store_added_layer.push(place_new_blip(i));
-            };
-
+			for (i = 0; i < location_store_blips.length; i++) {
+				console.log(location_store_blips)
+				Store_added_layer.push(place_new_blip(i));
+			};
+			
             var vectorSource = new ol.source.Vector({
                 features: Store_added_layer
             });
@@ -133,7 +144,8 @@ async function init() {
                 source: vectorSource,
             });
             map.addLayer(markerVectorLayer);
-            //
+		})
+			//
             //
             //drawing path between two sensors
             // append_Stored_path = draw_path_between_points(sensor_location_store[1], sensor_location_store[0]);
@@ -144,14 +156,14 @@ async function init() {
             map.addLayer(append_Stored_path);
             //
             //Adding Sensors to the map
-            console.log(sensor_location_store[0]);
             for (i = 0; i < sensor_location_store.length; i++) {
                 console.log("here");
                 NewLayer_sensor = Place_Sensor_on_Map(i);
                 map.addLayer(NewLayer_sensor);
             }
             //
-        }).catch(err => console.error(err));
+		})
+		// .catch(err => console.error(err));
 
     //
     // map.on('click', function(e) {
