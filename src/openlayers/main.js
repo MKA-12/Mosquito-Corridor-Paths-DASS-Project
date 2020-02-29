@@ -1,5 +1,60 @@
 window.onload = init;
 
+var location_store_blips = [[78.34866, 17.4480], [78.34856, 17.4470], [78.34846, 17.4460], [78.34740, 17.4455]];
+var sensor_location_store = [[78.3480, 17.4476],[78.3470,17.4456],[78.3470,17.4446],[78.3490,17.4456]];
+function place_new_blip(array_index) {
+    var Mobile_app_user_location_new = new ol.Feature({
+        geometry: new ol.geom.Point(
+            ol.proj.fromLonLat(location_store_blips[array_index])
+        ),
+    });
+
+    return Mobile_app_user_location_new;
+}
+function Place_Sensor_on_Map(i) {
+    var extent = ol.proj.transformExtent([sensor_location_store[i][0], sensor_location_store[i][1], sensor_location_store[i][0] + 0.0001, sensor_location_store[i][1] - 0.0001], 'EPSG:4326', 'EPSG:3857');
+    var imageLayer = new ol.layer.Image({
+        source: new ol.source.ImageStatic({
+            color: '#ffcd46',
+            url: 'sensor.jpeg',
+            imageExtent: extent
+        })
+    });
+    return imageLayer;
+}
+function draw_path_between_points(arr1,arr2) {
+    // var Arbitarary = [[78.34866, 17.4480], [78.34856, 17.4470]];
+    var points = [arr1, arr2];
+
+    for (var i = 0; i < points.length; i++) {
+        points[i] = ol.proj.transform(points[i], 'EPSG:4326', 'EPSG:3857');
+    }
+
+    var featureLine = new ol.Feature({
+        geometry: new ol.geom.LineString(points)
+    });
+
+    var vectorLine = new ol.source.Vector({});
+    vectorLine.addFeature(featureLine);
+
+    var vectorLineLayer = new ol.layer.Vector({
+        source: vectorLine,
+        style: new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: [0, 0, 0, 0.6],
+                opacity: 0.3
+            }),
+            stroke: new ol.style.Stroke({
+                color: [0, 0, 0, 1],
+                lineDash: [40, 40],
+                width: 1
+            })
+        })
+    });
+    return vectorLineLayer;
+    // map.addLayer(vectorLineLayer);
+}
+
 function init() {
     const openStreetMapStandard = new ol.layer.Tile({
         source: new ol.source.OSM(),
@@ -18,8 +73,7 @@ function init() {
             center: [8721720.927831486, 1972719.6248556883],
             zoom: 18.5,
             maxZoom: 21,
-            // minZoom: ,
-            // rotation: 2.3
+            minZoom: 17,
         }),
         layers: [openStreetMapHumanitarian],
         // layers: [
@@ -29,129 +83,46 @@ function init() {
         // ],
         target: 'js-map'
     })
-
-
-    // 
-    // const statemTerrain = new ol.layer.Tile({
-    // source: new ol.source.XYZ({
-    // url: 'http://tile.stamen.com/terrain/{z}/{x}/{y}.jpg',
-    // attributions: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
-    // }),
-    // visible: false,
-    // title: 'StatemTerrain'
-    // })
-
-    // //layer grp
-    // const baseLayerGroup = new ol.layer.Group({
-    //         layers: [
-    //             openStreetMapStandard, openStreetMapHumanitarian, statemTerrain
-    //         ]
-    //     })
-    // map.addLayer(baseLayerGroup);
     //
-
-    var Mobile_app_user_location1 = new ol.Feature({
-        geometry: new ol.geom.Point(
-            ol.proj.fromLonLat([78.34866, 17.4480])
-        ),
-    });
-    var Mobile_app_user_location2 = new ol.Feature({
-        geometry: new ol.geom.Point(
-            ol.proj.fromLonLat([78.34856, 17.4470])
-        ), 
-    });
-    var Mobile_app_user_location3 = new ol.Feature({
-        geometry: new ol.geom.Point(
-            ol.proj.fromLonLat([78.34846, 17.4460])
-        ), 
-    });
-    var Mobile_app_user_location4 = new ol.Feature({
-        geometry: new ol.geom.Point(
-            // {color : '#ffcd46',} 
-            ol.proj.fromLonLat([78.3485043, 17.4483573])
-        ), 
-    });
-    // marker.setStyle(new ol.style.Style({
-    // image: new ol.style.Icon(({
-    // color: '#ffcd46',
-    // crossOrigin: 'anonymous',
-    // src: './1.jpg'
-    // }))
-    // }));
-
-    // var marker1 = new ol.Feature({
-    // geometry: new ol.geom.Point(
-    // ol.proj.fromLonLat([78.34865, 17.4480])
-    // ), // Cordinates of Bakul nivas
-    // });
+    //iterate over mobile app users co-ordinates and place them on the map
+    var Store_added_layer = [];
+    for (i = 0; i < location_store_blips.length; i++) {
+        Store_added_layer.push(place_new_blip(i));
+    };
 
     var vectorSource = new ol.source.Vector({
-        features: [ Mobile_app_user_location4]
+        features: Store_added_layer
     });
     var markerVectorLayer = new ol.layer.Vector({
         source: vectorSource,
     });
     map.addLayer(markerVectorLayer);
-
     //
-
-    var north = 17.4476;
-    var south = 17.4475;
-    var east = 78.3480;
-    var west = 78.3481;
-    var extent = ol.proj.transformExtent([east, north, west, south], 'EPSG:4326', 'EPSG:3857');
-    var imageLayer = new ol.layer.Image({
-        source: new ol.source.ImageStatic({
-            color :  '#ffcd46',
-            url: 'sensor.jpeg',
-            imageExtent: extent
-        })
-    });
-    map.addLayer(imageLayer);
-
-    var north = 17.4456;
-    var south = 17.4455;
-    var east = 78.3470;
-    var west = 78.3471;
-    var extent = ol.proj.transformExtent([east, north, west, south], 'EPSG:4326', 'EPSG:3857');
-    var imageLayer1 = new ol.layer.Image({
-        source: new ol.source.ImageStatic({
-            color :  '#ffcd46',
-            url: 'sensor.jpeg',
-            imageExtent: extent
-        })
-    });
-    map.addLayer(imageLayer1);
-
-    var north = 17.4446;
-    var south = 17.4445;
-    var east = 78.3470;
-    var west = 78.3471;
-    var extent = ol.proj.transformExtent([east, north, west, south], 'EPSG:4326', 'EPSG:3857');
-    var imageLayer2 = new ol.layer.Image({
-        source: new ol.source.ImageStatic({
-            color :  '#ffcd46',
-            url: 'sensor.jpeg',
-            imageExtent: extent
-        })
-    });
-    map.addLayer(imageLayer2);
-
     //
-    var north = 17.4456;
-    var south = 17.4455;
-    var east = 78.3490;
-    var west = 78.3491;
-    var extent = ol.proj.transformExtent([east, north, west, south], 'EPSG:4326', 'EPSG:3857');
-    var imageLayer3 = new ol.layer.Image({
-        source: new ol.source.ImageStatic({
-            color :  '#ffcd46',
-            url: 'sensor.jpeg',
-            imageExtent: extent
-        })
+    //drawing path between two sensors
+    append_Stored_path = draw_path_between_points(sensor_location_store[1],sensor_location_store[0]);
+    map.addLayer(append_Stored_path);
+    //
+    //drawing paths between two blips
+    append_Stored_path = draw_path_between_points(location_store_blips[0],location_store_blips[1])
+    map.addLayer(append_Stored_path);
+    //
+    //Adding Sensors to the map
+    for (i = 0; i < sensor_location_store.length; i++) {
+        NewLayer_sensor = Place_Sensor_on_Map(i);
+        map.addLayer(NewLayer_sensor);
+    }
+    //
+    var point = new OpenLayers.Feature.Vector(
+        new OpenLayers.Geometry.Point(-111.04, 45.68));
+    
+    var layer = new OpenLayers.Layer.Vector("My Layer", {
+        style: OpenLayers.Feature.Vector.style["default"]
     });
-    map.addLayer(imageLayer3);
-
+    
+    map.addLayer(layer);
+    layer.addFeatures([point]);
+    //
     // map.on('click', function(e) {
     // console.log(e.coordinate);
     // })
