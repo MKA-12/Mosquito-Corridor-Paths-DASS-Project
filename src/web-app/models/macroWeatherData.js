@@ -1,6 +1,12 @@
 const mongoose = require("mongoose");
 
 const MacroWeatherData = new mongoose.Schema({
+    time:{
+        type: String
+    },
+    date:{
+        type:String
+    },
     coord: {
         type: Object,
         required: true

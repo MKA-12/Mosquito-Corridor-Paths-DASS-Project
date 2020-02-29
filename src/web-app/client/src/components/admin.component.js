@@ -1,19 +1,68 @@
 import React, { Component } from "react";
 import { NavbarBrand, Navbar } from "reactstrap";
 import LogoutUser from "./logout-user.component";
-import {interaction, layer, custom, control, //name spaces
-  Interactions, Overlays, Controls,     //group
-  Map, Layers, Overlay, Util    //objects
-} from "react-openlayers";
 
 import ConfigData from "../config"
+import SensorMaintainence from "./sensorMaintainence";
+import DiseaseReport from "./diseaseReport";
 
 export default class AdminComponent extends Component {
-
-
+  state = {
+    active: 1,
+    button1: 'btn btn-outline-success',
+    button2: 'btn btn-sm btn-outline-secondary',
+    button3: 'btn btn-sm btn-outline-secondary',
+    button4: 'btn btn-sm btn-outline-secondary',
+    button5: 'btn btn-sm btn-outline-secondary',
+  }
+  buttonOne = () => {
+    this.setState({
+      active: 1,
+      button1: 'btn btn-outline-success',
+      button2: 'btn btn-sm btn-outline-secondary',
+      button3: 'btn btn-sm btn-outline-secondary',
+      button4: 'btn btn-sm btn-outline-secondary',
+      button5: 'btn btn-sm btn-outline-secondary',
+    })
+  }
+  buttonTwo = () => {
+    this.setState({
+      button2:'btn btn-sm btn-outline-secondary'
+    })
+  }
+  buttonThree = () => {
+    this.setState({
+      active: 3,
+      button3: 'btn btn-outline-success',
+      button2: 'btn btn-sm btn-outline-secondary',
+      button1: 'btn btn-sm btn-outline-secondary',
+      button4: 'btn btn-sm btn-outline-secondary',
+      button5: 'btn btn-sm btn-outline-secondary',
+    })
+  }
+  buttonFour = () => {
+    this.setState({
+      active: 4,
+      button4: 'btn btn-outline-success',
+      button2: 'btn btn-sm btn-outline-secondary',
+      button3: 'btn btn-sm btn-outline-secondary',
+      button1: 'btn btn-sm btn-outline-secondary',
+      button5: 'btn btn-sm btn-outline-secondary',
+    })
+  }
+  buttonFive = () => {
+    this.setState({
+      active: 5,
+      button5: 'btn btn-outline-success',
+      button2: 'btn btn-sm btn-outline-secondary',
+      button3: 'btn btn-sm btn-outline-secondary',
+      button4: 'btn btn-sm btn-outline-secondary',
+      button1: 'btn btn-sm btn-outline-secondary',
+    })
+  }
   render() {
     return (
-      <div>
+      <React.Fragment>
         <Navbar
           style={{ marginBottom: "0" }}
           inverse
@@ -28,27 +77,30 @@ export default class AdminComponent extends Component {
             <LogoutUser />
           </NavbarBrand>
         </Navbar>
-        {/* <Grid container> */}
-        {/* <Grid item xs={12}> */}
-        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-        <div id='amap' style={{width:'50%',transform:"scale(2)"}} >
-          <Map view={{center: [ConfigData.lat,ConfigData.lng ], zoom: 16}} onClick={this.showPopup}>
-            <Layers><layer.Tile /></Layers>
-            <Controls>
-              <control.Zoom />
-              <control.Rotate />
-            </Controls>
-            {/* <Overlays>
-            <Overlay ref={comp => this.overlayComp = comp}>
-              <custom.Popup ref={comp => this.popupComp = comp}>
-              </custom.Popup>
-            </Overlay>
-          </Overlays> */}
-          </Map>
-        </div>
-        {/* </Grid> */}
-        {/* </Grid> */}
-      </div>
+        <br />
+        <br />
+        <br />
+        <React.Fragment>
+
+          <nav class="navbar navbar-light bg-light">
+            <form class="form-inline">
+              <button class={this.state.button1} type="button" onClick={this.buttonOne}>Home</button>
+              <a class={this.state.button2} type="button" href="http://localhost:4000/static/index.html" target="_bl">Map View</a>
+              <button class={this.state.button3} type="button" onClick={this.buttonThree}>Disease Report</button>
+              <button class={this.state.button4} type="button" onClick={this.buttonFour}>Sensor Maintainace</button>
+              <button class={this.state.button5} type="button" onClick={this.buttonFive}>Add New </button>
+            </form>
+          </nav>
+          {
+            this.state.active==4
+            ?<SensorMaintainence/>
+            :this.state.active==3
+            ?<DiseaseReport/>
+            :null
+
+          }
+        </React.Fragment>
+      </React.Fragment>
     );
   }
 }
