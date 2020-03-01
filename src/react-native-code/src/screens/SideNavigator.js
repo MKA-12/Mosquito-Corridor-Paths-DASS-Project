@@ -1,13 +1,14 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import Home from "./Home";
+import Home from "./Sidebar/Home";
 import SOSButton from "./Sidebar/SOSbutton";
+import DiseaseReport from "./Sidebar/DiseaseReport";
 const Drawer = createDrawerNavigator();
 
 const SideNavigator = ({ navigation }) => {
   return (
-    <Drawer.Navigator initialRouteName="SOSButton">
+    <Drawer.Navigator initialRouteName="Home">
       <Drawer.Screen
         name="Home"
         component={Home}
@@ -17,6 +18,11 @@ const SideNavigator = ({ navigation }) => {
         name="SOSButton"
         component={SOSButton}
         options={{ drawerLabel: "SOS Report" }}
+      />
+      <Drawer.Screen
+        name="DiseaseReport"
+        component={DiseaseReport}
+        options={{ drawerLabel: "Disease Report" }}
       />
     </Drawer.Navigator>
   );

@@ -1,9 +1,8 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import Background from '../components/Background'
-import NavHeader from './NavHeader'
+import Background from '../../components/Background'
+import NavHeader from '../NavHeader'
 import { createStackNavigator } from '@react-navigation/stack';
-import Button from '../components/Button'
 
 const Stack = createStackNavigator();
 

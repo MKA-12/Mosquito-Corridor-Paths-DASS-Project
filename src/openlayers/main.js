@@ -1,5 +1,4 @@
 window.onload = init;
-//
 var sensor_location_store = [];
 
 function Get_sensor_data() {
@@ -7,14 +6,10 @@ function Get_sensor_data() {
         .then(res => res.json())
         .then((out) => {
             for (let i = 0; i < out.length; i++) {
-                // console.log('Output: ', out[0].latitude);
                 sensor_location_store.push(
                     [parseFloat(out[i].longitude), parseFloat(out[i].latitude)]);
             }
         }).catch(err => console.error(err));
-
-    // console.log(sensor_location_store[0]);
-
 }
 
 
@@ -29,7 +24,7 @@ var location_store_blips = [
     [ 78.34589547314756, 17.444795668745485 ]
 ];
 var sensor_location_store = [[78.3480, 17.4476],[78.3470,17.4456],[78.3470,17.4446],[78.3490,17.4456],[ 78.3503671869923, 17.444856796402092 ],[ 78.34609981858057, 17.445443033098826 ],[ 78.34850222616629, 17.44394568613177 ]];
-//
+
 function place_new_blip(array_index) {
     var Mobile_app_user_location_new = new ol.Feature({
         geometry: new ol.geom.Point(
@@ -39,7 +34,7 @@ function place_new_blip(array_index) {
 
     return Mobile_app_user_location_new;
 }
-//
+
 function Place_Sensor_on_Map(i) {
     var extent = ol.proj.transformExtent([sensor_location_store[i][0], sensor_location_store[i][1], sensor_location_store[i][0] + 0.0001, sensor_location_store[i][1] - 0.0001], 'EPSG:4326', 'EPSG:3857');
     var imageLayer = new ol.layer.Image({
@@ -53,7 +48,6 @@ function Place_Sensor_on_Map(i) {
 }
 
 function draw_path_between_points(arr1, arr2) {
-    // var Arbitarary = [[78.34866, 17.4480], [78.34856, 17.4470]];
     var points = [arr1, arr2];
 
     for (var i = 0; i < points.length; i++) {

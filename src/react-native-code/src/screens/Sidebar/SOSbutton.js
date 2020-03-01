@@ -4,6 +4,7 @@ import { Button } from "react-native-elements";
 import Background from "../../components/Background";
 import NavHeader from "../NavHeader";
 import { createStackNavigator } from "@react-navigation/stack";
+import {BACKEND_CONFIG} from "../../core/config";
 const Stack = createStackNavigator();
 
 const Header = ({ scene, previous, navigation }) => {
@@ -25,7 +26,6 @@ const SOS = ({ navigation }) => {
         Use the below button to report a mosquito outbreak in your area.{"\n"}
       </Text>
       <Button
-        // backgroundColor={'red'}
         buttonStyle={{
           backgroundColor: "red"
         }}
@@ -72,7 +72,7 @@ async function SOSReport() {
           longitude: position.coords.longitude,
           latitude: position.coords.latitude
         };
-        fetch('http://10.42.0.122:4000/api/SOSReport', {
+        fetch(BACKEND_CONFIG.backendURL + '/api/SOSReport', {
           method: 'POST',
           headers: {
             Accept: 'application/json',
