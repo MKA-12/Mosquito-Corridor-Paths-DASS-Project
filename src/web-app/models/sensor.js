@@ -16,6 +16,9 @@ const Sensor = new mongoose.Schema({
     data: {
         type: Array,
         required: true
+    },
+    state: {
+        type: String
     }
 });
 

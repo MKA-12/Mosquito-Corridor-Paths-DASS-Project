@@ -14,54 +14,56 @@ app.use(bodyParser.json());
 
 // Connection to mongodb
 mongoose.connect("mongodb://127.0.0.1:27017/Dass45", {
-  useNewUrlParser: true
+    useNewUrlParser: true
 });
 const connection = mongoose.connection;
-connection.once("open", function () {
-  console.log("MongoDB database connection established succesfully.");
+connection.once("open", function() {
+    console.log("MongoDB database connection established succesfully.");
 });
+
 function data_retrieve(req, res) {
-  request({
-    url: "http://api.openweathermap.org/data/2.5/weather?id=1269843&appid=59d2cc3b6988cf5d5ab44ab2dd6b899a",
-    json: true
-  }, (err, response, body) => {
-    console.log(JSON.stringify(body.coord))
-    const date = new Date;
-    const time_date = date.getDate() + "/" +
-    (date.getMonth() + 1) + "/" +
-    date.getFullYear()
-    const time = date.getHours() + ":" +
-    date.getMinutes() + ":" +
-    date.getSeconds();
-    body.time=time;
-    body.date=date;
-    let data = new macroWeatherData(body);
-    data.save().then(admin => {
-      // res.status(200).send(true);
-    })
-      .catch(err => {
-        console.log(err)
-        res.status(400).send('Error');
-      });
-  });
-  // res.status(200).send(true)
+    request({
+        url: "http://api.openweathermap.org/data/2.5/weather?id=1269843&appid=59d2cc3b6988cf5d5ab44ab2dd6b899a",
+        json: true
+    }, (err, response, body) => {
+        console.log(JSON.stringify(body.coord))
+        const date = new Date;
+        const time_date = date.getDate() + "/" +
+            (date.getMonth() + 1) + "/" +
+            date.getFullYear()
+        const time = date.getHours() + ":" +
+            date.getMinutes() + ":" +
+            date.getSeconds();
+        body.time = time;
+        body.date = date;
+        let data = new macroWeatherData(body);
+        data.save().then(admin => {
+                // res.status(200).send(true);
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(400).send('Error');
+            });
+    });
+    // res.status(200).send(true)
 }
 async function todo() {
-  // try {
-  let sensors = await Sensor.find()
+    // try {
+    let sensors = await Sensor.find()
 
-  for (const order of sensors) {
-    const Temparature = random.float(min = 17, max = 40)
-    const Humidity = random.float(min = 40, max = 75)
-    const date = new Date;
-    const time_date = date.getDate() + "/" +
-      (date.getMonth() + 1) + "/" +
-      date.getFullYear()
-    const time = date.getHours() + ":" +
-      date.getMinutes() + ":" +
-      date.getSeconds();
-    await Sensor.findByIdAndUpdate(order._id, { $push: { data: { "date": time_date, "time": time, "Temparature": Temparature, "Humidity": Humidity + "%" } } })
-  }
+    for (const order of sensors) {
+        const Temparature = random.float(min = 17, max = 40)
+        const Humidity = random.float(min = 40, max = 75)
+        const date = new Date;
+        const time_date = date.getDate() + "/" +
+            (date.getMonth() + 1) + "/" +
+            date.getFullYear()
+        const time = date.getHours() + ":" +
+            date.getMinutes() + ":" +
+            date.getSeconds();
+        const num = random.int(min = 0, max = 1);
+        await Sensor.findByIdAndUpdate(order._id, { $push: { data: { "date": time_date, "state": num, "time": time, "Temparature": Temparature, "Humidity": Humidity + "%" } } })
+    }
 }
 // API endpoints
 //routes
@@ -82,6 +84,6 @@ app.use("/api/macroWeatherData", macroWeatherDataRouter);
 app.use("/api/addSensor", sensorAddRouter);
 app.use("/api/SOSReport", SOSReportRouter);
 app.use('/static', express.static(path.join(__dirname, 'static')))
-app.listen(PORT, function () {
-  console.log("Server is running on port: " + PORT);
+app.listen(PORT, function() {
+    console.log("Server is running on port: " + PORT);
 });

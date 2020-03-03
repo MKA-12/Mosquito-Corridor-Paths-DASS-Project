@@ -3,7 +3,7 @@ const Sensor = require("../models/sensor");
 const random = require('random')
 
 const sensorAddRouter = express.Router();
-let a=1;
+let a = 1;
 async function todo() {
     let sensors = await Sensor.find()
 
@@ -17,7 +17,10 @@ async function todo() {
         const time = date.getHours() + ":" +
             date.getMinutes() + ":" +
             date.getSeconds();
-        await Sensor.findByIdAndUpdate(order._id, { $push: { data: { "date": time_date, "time": time, "Temparature": Temparature, "Humidity": Humidity + "%" } } })
+        const state = "green";
+        const num = random.int(min = 0, max = 1);
+        if (num == 0) { state = "red" }
+        await Sensor.findByIdAndUpdate(order._id, { $push: { state: state, data: { "date": time_date, "time": time, "Temparature": Temparature, "Humidity": Humidity + "%" } } })
     }
 }
 
@@ -33,7 +36,7 @@ sensorAddRouter.get('/', function(req, res) {
 });
 
 sensorAddRouter.post("/", function(req, res) {
-    
+
     console.log(req.body);
     let sensor = new Sensor(req.body);
     sensor.save().then(sensor => {
@@ -49,10 +52,10 @@ sensorAddRouter.post("/", function(req, res) {
 sensorAddRouter.delete("/:id", function(req, res) {
     // console.log(req);
     // console.log(req.body);
-    let id=req.params.id
+    let id = req.params.id
     Sensor.findByIdAndDelete(id)
         .then(() => {
-            console.log(id,"Yeahhhhh");
+            console.log(id, "Yeahhhhh");
         })
         .catch((err) => {
             console.log("shit" + err);
