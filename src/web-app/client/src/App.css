@@ -36,3 +36,8 @@
       transform: rotate(360deg);
     }
   }
+  body{
+    background-image: url("./images/Biting-mosquito-1-1.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }

@@ -5,7 +5,7 @@ export default class SensorMaintainence extends Component {
         latitude: '',
         longitude: '',
         allsensors: [],
-        dummy:'',
+        dummy: '',
     }
     onChangeLatitude = (e) => {
         this.setState({ latitude: e.target.value })
@@ -36,13 +36,13 @@ export default class SensorMaintainence extends Component {
             alert("enter valid latitiude and longitude")
         }
     }
-    onDelete=(curr)=>{
+    onDelete = (curr) => {
         console.log(curr)
-        let route ="http://localhost:4000/api/addSensor/"+curr._id
+        let route = "http://localhost:4000/api/addSensor/" + curr._id
         axios.delete(route)
-        .then(res=>{
-            this.setState({dummy:''})
-        }).catch(err=>{console.log(err)})
+            .then(res => {
+                this.setState({ dummy: '' })
+            }).catch(err => { console.log(err) })
     }
     componentDidMount() {
         axios.get("http://localhost:4000/api/addSensor")
@@ -71,30 +71,32 @@ export default class SensorMaintainence extends Component {
                     </div>
                     <input type="submit" value="Add Sensor" class="btn btn-primary mb-2" />
                 </form>
-                <table className="table table-striped">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>Sensor id</th>
-                            <th>latitiude</th>
-                            <th>longitude</th>
-                            {/* <th>data</th> */}
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.state.allsensors.map((curr, i) => {
-                            return (
-                                <tr>
-                                    <td>{i+1}</td>
-                                    <td>{curr.latitude}</td>
-                                    <td>{curr.longitude}</td>
-                                    {/* <td>{curr.data[curr.data.length-1]}</td> */}
-                                    <td><button class="btn btn-danger" onClick={()=>this.onDelete(curr)}>Delete</button></td>
-                                </tr>
-                            )
-                        })}
-                    </tbody>
-                </table>
+                <div style={{background:"#FFFFFF"}}>
+                    <table className="table table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Sensor id</th>
+                                <th>latitiude</th>
+                                <th>longitude</th>
+                                {/* <th>data</th> */}
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.state.allsensors.map((curr, i) => {
+                                return (
+                                    <tr>
+                                        <td>{i + 1}</td>
+                                        <td>{curr.latitude}</td>
+                                        <td>{curr.longitude}</td>
+                                        {/* <td>{curr.data[curr.data.length-1]}</td> */}
+                                        <td><button class="btn btn-danger" onClick={() => this.onDelete(curr)}>Delete</button></td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </table>
+                </div>
             </React.Fragment>
 
         )

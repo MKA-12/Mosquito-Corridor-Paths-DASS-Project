@@ -10,7 +10,7 @@ import MonitorComponent from "./components/monitor.component";
 function App() {
   return (
     <Router>
-      <div className="container">
+      <div className="container" style={{backgroundColor:"#363636" }}>
         <Route path="/" exact component={LoginUser} />
         <Route path="/admin/*" exact component={AdminComponent} />
         <Route path="/monitor/*" exact component={MonitorComponent} />

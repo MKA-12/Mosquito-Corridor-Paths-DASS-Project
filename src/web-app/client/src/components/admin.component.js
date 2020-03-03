@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { NavbarBrand, Navbar } from "reactstrap";
 import LogoutUser from "./logout-user.component";
-
+import backpic from "../images/maxresdefault.jpg"
 import ConfigData from "../config"
 import SensorMaintainence from "./sensorMaintainence";
 import DiseaseReport from "./diseaseReport";
@@ -27,7 +27,7 @@ export default class AdminComponent extends Component {
   }
   buttonTwo = () => {
     this.setState({
-      button2:'btn btn-sm btn-outline-secondary'
+      button2: 'btn btn-sm btn-outline-secondary'
     })
   }
   buttonThree = () => {
@@ -60,47 +60,61 @@ export default class AdminComponent extends Component {
       button1: 'btn btn-sm btn-outline-secondary',
     })
   }
+  componentDidMount() {
+    document.body.style.background = `url(${backpic})`
+  }
   render() {
     return (
-      <React.Fragment>
-        <Navbar
-          style={{ marginBottom: "0" }}
-          inverse
-          className="fixed-top collapseOnSelect nav-bar"
-          color="dark"
-          dark
-        >
-          <NavbarBrand>
-            Mosquito Corridor Detection and Visualization System
+      <div >
+        <React.Fragment >
+          <Navbar
+            inverse
+            className="fixed-top collapseOnSelect nav-bar"
+            color="dark"
+            dark
+          >
+            <NavbarBrand>
+              Mosquito Corridor Detection and Visualization System
           </NavbarBrand>
-          <NavbarBrand>
-            <LogoutUser />
-          </NavbarBrand>
-        </Navbar>
-        <br />
-        <br />
-        <br />
-        <React.Fragment>
+            <NavbarBrand>
+              <LogoutUser />
+            </NavbarBrand>
+          </Navbar>
+          <br /><br/><br/>
+          <React.Fragment>
 
-          <nav class="navbar navbar-light bg-light">
-            <form class="form-inline">
-              <button class={this.state.button1} type="button" onClick={this.buttonOne}>Home</button>
-              <a class={this.state.button2} type="button" href="http://localhost:4000/static/index.html" target="_bl">Map View</a>
-              <button class={this.state.button3} type="button" onClick={this.buttonThree}>Disease Report</button>
-              <button class={this.state.button4} type="button" onClick={this.buttonFour}>Sensor Maintainace</button>
-              <button class={this.state.button5} type="button" onClick={this.buttonFive}>Add New </button>
-            </form>
-          </nav>
-          {
-            this.state.active==4
-            ?<SensorMaintainence/>
-            :this.state.active==3
-            ?<DiseaseReport/>
-            :null
+            <nav class="navbar navbar-light bg-light">
+              <form class="form-inline">
+                <button class={this.state.button1} type="button" onClick={this.buttonOne}>Home</button>
+                <a class={this.state.button2} type="button" href="http://localhost:4000/static/index.html" target="_bl">Map View</a>
+                <button class={this.state.button3} type="button" onClick={this.buttonThree}>Disease Report</button>
+                <button class={this.state.button4} type="button" onClick={this.buttonFour}>Sensor Maintainace</button>
+                <button class={this.state.button5} type="button" onClick={this.buttonFive}>Add New </button>
+              </form>
+              Welcome {JSON.parse(window.sessionStorage.getItem("User")).name}
+            </nav>
+            {
+              this.state.active == 4
+                ?
+                <div>
+                  <SensorMaintainence />
+                  <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
+                </div>
+                : this.state.active == 3
+                  ?
+                  <div>
+                    <DiseaseReport />
+                    <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
+                  </div>
+                  :
+                  <div style={{ backgroundImage: "url(http://www.mosquito-awareness.com/images/newimages/Header.png)", width: "100%", backgroundPosition: "center" }}>
+                    <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
+                  </div>
+            }
 
-          }
+          </React.Fragment>
         </React.Fragment>
-      </React.Fragment>
+      </div>
     );
   }
 }

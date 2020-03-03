@@ -86,7 +86,9 @@ export default class LoginUser extends Component {
       name: ""
     });
   };
-
+  // componentDidMount(){
+  //   document.body.style.background="#000000"
+  // }
   render() {
     return (
       <div
