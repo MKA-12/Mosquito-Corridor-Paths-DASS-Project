@@ -8,7 +8,7 @@ const Drawer = createDrawerNavigator();
 
 const SideNavigator = ({ navigation }) => {
   return (
-    <Drawer.Navigator initialRouteName="Home">
+    <Drawer.Navigator initialRouteName="SOSButton">
       <Drawer.Screen
         name="Home"
         component={Home}

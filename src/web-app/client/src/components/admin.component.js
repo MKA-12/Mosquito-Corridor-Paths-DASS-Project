@@ -91,7 +91,7 @@ export default class AdminComponent extends Component {
                 <button class={this.state.button4} type="button" onClick={this.buttonFour}>Sensor Maintainace</button>
                 <button class={this.state.button5} type="button" onClick={this.buttonFive}>Add New </button>
               </form>
-              Welcome {JSON.parse(window.sessionStorage.getItem("User")).name}
+              Welcome {window.sessionStorage.getItem("User") != null ? JSON.parse(window.sessionStorage.getItem("User")).name : null}
             </nav>
             {
               this.state.active == 4
