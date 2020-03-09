@@ -26,6 +26,7 @@ function data_retrieve(req, res) {
         url: "http://api.openweathermap.org/data/2.5/weather?id=1269843&appid=59d2cc3b6988cf5d5ab44ab2dd6b899a",
         json: true
     }, (err, response, body) => {
+        if(body !== undefined){
         console.log(JSON.stringify(body.coord))
         const date = new Date;
         const time_date = date.getDate() + "/" +
@@ -44,6 +45,7 @@ function data_retrieve(req, res) {
                 console.log(err)
                 res.status(400).send('Error');
             });
+        }
     });
     // res.status(200).send(true)
 }
