@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
+    "google-maps-react": "^2.0.2",
     "ol": "^6.2.1",
     "openlayers": "^4.6.5",
     "react": "^16.12.0",

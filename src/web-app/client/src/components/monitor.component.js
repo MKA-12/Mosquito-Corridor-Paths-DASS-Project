@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { NavbarBrand, Navbar } from "reactstrap";
 import LogoutUser from "./logout-user.component";
 import DiseaseReport from "./diseaseReport";
+import MapComponent from "./map.component";
 export default class MonitorComponent extends Component {
   constructor(props) {
     super(props);
@@ -27,7 +28,12 @@ export default class MonitorComponent extends Component {
   }
   buttonTwo = () => {
     this.setState({
-      button2: 'btn btn-sm btn-outline-secondary'
+      active:2,
+      button2: 'btn btn-outline-success',
+      button3: 'btn btn-sm btn-outline-secondary',
+      button1: 'btn btn-sm btn-outline-secondary',
+      button4: 'btn btn-sm btn-outline-secondary',
+      button5: 'btn btn-sm btn-outline-secondary',
     })
   }
   buttonThree = () => {
@@ -63,14 +69,17 @@ export default class MonitorComponent extends Component {
           <nav class="navbar navbar-light bg-light">
             <form class="form-inline">
               <button class={this.state.button1} type="button" onClick={this.buttonOne}>Home</button>
-              <a class={this.state.button2} type="button" href="http://localhost:4000/static/index.html" target="_bl">Map View</a>
+              {/* <a class={this.state.button2} type="button" href="http://localhost:4000/static/index.html" target="_bl">Map View</a> */}
+              <button class={this.state.button2} type="button" onClick={this.buttonTwo}>Map View</button>
               <button class={this.state.button3} type="button" onClick={this.buttonThree}>Disease Report</button>
             </form>
           </nav>
           {
             this.state.active == 3
               ? <DiseaseReport />
-              : null
+              : this.state.active == 2?
+                  <MapComponent/>
+                    : null
 
           }
         </React.Fragment>

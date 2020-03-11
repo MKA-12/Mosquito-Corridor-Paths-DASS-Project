@@ -5,7 +5,7 @@ import backpic from "../images/maxresdefault.jpg"
 import ConfigData from "../config"
 import SensorMaintainence from "./sensorMaintainence";
 import DiseaseReport from "./diseaseReport";
-
+import MapComponent from "./map.component"
 export default class AdminComponent extends Component {
   state = {
     active: 1,
@@ -27,7 +27,12 @@ export default class AdminComponent extends Component {
   }
   buttonTwo = () => {
     this.setState({
-      button2: 'btn btn-sm btn-outline-secondary'
+      active:2,
+      button2: 'btn btn-outline-success',
+      button3: 'btn btn-sm btn-outline-secondary',
+      button1: 'btn btn-sm btn-outline-secondary',
+      button4: 'btn btn-sm btn-outline-secondary',
+      button5: 'btn btn-sm btn-outline-secondary',
     })
   }
   buttonThree = () => {
@@ -86,7 +91,8 @@ export default class AdminComponent extends Component {
             <nav class="navbar navbar-light bg-light">
               <form class="form-inline">
                 <button class={this.state.button1} type="button" onClick={this.buttonOne}>Home</button>
-                <a class={this.state.button2} type="button" href="http://localhost:4000/static/index.html" target="_bl">Map View</a>
+                {/* <a class={this.state.button2} type="button" href="http://localhost:4000/static/index.html" target="_bl">Map View</a> */}
+                <button class={this.state.button2} type="button" onClick={this.buttonTwo}>Map View</button>
                 <button class={this.state.button3} type="button" onClick={this.buttonThree}>Disease Report</button>
                 <button class={this.state.button4} type="button" onClick={this.buttonFour}>Sensor Maintainace</button>
                 <button class={this.state.button5} type="button" onClick={this.buttonFive}>Add New </button>
@@ -106,10 +112,15 @@ export default class AdminComponent extends Component {
                     <DiseaseReport />
                     <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
                   </div>
-                  :
-                  <div style={{ backgroundImage: "url(http://www.mosquito-awareness.com/images/newimages/Header.png)", width: "100%", backgroundPosition: "center" }}>
+                  : this.state.active == 2 ?
+                  <div>
+                    <MapComponent/>
                     <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
-                  </div>
+                    </div>
+                    :
+                    <div style={{ backgroundImage: "url(http://www.mosquito-awareness.com/images/newimages/Header.png)", width: "100%", backgroundPosition: "center" }}>
+                      <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
+                    </div>
             }
 
           </React.Fragment>
