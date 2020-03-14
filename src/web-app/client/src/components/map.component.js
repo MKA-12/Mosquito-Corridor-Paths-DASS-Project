@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactMapGL, { Marker } from "react-map-gl";
 import axios from "axios";
 import { MdLocationOn } from "react-icons/md";
@@ -29,16 +29,19 @@ function Map() {
     { longitude: 78.34609981858057, latitude: 17.445443033098826 },
     { longitude: 78.34850222616629, latitude: 17.44394568613177 }
   ]);
-  setInterval(() => {
-    axios.get("http://localhost:4000/api/SOSReport").then(res => {
-      blipLocationUpdate([...blipLocation, ...res.data]);
-      // console.log(res.data);
-    });
-    axios.get("http://localhost:4000/api/addSensor").then(res => {
-      // console.log(res.data)
-      sensorLocationUpdate([...sensorLocation, ...res.data]);
-    });
-  }, 60000);
+  const getData = async () => {
+    setInterval(() => {
+      axios.get("http://localhost:4000/api/SOSReport").then(res => {
+        blipLocationUpdate(res.data);
+      });
+      axios.get("http://localhost:4000/api/addSensor").then(res => {
+        sensorLocationUpdate(res.data);
+      });
+    }, 60000);
+  };
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <ReactMapGL
       mapStyle="mapbox://styles/mapbox/streets-v11"
