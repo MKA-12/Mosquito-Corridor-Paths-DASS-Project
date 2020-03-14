@@ -115,7 +115,6 @@ export default class AdminComponent extends Component {
                   : this.state.active == 2 ?
                   <div>
                     <MapComponent/>
-                    <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
                     </div>
                     :
                     <div style={{ backgroundImage: "url(http://www.mosquito-awareness.com/images/newimages/Header.png)", width: "100%", backgroundPosition: "center" }}>

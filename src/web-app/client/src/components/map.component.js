@@ -1,29 +1,29 @@
-import React, { Component } from "react";
+import React, { useState } from 'react';
+import ReactMapGL, { Marker } from 'react-map-gl';
+import { MdLocationOn } from 'react-icons/md';
 
-import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
-export class MapComponent extends Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return (
-      <Map
-        google={this.props.google}
-        zoom={17.75}
-        style={{
-          width: '1100px',
-          height: '650px',
-          position: "relative"
-        }}
-        initialCenter={{ lng: 78.349, lat: 17.4468 }}
-      >
-        <Marker position={{ lat: 48.0, lng: -122.0 }} />
-      </Map>
-    );
-  }
+function Map() {
+  const [viewport, setViewport] = useState({
+    width: 1111,
+    height: 800,
+    latitude: 17.446,
+    longitude: 78.34957440477181,
+    minZoom: 17,
+    maxZoom: 20
+  });
+
+  return (
+    <ReactMapGL
+      {...viewport}
+      onViewportChange={setViewport}
+      mapboxApiAccessToken="pk.eyJ1IjoiamFpd2FudGgiLCJhIjoiY2s3cXAzNHl4MDUxOTNlb2E0c25wZ3MxYyJ9.fksl8VGQfN2cxth5KvB8yg"
+    >
+      <Marker latitude={17.446} longitude={78.3495} >
+        <div>
+          <MdLocationOn style={{color:"black"}}/>
+        </div>
+      </Marker>
+    </ReactMapGL>
+  );
 }
-
-export default GoogleApiWrapper({
-  apiKey: "AIzaSyDhRMX5aXXFoNDSGJihFTcCoi2X9uRqcM8",
-  url: "http://maps.googleapis.com/maps/api/js"
-})(MapComponent);
+export default Map
