@@ -78,6 +78,8 @@ const validateRouter = require("./routes/validate");
 const macroWeatherDataRouter = require("./routes/macroWeatherData");
 const sensorAddRouter = require("./routes/addSensor");
 const SOSReportRouter = require("./routes/SOSReport");
+const MessageRouter = require("./routes/TargetedMessage");
+const VideoRouter = require("./routes/TargetedVideo");
 app.use("/api/diseaseReport", diseaseRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/monitor", monitorRouter);
@@ -85,6 +87,8 @@ app.use("/api/validate", validateRouter);
 app.use("/api/macroWeatherData", macroWeatherDataRouter);
 app.use("/api/addSensor", sensorAddRouter);
 app.use("/api/SOSReport", SOSReportRouter);
+app.use("/api/TargetedVideo", VideoRouter);
+app.use("/api/TargetedMessage", MessageRouter);
 app.use('/static', express.static(path.join(__dirname, 'static')))
 app.listen(PORT, function() {
     console.log("Server is running on port: " + PORT);

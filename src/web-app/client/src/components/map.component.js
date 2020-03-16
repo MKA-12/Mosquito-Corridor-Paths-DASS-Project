@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import ReactMapGL, { Marker } from "react-map-gl";
 import axios from "axios";
 import { MdLocationOn } from "react-icons/md";
-import { GiMovementSensor } from "react-icons/gi";
+import { GoRadioTower } from "react-icons/go";
 function Map() {
   const [viewport, setViewport] = useState({
     width: 1111,
     height: 800,
-    latitude: 17.446,
-    longitude: 78.34957440477181,
+    latitude: 17.407457481400613,
+    longitude: 78.49234631777769,
     minZoom: 17,
     maxZoom: 20
   });
@@ -30,12 +30,18 @@ function Map() {
     { longitude: 78.34850222616629, latitude: 17.44394568613177 }
   ]);
   const getData = async () => {
+    axios.get("http://localhost:4000/api/SOSReport").then(res => {
+      blipLocationUpdate(res.data);
+    });
+    axios.get("http://localhost:4000/api/addSensor").then(res => {
+      sensorLocationUpdate(res.data);
+    });
     setInterval(() => {
       axios.get("http://localhost:4000/api/SOSReport").then(res => {
-        blipLocationUpdate(res.data);
+        // blipLocationUpdate(res.data);
       });
       axios.get("http://localhost:4000/api/addSensor").then(res => {
-        sensorLocationUpdate(res.data);
+        // sensorLocationUpdate(res.data);
       });
     }, 60000);
   };
@@ -51,7 +57,11 @@ function Map() {
     >
       {blipLocation.map((curr, i) => {
         return (
-          <Marker latitude={curr.latitude} longitude={curr.longitude}>
+          <Marker
+            latitude={curr.latitude}
+            longitude={curr.longitude}
+            offsetTop={-32}
+          >
             <div>
               <MdLocationOn size={32} style={{ color: "black" }} />
             </div>
@@ -63,9 +73,10 @@ function Map() {
           <Marker
             latitude={parseFloat(curr.latitude)}
             longitude={parseFloat(curr.longitude)}
+            offsetTop={-40}
           >
             <div>
-              <GiMovementSensor size={40} style={{ color: "black" }} />
+              <GoRadioTower size={40} style={{ color: "black" }} />
             </div>
           </Marker>
         );
