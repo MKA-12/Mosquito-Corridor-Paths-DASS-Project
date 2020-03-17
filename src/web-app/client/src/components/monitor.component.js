@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { NavbarBrand, Navbar } from "reactstrap";
 import LogoutUser from "./logout-user.component";
 import DiseaseReport from "./diseaseReport";
+import exportData from "./exportData";
 import MapComponent from "./map.component";
 export default class MonitorComponent extends Component {
   constructor(props) {
@@ -46,6 +47,16 @@ export default class MonitorComponent extends Component {
       button5: 'btn btn-sm btn-outline-secondary',
     })
   }
+  buttonFour = () => {
+    this.setState({
+      active: 4,
+      button4: 'btn btn-outline-success',
+      button2: 'btn btn-sm btn-outline-secondary',
+      button1: 'btn btn-sm btn-outline-secondary',
+      button3: 'btn btn-sm btn-outline-secondary',
+      button5: 'btn btn-sm btn-outline-secondary',
+    })
+  }
   render() {
     return (
       <div>
@@ -72,6 +83,7 @@ export default class MonitorComponent extends Component {
               {/* <a class={this.state.button2} type="button" href="http://localhost:4000/static/index.html" target="_bl">Map View</a> */}
               <button class={this.state.button2} type="button" onClick={this.buttonTwo}>Map View</button>
               <button class={this.state.button3} type="button" onClick={this.buttonThree}>Disease Report</button>
+              <button class={this.state.button4} type="button" onClick={this.buttonFour}>Export</button>
             </form>
           </nav>
           {
@@ -79,7 +91,9 @@ export default class MonitorComponent extends Component {
               ? <DiseaseReport />
               : this.state.active == 2?
                   <MapComponent/>
-                    : null
+                    : this.state.active == 4?
+                    <exportData/>
+                      : null
 
           }
         </React.Fragment>

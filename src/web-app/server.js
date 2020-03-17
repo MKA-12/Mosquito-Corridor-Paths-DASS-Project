@@ -26,25 +26,26 @@ function data_retrieve(req, res) {
         url: "http://api.openweathermap.org/data/2.5/weather?id=1269843&appid=59d2cc3b6988cf5d5ab44ab2dd6b899a",
         json: true
     }, (err, response, body) => {
-        if(body !== undefined){
-        console.log(JSON.stringify(body.coord))
-        const date = new Date;
-        const time_date = date.getDate() + "/" +
-            (date.getMonth() + 1) + "/" +
-            date.getFullYear()
-        const time = date.getHours() + ":" +
-            date.getMinutes() + ":" +
-            date.getSeconds();
-        body.time = time;
-        body.date = date;
-        let data = new macroWeatherData(body);
-        data.save().then(admin => {
-                // res.status(200).send(true);
-            })
-            .catch(err => {
-                console.log(err)
-                res.status(400).send('Error');
-            });
+        if (body !== undefined) {
+            console.log(JSON.stringify(body.coord))
+            const date = new Date;
+            const time_date = date.getDate() + "/" +
+                (date.getMonth() + 1) + "/" +
+                date.getFullYear()
+            const time = date.getHours() + ":" +
+                date.getMinutes() + ":" +
+                date.getSeconds();
+            body.time = time;
+            // body.date = date;
+            body.date = time_date;
+            let data = new macroWeatherData(body);
+            data.save().then(admin => {
+                    // res.status(200).send(true);
+                })
+                .catch(err => {
+                    console.log(err)
+                    res.status(400).send('Error');
+                });
         }
     });
     // res.status(200).send(true)

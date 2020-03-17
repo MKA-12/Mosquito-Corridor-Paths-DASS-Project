@@ -4,6 +4,7 @@ import LogoutUser from "./logout-user.component";
 import backpic from "../images/maxresdefault.jpg"
 import ConfigData from "../config"
 import SensorMaintainence from "./sensorMaintainence";
+import ExportData from "./exportData";
 import DiseaseReport from "./diseaseReport";
 import MapComponent from "./map.component"
 export default class AdminComponent extends Component {
@@ -14,6 +15,7 @@ export default class AdminComponent extends Component {
     button3: 'btn btn-sm btn-outline-secondary',
     button4: 'btn btn-sm btn-outline-secondary',
     button5: 'btn btn-sm btn-outline-secondary',
+    button6: 'btn btn-sm btn-outline-secondary',
   }
   buttonOne = () => {
     this.setState({
@@ -23,6 +25,7 @@ export default class AdminComponent extends Component {
       button3: 'btn btn-sm btn-outline-secondary',
       button4: 'btn btn-sm btn-outline-secondary',
       button5: 'btn btn-sm btn-outline-secondary',
+      button6: 'btn btn-sm btn-outline-secondary',
     })
   }
   buttonTwo = () => {
@@ -33,6 +36,7 @@ export default class AdminComponent extends Component {
       button1: 'btn btn-sm btn-outline-secondary',
       button4: 'btn btn-sm btn-outline-secondary',
       button5: 'btn btn-sm btn-outline-secondary',
+      button6: 'btn btn-sm btn-outline-secondary',
     })
   }
   buttonThree = () => {
@@ -43,6 +47,7 @@ export default class AdminComponent extends Component {
       button1: 'btn btn-sm btn-outline-secondary',
       button4: 'btn btn-sm btn-outline-secondary',
       button5: 'btn btn-sm btn-outline-secondary',
+      button6: 'btn btn-sm btn-outline-secondary',
     })
   }
   buttonFour = () => {
@@ -53,12 +58,25 @@ export default class AdminComponent extends Component {
       button3: 'btn btn-sm btn-outline-secondary',
       button1: 'btn btn-sm btn-outline-secondary',
       button5: 'btn btn-sm btn-outline-secondary',
+      button6: 'btn btn-sm btn-outline-secondary',
     })
   }
   buttonFive = () => {
     this.setState({
       active: 5,
       button5: 'btn btn-outline-success',
+      button2: 'btn btn-sm btn-outline-secondary',
+      button3: 'btn btn-sm btn-outline-secondary',
+      button4: 'btn btn-sm btn-outline-secondary',
+      button1: 'btn btn-sm btn-outline-secondary',
+      button6: 'btn btn-sm btn-outline-secondary',
+    })
+  }
+  buttonSix = () => {
+    this.setState({
+      active: 6,
+      button6: 'btn btn-outline-success',
+      button5: 'btn btn-sm btn-outline-secondary',
       button2: 'btn btn-sm btn-outline-secondary',
       button3: 'btn btn-sm btn-outline-secondary',
       button4: 'btn btn-sm btn-outline-secondary',
@@ -96,6 +114,7 @@ export default class AdminComponent extends Component {
                 <button class={this.state.button3} type="button" onClick={this.buttonThree}>Disease Report</button>
                 <button class={this.state.button4} type="button" onClick={this.buttonFour}>Sensor Maintainace</button>
                 <button class={this.state.button5} type="button" onClick={this.buttonFive}>Add New </button>
+                <button class={this.state.button6} type="button" onClick={this.buttonSix}>Export </button>
               </form>
               Welcome {window.sessionStorage.getItem("User") != null ? JSON.parse(window.sessionStorage.getItem("User")).name : null}
             </nav>
@@ -104,6 +123,12 @@ export default class AdminComponent extends Component {
                 ?
                 <div>
                   <SensorMaintainence />
+                  <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
+                </div>
+                : this.state.active == 6
+                ?
+                <div>
+                  <ExportData />
                   <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
                 </div>
                 : this.state.active == 3
