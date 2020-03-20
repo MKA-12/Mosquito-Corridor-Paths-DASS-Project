@@ -22,7 +22,7 @@ const DiseaseReport = () => {
         <TouchableOpacity
           onPress={() => {
             SubmitDiseaseReport(this.props.value);
-            setButton({value:true})
+            setButton({ value: true });
             // setTimeout(() => {
             //     setButton({
             //       value: false
@@ -156,6 +156,5 @@ const DiseaseReport = () => {
 export default DiseaseReport;
 
 const styles = StyleSheet.create({
-  container: {
-  }
+  container: {}
 });
