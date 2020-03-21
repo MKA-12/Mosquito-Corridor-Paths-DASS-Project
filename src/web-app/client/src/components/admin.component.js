@@ -9,9 +9,9 @@ import DiseaseReport from "./diseaseReport";
 import MapComponent from "./map.component"
 export default class AdminComponent extends Component {
   state = {
-    active: 1,
-    button1: 'btn btn-outline-success',
-    button2: 'btn btn-sm btn-outline-secondary',
+    active: 2,
+    button2: 'btn btn-outline-success',
+    button1: 'btn btn-sm btn-outline-secondary',
     button3: 'btn btn-sm btn-outline-secondary',
     button4: 'btn btn-sm btn-outline-secondary',
     button5: 'btn btn-sm btn-outline-secondary',
@@ -93,7 +93,11 @@ export default class AdminComponent extends Component {
           <Navbar
             inverse
             className="fixed-top collapseOnSelect nav-bar"
-            color="dark"
+            // color="dark"
+            sticky
+            style={{
+              backgroundColor:"black"
+            }}
             dark
           >
             <NavbarBrand>

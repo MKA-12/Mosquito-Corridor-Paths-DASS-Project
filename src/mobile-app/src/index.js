@@ -13,7 +13,6 @@ import {
 import SOSButton from "./components/SOSButton";
 import DiseaseReport from "./components/DiseaseReport";
 import TargetedVideo from "./components/TargetedVideo";
-import Comp from "./components/test";
 import Notification from "./components/Notification"
 import { BACKEND_CONFIG } from "./core/config";
 import { theme } from "./core/theme";
