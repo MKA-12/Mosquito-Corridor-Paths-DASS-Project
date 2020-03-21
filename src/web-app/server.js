@@ -65,7 +65,7 @@ async function todo() {
             date.getMinutes() + ":" +
             date.getSeconds();
         const num = random.int(min = 0, max = 1);
-        await Sensor.findByIdAndUpdate(order._id, { $push: { data: { "date": time_date, "state": num, "time": time, "Temparature": Temparature, "Humidity": Humidity + "%" } } })
+        await Sensor.findByIdAndUpdate(order._id, { $push: { data: { "date": time_date, "state": num, "time": time, "Temperature": Temparature, "Humidity": Humidity + "%" } } })
     }
 }
 // API endpoints
@@ -82,6 +82,8 @@ const SOSReportRouter = require("./routes/SOSReport");
 const MessageRouter = require("./routes/TargetedMessage");
 const VideoRouter = require("./routes/TargetedVideo");
 const userRouter = require("./routes/user")
+const sensorCheckRouter = require("./routes/checkSensor")
+const PathRouter = require("./routes//path")
 app.use("/api/diseaseReport", diseaseRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/monitor", monitorRouter);
@@ -91,7 +93,9 @@ app.use("/api/addSensor", sensorAddRouter);
 app.use("/api/SOSReport", SOSReportRouter);
 app.use("/api/TargetedVideo", VideoRouter);
 app.use("/api/TargetedMessage", MessageRouter);
-app.use("/api/Notify",userRouter)
+app.use("/api/Notify",userRouter);
+app.use("/api/getSensor",sensorCheckRouter);
+app.use("/api/getPath",PathRouter);
 app.use('/static', express.static(path.join(__dirname, 'static')))
 app.listen(PORT, function() {
     console.log("Server is running on port: " + PORT);

@@ -7,23 +7,28 @@ import { MdLocationOn } from "react-icons/md";
 import { GoRadioTower } from "react-icons/go";
 const data = [
   {
-    name: "random-name",
-    color: [101, 147, 245],
     path: [
-      [78.49286950106101, 17.407326571684294],
-      [78.49174051105838, 17.407695768267814]
+      [78.34832657301867, 17.44807562924946],
+      [78.34962476218188, 17.44685763728758],
     ]
   }
 ];
-
+const data1=[
+  {
+    path: [
+      [78.34832657301867, 17.44807562924946],
+      [78.3483903, 18.445806],
+    ]
+  }
+];
 export default class Map extends Component {
   state = {
     viewport: {
-      width: 1140,
+      width: 1111,
       height: 800,
-      longitude: 78.49234631777769,
-      latitude: 17.407457481400613,
-      zoom: 18.5
+      latitude: 17.445806,
+      longitude: 78.348390,
+      zoom: 16.5
     },
     blipLocation: [
       { longitude: 78.34866, latitude: 17.448 },
@@ -34,28 +39,42 @@ export default class Map extends Component {
       { longitude: 78.34729022183531, latitude: 17.446740379912782 },
       { longitude: 78.34589547314756, latitude: 17.444795668745485 }
     ],
-    sensorLocation: [
+    conduciveSensorLocation: [
       { longitude: 78.348, latitude: 17.4476 },
       { longitude: 78.347, latitude: 17.4456 },
       { longitude: 78.347, latitude: 17.4446 },
       { longitude: 78.3503671869923, latitude: 17.444856796402092 },
       { longitude: 78.34609981858057, latitude: 17.445443033098826 },
       { longitude: 78.34850222616629, latitude: 17.44394568613177 }
-    ]
+    ],
+    nonconduciveSensorLocation: [],
+    pathsdata: []
   };
   componentDidMount() {
     axios.get("http://localhost:4000/api/SOSReport").then(res => {
       this.setState({ blipLocation: res.data });
     });
-    axios.get("http://localhost:4000/api/addSensor").then(res => {
-      this.setState({ sensorLocation: res.data });
+    axios.get("http://localhost:4000/api/getSensor/conducive").then(res => {
+      this.setState({ conduciveSensorLocation: res.data });
+    });
+    axios.get("http://localhost:4000/api/getSensor/nonconducive").then(res => {
+      this.setState({ nonconduciveSensorLocation: res.data });
+    });
+    axios.get("http://localhost:4000/api/getPath").then(res => {
+      this.setState({ pathsdata: res.data })
     });
     setInterval(() => {
       axios.get("http://localhost:4000/api/SOSReport").then(res => {
         this.setState({ blipLocation: res.data });
       });
-      axios.get("http://localhost:4000/api/addSensor").then(res => {
-        this.setState({ sensorLocation: res.data });
+      axios.get("http://localhost:4000/api/getSensor/conducive").then(res => {
+        this.setState({ conduciveSensorLocation: res.data });
+      });
+      axios.get("http://localhost:4000/api/getSensor/nonconducive").then(res => {
+        this.setState({ nonconduciveSensorLocation: res.data });
+      });
+      axios.get("http://localhost:4000/api/getPath").then(res => {
+        this.setState({ pathsdata: res.data })
       });
     }, 10000);
   }
@@ -64,26 +83,35 @@ export default class Map extends Component {
   };
 
   render() {
-    const layers = [new LineLayer({ id: "line-layer", data })];
     const layer = [
-      new PathLayer({
-        id: "path-layer",
-        data,
-        getWidth: data => 2,
-        getColor: data => data.color,
-        widthMinPixels: 7
-      })
+      
     ];
     return (
       <React.Fragment>
+        {this.state.pathsdata.map((curr, i) => {
+          const newdata = [
+            {
+              path: curr
+            }
+          ];
+          console.log(i, curr)
+          layer.push(new PathLayer({
+            id: "path-layer",
+            data:newdata,
+            getWidth: () => 2,
+            getColor: () => [101, 147, 245],
+            widthMinPixels: 4
+          }))
+        })
+        }
+
         <DeckGL
           initialViewState={this.state.viewport}
           controller={true}
-          layers={layers}
           width={this.state.viewport.width}
           height={this.state.viewport.height}
           layers={layer}
-          style={{"margin-top":124,"margin-left":497}}
+          style={{ "margin-top": 124, "margin-left": 497 }}
         >
           <ReactMapGL
             mapStyle="mapbox://styles/mapbox/streets-v11"
@@ -104,15 +132,28 @@ export default class Map extends Component {
                 </Marker>
               );
             })}
-            {this.state.sensorLocation.map((curr, i) => {
+            {this.state.conduciveSensorLocation.map((curr, i) => {
               return (
                 <Marker
-                  latitude={parseFloat(curr.latitude)}
-                  longitude={parseFloat(curr.longitude)}
-                  offsetTop={-40}
+                  latitude={parseFloat(curr.latitude) - 0.0001}
+                  longitude={parseFloat(curr.longitude) - 0.0001}
+                  offsetTop={-30}
                 >
                   <div>
-                    <GoRadioTower size={40} style={{ color: "black" }} />
+                    <GoRadioTower size={30} style={{ color: "red" }} />
+                  </div>
+                </Marker>
+              );
+            })}
+            {this.state.nonconduciveSensorLocation.map((curr, i) => {
+              return (
+                <Marker
+                  latitude={parseFloat(curr.latitude) - 0.0001}
+                  longitude={parseFloat(curr.longitude) - 0.0001}
+                  offsetTop={-30}
+                >
+                  <div>
+                    <GoRadioTower size={30} style={{ color: "black" }} />
                   </div>
                 </Marker>
               );
