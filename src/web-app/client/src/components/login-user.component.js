@@ -13,6 +13,7 @@ import {
   NavLink,
   TabPane
 } from "reactstrap";
+import { FaUser, FaLock } from "react-icons/fa";
 import axios from "axios";
 import "../App.css";
 export default class LoginUser extends Component {
@@ -92,16 +93,17 @@ export default class LoginUser extends Component {
   render() {
     return (
       <div
-        className="float-right"
+        className="float-left"
         style={{
-          "margin-top": 250
+          "margin-top": 250,
+          marginLeft: 360
         }}
       >
         <Navbar
-          style={{ marginBottom: "0" }}
+          style={{ backgroundColor: "black" }}
           inverse
           className="fixed-top collapseOnSelect nav-bar"
-          color="dark"
+          // color="dark"
           dark
         >
           <NavbarBrand>
@@ -109,8 +111,8 @@ export default class LoginUser extends Component {
           </NavbarBrand>
         </Navbar>
 
-            <Card style={{ width: "22rem", height: "25rem" }}>
-              {/* <Nav tabs>
+        <Card style={{ width: "30rem", height: "25rem" }}>
+          {/* <Nav tabs>
                 <NavItem>
                   <NavLink>Admin</NavLink>
                 </NavItem>
@@ -118,60 +120,93 @@ export default class LoginUser extends Component {
                   <NavLink>Monitor</NavLink>
                 </NavItem>
               </Nav> */}
-              <CardHeader>Sign in</CardHeader>
-              <CardBody>
-                <form onSubmit={this.onSubmit}>
-                  <div className="form-group">
-                    {/* <br /> */}
-                    {/* <br /> */}
-                    {/* <label>Username: </label> */}
-                    <CardText>Username: </CardText>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={this.state.username}
-                      onChange={this.onChangeUsername}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>Password: </label>
-                    <input
-                      type="password"
-                      className="form-control"
-                      value={this.state.password}
-                      onChange={this.onChangePassword}
-                    />
-                  </div>
-                  <select
-                    className="browser-default custom-select"
-                    onChange={this.onChangeType}
-                  >
-                    <option value="monitor">Monitor</option>
-                    <option value="admin">Admin</option>
-                  </select>
-                  <p></p>
-                  <div className="form-group">
-                    <input
-                      type="submit"
-                      value="Login"
-                      className="btn btn-primary"
-                      onClick={this.onSubmit}
-                    />
-                  </div>
-                  {this.state.logErr === true ? (
-                    this.state.auth === false ? (
-                      <p className="alert-danger">
-                        Incorrect Username or Password
-                      </p>
-                    ) : this.state.type === "admin" ? (
-                      <Redirect to="/admin/" />
-                    ) : (
-                      <Redirect to="/monitor/" />
-                    )
-                  ) : null}
-                </form>
-              </CardBody>
-            </Card>
+          <CardHeader
+            style={{ backgroundColor: "black", color: "white",fontSize:25 }}
+          >
+            Sign in
+          </CardHeader>
+          <CardBody>
+            <form onSubmit={this.onSubmit} style={{ marginTop: 0 }}>
+              <div className="form-group">
+                {/* <br /> */}
+                {/* <br /> */}
+                {/* <label>Username: </label> */}
+                {/* <CardText>Username: </CardText> */}
+                {/* <input
+                  type="text"
+                  className="form-control"
+                  value={this.state.username}
+                  onChange={this.onChangeUsername}
+                /> */}
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">
+                    <FaUser />
+                  </span>
+                </div>
+                <input
+                  style={{ fontSize: 20 }}
+                  type="text"
+                  class="form-control"
+                  placeholder="Username"
+                  value={this.state.username}
+                  onChange={this.onChangeUsername}
+                />
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">
+                    <FaLock />
+                  </span>
+                </div>
+                <input
+                  style={{ fontSize: 20 }}
+                  type="password"
+                  class="form-control"
+                  placeholder="Password"
+                  value={this.state.password}
+                  onChange={this.onChangePassword}
+                />
+              </div>
+              {/* <div className="form-group">
+                <label>Password: </label>
+                <input
+                  type="password"
+                  className="form-control"
+                  value={this.state.password}
+                  onChange={this.onChangePassword}
+                />
+              </div> */}
+              <select
+                style={{ fontSize: 20 }}
+                className="browser-default custom-select"
+                onChange={this.onChangeType}
+              >
+                <option value="monitor">Monitor</option>
+                <option value="admin">Admin</option>
+              </select>
+              <p></p>
+              <div className="form-group">
+                <input
+                  type="submit"
+                  value="Login"
+                  className="btn btn-primary"
+                  onClick={this.onSubmit}
+                />
+              </div>
+              {this.state.logErr === true ? (
+                this.state.auth === false ? (
+                  <p className="alert-danger">Incorrect Username or Password</p>
+                ) : this.state.type === "admin" ? (
+                  <Redirect to="/admin/" />
+                ) : (
+                  <Redirect to="/monitor/" />
+                )
+              ) : null}
+            </form>
+          </CardBody>
+        </Card>
       </div>
     );
   }

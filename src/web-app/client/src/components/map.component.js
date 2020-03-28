@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import ReactMapGL, { Marker, StaticMap } from "react-map-gl";
+import ReactMapGL, { Marker, StaticMap, Popup } from "react-map-gl";
 import axios from "axios";
 import DeckGL from "@deck.gl/react";
 import { LineLayer, PathLayer } from "@deck.gl/layers";
 import { MdLocationOn } from "react-icons/md";
 import { GoRadioTower } from "react-icons/go";
+import ReactCSSTransitionGroup from 'react-transition-group';
 const data = [
   {
     path: [
@@ -24,8 +25,8 @@ const data1=[
 export default class Map extends Component {
   state = {
     viewport: {
-      width: 1111,
-      height: 800,
+      // width: 1111,
+      // height: 800,
       latitude: 17.445806,
       longitude: 78.348390,
       zoom: 16.5
@@ -100,7 +101,8 @@ export default class Map extends Component {
             data:newdata,
             getWidth: () => 2,
             getColor: () => [101, 147, 245],
-            widthMinPixels: 4
+            widthMinPixels: 4,
+            
           }))
         })
         }
@@ -108,10 +110,12 @@ export default class Map extends Component {
         <DeckGL
           initialViewState={this.state.viewport}
           controller={true}
-          width={this.state.viewport.width}
-          height={this.state.viewport.height}
+          // width={2000}
+          // height={1050}
+          // width={this.state.viewport.width}
+          // height={this.state.viewport.height}
           layers={layer}
-          style={{ "margin-top": 124, "margin-left": 497 }}
+          // style={{ "margin-top": 124, "margin-left": 497 }}
         >
           <ReactMapGL
             mapStyle="mapbox://styles/mapbox/streets-v11"

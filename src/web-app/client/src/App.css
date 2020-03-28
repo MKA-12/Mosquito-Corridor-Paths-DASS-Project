@@ -1,3 +1,4 @@
+/* @import url('https://fonts.googleapis.com/css?family=Fira+Sans'); */
 .App {
     text-align: center;
   }
@@ -37,7 +38,11 @@
     }
   }
   body{
-    background-image: url("./images/Biting-mosquito-1-1.png");
+    /* background-image: url("./images/Biting-mosquito-1-1.png"); */
     background-size: cover;
     background-repeat: no-repeat;
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Fira Sans', sans-serif;
   }

@@ -60,7 +60,7 @@ export default class SensorMaintainence extends Component {
         return (
             <React.Fragment>
                 <br />
-                <form class="form-inline" onSubmit={this.onSubmit}>
+                <form class="form-inline" onSubmit={this.onSubmit} style={{position:"-moz-initial"}}>
                     <div class="form-group mx-sm-3 mb-2">
                         <label for="latitude" class="sr-only">Latitude</label>
                         <input type="text" class="form-control" id="latitude" placeholder="Latitude" value={this.state.latitude} onChange={this.onChangeLatitude} />

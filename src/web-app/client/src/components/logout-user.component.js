@@ -10,7 +10,11 @@ export default class LogoutUser extends Component{
     }
     render(){
         return(
-            <button type="submit" onClick={this.onClick} className="btn btn-primary">Log Out</button>
+            // <button type="submit" onClick={this.onClick}>Log Out</button>
+            <a onClick={this.onClick}>
+                  <i class="fa fa-power-off fa-2x"></i>
+                  <span class="nav-text">Logout</span>
+                </a>
         );
     }
 }
