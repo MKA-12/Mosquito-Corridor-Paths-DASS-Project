@@ -20,13 +20,16 @@ export default class ExportData extends Component {
         this.objecttoCSV=this.objecttoCSV.bind(this);
         this.download=this.download.bind(this);
         this.getReport=this.getReport.bind(this);
+        this.dateformatting=this.dateformatting.bind(this);
     }
+    
     toggle = () => {
         this.setState({active:!this.state.active})
         setTimeout(() => {
           this.props.reset();
         }, 1000);
       };
+    
     objecttoCSV(data) {
         const csvrows = [];
         const headers = Object.keys(data[0]);
@@ -69,7 +72,6 @@ export default class ExportData extends Component {
         }
     };
     
-    
     onChangeFromDate = (e) => {
         this.setState({ fromDate: e.target.value })
     }
@@ -78,7 +80,8 @@ export default class ExportData extends Component {
     }
     onSubmit = (e) => {
         e.preventDefault();
-        if(moment(this.state.fromDate, "DD/M/YYYY", true).isValid() && moment(this.state.toDate, "DD/M/YYYY", true).isValid()){
+        // console.log(this.state.fromDate,this.state.toDate);
+        if(moment(this.state.fromDate, "YYYY-MM-DD", true).isValid() && moment(this.state.toDate, "YYYY-MM-DD", true).isValid()){
         const DataAttr = {
             fromDate: this.state.fromDate,
             toDate: this.state.toDate
@@ -119,11 +122,11 @@ export default class ExportData extends Component {
                     <form class="form-inline" onSubmit={this.onSubmit}>
                         <div class="form-group mx-sm-3 mb-2">
                             <label for="fromDate" class="sr-only">FromDate</label>
-                            <input type="text" class="form-control" id="fromDate" placeholder="fromDate" value={this.state.fromDate} onChange={this.onChangeFromDate} />
+                            <input type="date" class="form-control" id="fromDate" placeholder="fromDate" value={this.state.fromDate} onChange={this.onChangeFromDate} />
                         </div>
                         <div class="form-group mx-sm-3 mb-2">
                             <label for="toDate" class="sr-only">ToDate</label>
-                            <input type="text" class="form-control" id="toDate" placeholder="toDate" value={this.state.toDate} onChange={this.onChangeToDate} />
+                            <input type="date" class="form-control" id="toDate" placeholder="toDate" value={this.state.toDate} onChange={this.onChangeToDate} />
                         </div>
                         {/* <input type="submit" value="Export Data" class="btn btn-primary mb-2" /> */}
                     </form>
