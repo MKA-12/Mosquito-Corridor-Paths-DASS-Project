@@ -1,13 +1,6 @@
 import React, { Component } from "react";
 import axios from 'axios';
-import {
-    Modal,
-    Button,
-    ModalHeader,
-    ModalBody,
-    ModalFooter
-  } from "reactstrap";  
-import { MdClose } from "react-icons/md";
+import ModalTemplate from "./ModalTemplate"
 var moment = require('moment');
 export default class ExportData extends Component {
     constructor(props){
@@ -15,20 +8,12 @@ export default class ExportData extends Component {
         this.state = {
             fromDate: '',
             toDate: '',
-            active: this.props.active
         }
         this.objecttoCSV=this.objecttoCSV.bind(this);
         this.download=this.download.bind(this);
         this.getReport=this.getReport.bind(this);
-        this.dateformatting=this.dateformatting.bind(this);
+        // this.dateformatting=this.dateformatting.bind(this);
     }
-    
-    toggle = () => {
-        this.setState({active:!this.state.active})
-        setTimeout(() => {
-          this.props.reset();
-        }, 1000);
-      };
     
     objecttoCSV(data) {
         const csvrows = [];
@@ -102,22 +87,8 @@ export default class ExportData extends Component {
         }     
     }
     render() {
-        const closeButton = (
-            <MdClose
-              onClick={this.toggle}
-              style={{ backgroundColor: "red", borderRadius: 50, cursor: "pointer" }}
-            />
-        );
         return (
-            <Modal isOpen={this.state.active} toggle={this.toggle} className={this.props.className}>
-                <ModalHeader
-                toggle={this.toggle}
-                close={closeButton}
-                style={{ backgroundColor: "black", color: "white" }}>
-                Export Data
-                </ModalHeader>
-                <ModalBody>
-                <React.Fragment>
+            <ModalTemplate active={true} title="Export Data" reset={this.props.reset} onSubmit={this.onSubmit}>
                     <br />
                     <form class="form-inline" onSubmit={this.onSubmit}>
                         <div class="form-group mx-sm-3 mb-2">
@@ -130,14 +101,7 @@ export default class ExportData extends Component {
                         </div>
                         {/* <input type="submit" value="Export Data" class="btn btn-primary mb-2" /> */}
                     </form>
-                    </React.Fragment>
-                </ModalBody>
-                <ModalFooter>
-                    <Button color="primary" onClick={this.onSubmit}>
-                        Submit
-                    </Button>
-                </ModalFooter>
-            </Modal>
+            </ModalTemplate>
         )
     }
 }

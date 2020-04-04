@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import ModalTemplate from "./ModalTemplate";
-export default class ExportMap extends Component {
+export default class ChangePassword extends Component {
   render() {
     return (
-      <ModalTemplate active={true} title="Export Map" reset={this.props.reset}>
+      <ModalTemplate active={true} title="Change Your Password" reset={this.props.reset}>
         {"Hello sup"}
       </ModalTemplate>
     );

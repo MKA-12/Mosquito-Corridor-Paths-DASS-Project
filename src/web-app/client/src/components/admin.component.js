@@ -1,13 +1,4 @@
 import React, { Component, useState } from "react";
-import {
-  NavbarBrand,
-  Navbar,
-  Modal,
-  Button,
-  ModalHeader,
-  ModalBody,
-  ModalFooter
-} from "reactstrap";
 import { Route } from "react-router-dom";
 import LogoutUser from "./logout-user.component";
 import backpic from "../images/maxresdefault.jpg";
@@ -21,13 +12,14 @@ import AddVideo from "./targeted-video";
 import AddMessage from "./targeted-message";
 import NewMonitor from "./register-new-monitor";
 import ExportMap from "./exportMap";
+import ChangePassword from "./change-password";
 import "./admin.component.css";
 import {
   FaBroadcastTower,
   FaDizzy,
   FaMapMarkedAlt,
   FaTools,
-  FaDownload
+  FaDownload,
 } from "react-icons/fa";
 import { TiExport } from "react-icons/ti";
 import {
@@ -37,7 +29,7 @@ import {
   MdFileDownload,
   MdAddAPhoto,
   MdVideoCall,
-  MdReportProblem
+  MdReportProblem,
 } from "react-icons/md";
 import { AiOutlineDatabase, AiFillDatabase } from "react-icons/ai";
 export default class AdminComponent extends Component {
@@ -46,41 +38,11 @@ export default class AdminComponent extends Component {
     this.reset = this.reset.bind(this);
   }
   state = {
-    active: 0
+    active: 0,
   };
-  buttonOne = () => {
+  changeStatus = (status) => {
     this.setState({
-      active: 1
-    });
-  };
-  buttonTwo = () => {
-    this.setState({
-      active: 2
-    });
-  };
-  buttonThree = () => {
-    this.setState({
-      active: 3
-    });
-  };
-  buttonFour = () => {
-    this.setState({
-      active: 4
-    });
-  };
-  buttonFive = () => {
-    this.setState({
-      active: 5
-    });
-  };
-  buttonSix = () => {
-    this.setState({
-      active: 6
-    });
-  };
-  buttonSeven = () => {
-    this.setState({
-      active: 7
+      active: status,
     });
   };
   reset() {
@@ -88,7 +50,6 @@ export default class AdminComponent extends Component {
   }
   render() {
     return (
-      <div>
         <React.Fragment>
           <div class="area"></div>
           <nav class="main-menu" style={{ backgroundColor: "black" }}>
@@ -112,7 +73,7 @@ export default class AdminComponent extends Component {
               <li>
                 <a
                   onClick={() => {
-                    this.buttonOne();
+                    this.changeStatus(1);
                   }}
                 >
                   <i class="fa">
@@ -124,7 +85,7 @@ export default class AdminComponent extends Component {
               <li>
                 <a
                   onClick={() => {
-                    this.buttonTwo();
+                    this.changeStatus(2);
                   }}
                 >
                   <i class="fa">
@@ -136,7 +97,7 @@ export default class AdminComponent extends Component {
               <li>
                 <a
                   onClick={() => {
-                    this.buttonThree();
+                    this.changeStatus(3);
                   }}
                 >
                   <i class="fa">
@@ -148,7 +109,7 @@ export default class AdminComponent extends Component {
               <li>
                 <a
                   onClick={() => {
-                    this.buttonFour();
+                    this.changeStatus(4);
                   }}
                 >
                   <i class="fa">
@@ -160,7 +121,7 @@ export default class AdminComponent extends Component {
               <li>
                 <a
                   onClick={() => {
-                    this.buttonFive();
+                    this.changeStatus(5);
                   }}
                 >
                   <i class="fa">
@@ -172,7 +133,7 @@ export default class AdminComponent extends Component {
               <li class="has-subnav">
                 <a
                   onClick={() => {
-                    this.buttonSix();
+                    this.changeStatus(6);
                   }}
                 >
                   <i class="fa">
@@ -184,7 +145,7 @@ export default class AdminComponent extends Component {
               <li class="has-subnav">
                 <a
                   onClick={() => {
-                    this.buttonSeven();
+                    this.changeStatus(7);
                   }}
                 >
                   <i class="fa">
@@ -196,13 +157,13 @@ export default class AdminComponent extends Component {
             </ul>
             <ul class="logout">
               <li>
-                <a href="#">
+                <a onClick={()=>{this.changeStatus(8)}}>
                   <i class="fa fa-lock fa-2x"></i>
                   <span class="nav-text">Change Password</span>
                 </a>
               </li>
               <li>
-                <LogoutUser/>
+                <LogoutUser />
               </li>
             </ul>
           </nav>
@@ -234,30 +195,30 @@ export default class AdminComponent extends Component {
             <Route path="/admin/" exact component={MapComponent} />
           </div>
           {this.state.active == 1 ? (
-            <div>
-              <ExportData active={true} reset={this.reset} />
-            </div>
+            <ExportData reset={this.reset} />
           ) : null}
           {this.state.active == 2 ? (
-            <AddVideo active={true} reset={this.reset} />
+            <AddVideo reset={this.reset} />
           ) : null}
           {this.state.active == 3 ? (
-            <AddMessage active={true} reset={this.reset} />
+            <AddMessage reset={this.reset} />
           ) : null}
           {this.state.active == 4 ? (
-            <LogicBuilder active={true} reset={this.reset} />
+            <LogicBuilder reset={this.reset} />
           ) : null}
           {this.state.active == 5 ? (
-            <NewMonitor active={true} reset={this.reset} />
+            <NewMonitor reset={this.reset} />
           ) : null}
           {this.state.active == 6 ? (
-            <DiseaseReport active={true} reset={this.reset} />
+            <DiseaseReport reset={this.reset} />
           ) : null}
           {this.state.active == 7 ? (
-            <ExportMap active={true} reset={this.reset} />
+            <ExportMap reset={this.reset} />
+          ) : null}
+          {this.state.active == 8 ? (
+            <ChangePassword reset={this.reset} />
           ) : null}
         </React.Fragment>
-      </div>
     );
   }
 }

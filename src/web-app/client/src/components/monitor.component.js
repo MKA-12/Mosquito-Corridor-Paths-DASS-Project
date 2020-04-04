@@ -6,6 +6,7 @@ import DiseaseReport from "./diseaseReport";
 import ExportData from "./exportData";
 import MapComponent from "./map.component";
 import ExportMap from "./exportMap";
+import ChangePassword from "./change-password";
 import { TiExport } from "react-icons/ti";
 import { MdReportProblem } from "react-icons/md";
 import { FaDownload } from "react-icons/fa";
@@ -15,26 +16,11 @@ export default class MonitorComponent extends Component {
     this.reset = this.reset.bind(this);
   }
   state = {
-    active: 0
+    active: 0,
   };
-  buttonOne = () => {
+  changeStatus = (status) => {
     this.setState({
-      active: 1
-    });
-  };
-  buttonTwo = () => {
-    this.setState({
-      active: 2
-    });
-  };
-  buttonThree = () => {
-    this.setState({
-      active: 3
-    });
-  };
-  buttonFour = () => {
-    this.setState({
-      active: 4
+      active: status,
     });
   };
   reset() {
@@ -42,7 +28,6 @@ export default class MonitorComponent extends Component {
   }
   render() {
     return (
-      <div>
         <React.Fragment>
           <div class="area"></div>
           <nav class="main-menu" style={{ backgroundColor: "black" }}>
@@ -50,7 +35,7 @@ export default class MonitorComponent extends Component {
               <li>
                 <a
                   onClick={() => {
-                    this.buttonOne();
+                    this.changeStatus(1);
                   }}
                 >
                   <i class="fa">
@@ -62,7 +47,7 @@ export default class MonitorComponent extends Component {
               <li class="has-subnav">
                 <a
                   onClick={() => {
-                    this.buttonTwo();
+                    this.changeStatus(2);
                   }}
                 >
                   <i class="fa">
@@ -74,7 +59,7 @@ export default class MonitorComponent extends Component {
               <li class="has-subnav">
                 <a
                   onClick={() => {
-                    this.buttonThree();
+                    this.changeStatus(3);
                   }}
                 >
                   <i class="fa">
@@ -86,7 +71,11 @@ export default class MonitorComponent extends Component {
             </ul>
             <ul class="logout">
               <li>
-                <a href="#">
+                <a
+                  onClick={() => {
+                    this.changeStatus(4);
+                  }}
+                >
                   <i class="fa fa-lock fa-2x"></i>
                   <span class="nav-text">Change Password</span>
                 </a>
@@ -96,28 +85,24 @@ export default class MonitorComponent extends Component {
                   <i class="fa fa-power-off fa-2x"><LogoutUser/></i>
                   <span class="nav-text">Logout</span>
                 </a> */}
-                <LogoutUser/>
+                <LogoutUser />
               </li>
             </ul>
           </nav>
           <MapComponent />
           {this.state.active == 1 ? (
-            <div>
-              <ExportData active={true} reset={this.reset} />
-            </div>
+            <ExportData reset={this.reset} />
           ) : null}
           {this.state.active == 2 ? (
-            <div>
-              <DiseaseReport active={true} reset={this.reset} />
-            </div>
+            <DiseaseReport reset={this.reset} />
           ) : null}
           {this.state.active == 3 ? (
-            <div>
-              <ExportMap active={true} reset={this.reset} />
-            </div>
+            <ExportMap reset={this.reset} />
+          ) : null}
+          {this.state.active == 4 ? (
+            <ChangePassword reset={this.reset} />
           ) : null}
         </React.Fragment>
-      </div>
     );
   }
 }

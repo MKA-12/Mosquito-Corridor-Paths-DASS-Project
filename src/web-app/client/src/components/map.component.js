@@ -5,7 +5,6 @@ import DeckGL from "@deck.gl/react";
 import { LineLayer, PathLayer } from "@deck.gl/layers";
 import { MdLocationOn } from "react-icons/md";
 import { GoRadioTower } from "react-icons/go";
-import ReactCSSTransitionGroup from 'react-transition-group';
 const data = [
   {
     path: [
@@ -18,10 +17,18 @@ const data1=[
   {
     path: [
       [78.34832657301867, 17.44807562924946],
-      [78.3483903, 18.445806],
+      [78.34230222616629, 17.44494568613177],
     ]
   }
 ];
+const data2 = [
+  {
+    path:[
+      [ 78.34609981858057,  17.445443033098826 ],
+      [ 78.34850222616629,  17.44394568613177],
+    ]
+  }
+]
 export default class Map extends Component {
   state = {
     viewport: {
@@ -49,7 +56,10 @@ export default class Map extends Component {
       { longitude: 78.34850222616629, latitude: 17.44394568613177 }
     ],
     nonconduciveSensorLocation: [],
-    pathsdata: []
+    pathsdata: [],
+    eradicationTechnique:{
+      longitude: 0.0, latitude: 0.0 ,message:""
+    }
   };
   componentDidMount() {
     axios.get("http://localhost:4000/api/SOSReport").then(res => {
@@ -82,12 +92,38 @@ export default class Map extends Component {
   _onViewportChange = viewport => {
     this.setState({ viewport });
   };
-
+renderPopup = () =>{
+  // if(this.state.showPopup){
+    // console.log("inpopup")
+  return(
+<Popup
+          latitude={this.state.eradicationTechnique.latitude}
+          longitude={this.state.eradicationTechnique.longitude}
+          closeButton={true}
+          closeOnClick={true}
+          onClose={() => {this.setState({showPopup: false})
+            console.log("hello")
+          }}
+          anchor="top"
+          id="Popover1"
+          dynamicPosition={false}
+          style={{  opacity: 100,
+            width: 150,
+            height: 150,
+            opacity: 1}} 
+          >
+          <div>{this.state.eradicationTechnique.message}</div>
+        </Popup>
+  )
+          // }
+}
   render() {
     const layer = [
       
     ];
+    const {showPopup} = this.state;
     return (
+      
       <React.Fragment>
         {this.state.pathsdata.map((curr, i) => {
           const newdata = [
@@ -106,7 +142,47 @@ export default class Map extends Component {
           }))
         })
         }
-
+        {/* {
+          layer.push(new PathLayer({
+            id: "path-layer",
+            data:data,
+            getWidth: () => 2,
+            getColor: () => [101, 147, 245],
+            widthMinPixels: 4,
+            pickable:true,
+            onHover:  (info) =>{
+              {
+              this.setState({showPopup:true, eradicationTechnique:{
+                latitude:info.lngLat[1],
+                longitude:info.lngLat[0],
+                message: "Suggested ET 1"
+              }})
+              
+              console.log(this.state.eradicationTechnique.message)
+            }
+          }
+          }))
+        }{
+          layer.push(new PathLayer({
+            id: "path-layer",
+            data:data2,
+            getWidth: () => 2,
+            getColor: () => [101, 147, 245],
+            widthMinPixels: 4,
+            pickable:true,
+            onHover:  (info) =>{
+              {
+              this.setState({showPopup:true, eradicationTechnique:{
+                latitude:info.lngLat[1],
+                longitude:info.lngLat[0],
+                message: "Suggested ET3 "
+              }})
+              
+              console.log(this.state.eradicationTechnique.message)
+            }
+          }
+          }))
+        } */}
         <DeckGL
           initialViewState={this.state.viewport}
           controller={true}
@@ -123,6 +199,7 @@ export default class Map extends Component {
             // onViewportChange={this._onViewportChange}
             mapboxApiAccessToken="pk.eyJ1IjoiamFpd2FudGgiLCJhIjoiY2s3cXAzNHl4MDUxOTNlb2E0c25wZ3MxYyJ9.fksl8VGQfN2cxth5KvB8yg"
           >
+            {/* {showPopup && this.renderPopup()} */}
             {this.state.blipLocation.map((curr, i) => {
               return (
                 <Marker
