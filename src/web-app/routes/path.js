@@ -47,7 +47,7 @@ PathRoute.get('/', function (req, res) {
                     var d = R * c
                     console.log(d)
                     if (d<0.16) {
-                        allpaths.push([[lon1, lat1], [lon2, lat2]])
+                        allpaths.push([[lon1, lat1], [lon2, lat2], "Hello"])
                     }
                 }
             }
