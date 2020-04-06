@@ -17,6 +17,7 @@
     "date": "^1.0.2",
     "express": "^4.17.1",
     "mongoose": "^5.8.11",
+    "nodemailer": "^6.4.6",
     "random": "^2.1.1",
     "request": "^2.88.2"
   },

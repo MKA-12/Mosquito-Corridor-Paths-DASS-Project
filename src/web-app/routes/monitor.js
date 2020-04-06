@@ -1,6 +1,7 @@
 const express = require('express');
 const monitorRouter = express.Router();
 const Monitor = require('../models/monitor')
+const nodemailer = require('nodemailer');
 monitorRouter.get('/', function(req, res) {
     Monitor.find(function(err, monitors) {
         if (err) {
@@ -24,12 +25,26 @@ monitorRouter.get(('/:id'), function(req, res) {
 monitorRouter.post(('/'), function(req, res) {
     Monitor.findOne({ username: req.body.username }, function(err, monitor) {
         if (monitor != null) {
-            res.status(400).send('Error');
+            res.status(200).send(false);
             return;
         } else {
             let monitor = new Monitor(req.body);
-            monitor.save().then(monitor => {
-                    res.status(200).send(true);
+            monitor.save().then(async monitor => {
+                res.status(200).send(true);
+                let transporter = nodemailer.createTransport({
+                    service: "gmail",
+                    auth: {
+                      user: "dass94028@gmail.com",
+                      pass: "harleenquinzel",
+                    },
+                  });
+                  let info = await transporter.sendMail({
+                    from: "dass94028@gmail.com", // sender address
+                    to: "dass94028@gmail.com",
+                    subject: "Login Details", // Subject line
+                    text: "Sent through nodejs!", // plain text body
+                    // html: "<h1>hello</h1>", // html body
+                  });                              
                 })
                 .catch(err => {
                     console.log(err)
