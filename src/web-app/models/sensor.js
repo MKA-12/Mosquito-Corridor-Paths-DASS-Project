@@ -19,14 +19,6 @@ const Sensor = new mongoose.Schema({
     },
     state: {
         type: String
-    },
-    channelId :{
-        type : String,
-        required : true
-    },
-    channelKey :{
-        type : String,
-        required : true
     }
 });
 

@@ -5,55 +5,55 @@ const MacroWeatherData = new mongoose.Schema({
         type: String
     },
     date:{
-        type:Date
+        type:String
     },
     coord: {
         type: Object,
-        // required: true
+        required: true
     },
     weather: {
         type: Object,
-        // required: true
+        required: true
     },
     main: {
         type: Object,
-        // required: true
+        required: true
     },
     visibility: {
         type: Object,
-        // required: true
+        required: true
     },
     clouds: {
         type: Object,
-        // required: true
+        required: true
     },
     wind: {
         type: Object,
-        // required: true
+        required: true
     },
     dt: {
         type: Object,
-        // required: true
+        required: true
     },
     sys: {
         type: Object,
-        // required: true
+        required: true
     },
     timezone: {
         type: Object,
-        // required: true
+        required: true
     },
     id: {
         type: Object,
-        // required: true
+        required: true
     },
     name: {
         type: Object,
-        // required: true
+        required: true
     },
     cod: {
         type: Object,
-        // required: true
+        required: true
     }
 });
 
