@@ -6,6 +6,7 @@ const path = require("path")
 const Sensor = require("./models/sensor");
 const random = require('random')
 const request = require("request");
+const StoreThingSpeakData = require("./scraping");
 const app = express();
 const PORT = 4000;
 const macroWeatherData = require("./models/macroWeatherData");
@@ -28,10 +29,10 @@ function data_retrieve(req, res) {
     }, (err, response, body) => {
         if (body !== undefined) {
             console.log(JSON.stringify(body.coord))
-            const date = new Date;
-            const time_date = date.getDate() + "/" +
+            const date = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);;
+            const time_date = date.getFullYear() + "/" +
                 (date.getMonth() + 1) + "/" +
-                date.getFullYear()
+                date.getDate()
             const time = date.getHours() + ":" +
                 date.getMinutes() + ":" +
                 date.getSeconds();
@@ -47,6 +48,9 @@ function data_retrieve(req, res) {
                     res.status(400).send('Error');
                 });
         }
+        else{
+            console.log("internet issue")
+        }
     });
     // res.status(200).send(true)
 }
@@ -57,6 +61,7 @@ async function todo() {
     for (const order of sensors) {
         const Temparature = random.float(min = 17, max = 40)
         const Humidity = random.float(min = 40, max = 75)
+        const windSpeed =random.float(min=2, max=16)
         const date = new Date;
         const time_date = date.getDate() + "/" +
             (date.getMonth() + 1) + "/" +
@@ -65,11 +70,12 @@ async function todo() {
             date.getMinutes() + ":" +
             date.getSeconds();
         const num = random.int(min = 0, max = 1);
-        await Sensor.findByIdAndUpdate(order._id, { $push: { data: { "date": time_date, "state": num, "time": time, "Temperature": Temparature, "Humidity": Humidity + "%" } } })
+        await Sensor.findByIdAndUpdate(order._id, { $push: { data: { "date": time_date, "state": num, "time": time, "Temperature": Temparature, "Humidity": Humidity + "%", "windSpeed":windSpeed } } })
     }
 }
 // API endpoints
 //routes
+// setInterval(StoreThingSpeakData, 15000)
 setInterval(data_retrieve, 15000)
 setInterval(todo, 15000)
 const diseaseRouter = require("./routes/DiseaseReport");
@@ -83,7 +89,8 @@ const MessageRouter = require("./routes/TargetedMessage");
 const VideoRouter = require("./routes/TargetedVideo");
 const userRouter = require("./routes/user")
 const sensorCheckRouter = require("./routes/checkSensor")
-const PathRouter = require("./routes//path")
+const PathRouter = require("./routes/path")
+const LogicBuilderRouter = require("./routes/logicBuilder")
 app.use("/api/diseaseReport", diseaseRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/monitor", monitorRouter);
@@ -95,6 +102,7 @@ app.use("/api/TargetedVideo", VideoRouter);
 app.use("/api/TargetedMessage", MessageRouter);
 app.use("/api/Notify",userRouter);
 app.use("/api/getSensor",sensorCheckRouter);
+app.use("/api/logic",LogicBuilderRouter);
 app.use("/api/getPath",PathRouter);
 app.use('/static', express.static(path.join(__dirname, 'static')))
 app.listen(PORT, function() {

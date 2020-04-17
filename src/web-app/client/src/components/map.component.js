@@ -39,8 +39,6 @@ const data2 = [
 export default class Map extends Component {
   state = {
     viewport: {
-      // width: 1111,
-      // height: 800,
       latitude: 17.445806,
       longitude: 78.34839,
       zoom: 16.5,
@@ -62,6 +60,7 @@ export default class Map extends Component {
       { longitude: 78.34609981858057, latitude: 17.445443033098826 },
       { longitude: 78.34850222616629, latitude: 17.44394568613177 },
     ],
+    conduciveFactor: [],
     nonconduciveSensorLocation: [],
     pathsdata: [],
     eradicationTechnique: {
@@ -75,7 +74,8 @@ export default class Map extends Component {
       this.setState({ blipLocation: res.data });
     });
     axios.get("http://localhost:4000/api/getSensor/conducive").then((res) => {
-      this.setState({ conduciveSensorLocation: res.data });
+      this.setState({ conduciveSensorLocation: res.data[0],
+                      conduciveFactor: res.data[1]});
     });
     axios
       .get("http://localhost:4000/api/getSensor/nonconducive")
@@ -90,7 +90,8 @@ export default class Map extends Component {
         this.setState({ blipLocation: res.data });
       });
       axios.get("http://localhost:4000/api/getSensor/conducive").then((res) => {
-        this.setState({ conduciveSensorLocation: res.data });
+        this.setState({ conduciveSensorLocation: res.data[0],
+                        conduciveFactor: res.data[1]});
       });
       axios
         .get("http://localhost:4000/api/getSensor/nonconducive")
@@ -99,29 +100,27 @@ export default class Map extends Component {
         });
       axios.get("http://localhost:4000/api/getPath").then((res) => {
         this.setState({ pathsdata: res.data });
+        // console.log("paths ",res.data)
       });
     }, 10000);
   }
   _onViewportChange = (viewport) => {
     this.setState({ viewport });
   };
+  close=() => {
+    this.setState({ showPopup: false });
+  }
   renderPopup = () => {
-    // if(this.state.showPopup){
-    // console.log("inpopup")
     return (
       <Popup
         latitude={this.state.eradicationTechnique.latitude}
         longitude={this.state.eradicationTechnique.longitude}
-        closeButton={true}
+        closeButton={false}
         closeOnClick={true}
-        onClose={() => {
-          this.setState({ showPopup: false });
-          console.log("hello");
-        }}
         anchor="top"
         id="Popover1"
         dynamicPosition={false}
-        style={{ opacity: 100, width: 150, height: 150, opacity: 1 }}
+        style={{ opacity: 100, width: 10, height: 150, opacity: 1 }}
       >
         <div className="popup">
           <h4>Suggested Eradication Technique</h4>
@@ -129,7 +128,6 @@ export default class Map extends Component {
         </div>
       </Popup>
     );
-    // }
   };
   render() {
     const layer = [];
@@ -139,10 +137,9 @@ export default class Map extends Component {
         {this.state.pathsdata.map((curr, i) => {
           const newdata = [
             {
-              path: curr.slice(0, 2),
+              path: curr,
             },
           ];
-          console.log(i, curr);
           layer.push(
             new PathLayer({
               id: "path-layer",
@@ -151,33 +148,17 @@ export default class Map extends Component {
               getColor: () => [101, 147, 245],
               widthMinPixels: 4,
               pickable: true,
-              onHover: (info) => {
-                this.setState({
-                  showPopup: true,
-                  eradicationTechnique: {
-                    latitude: info.lngLat[1],
-                    longitude: info.lngLat[0],
-                    message: curr[2],
-                  },
-                });
-              },
             })
           );
         })}
         <DeckGL
           initialViewState={this.state.viewport}
           controller={true}
-          // width={2000}
-          // height={1050}
-          // width={this.state.viewport.width}
-          // height={this.state.viewport.height}
           layers={layer}
-          // style={{ "margin-top": 124, "margin-left": 497 }}
+          onClick={()=>{this.setState({showPopup:false})}}
         >
           <ReactMapGL
             mapStyle="mapbox://styles/mapbox/streets-v11"
-            // {...this.state.viewport}
-            // onViewportChange={this._onViewportChange}
             mapboxApiAccessToken="pk.eyJ1IjoiamFpd2FudGgiLCJhIjoiY2s3cXAzNHl4MDUxOTNlb2E0c25wZ3MxYyJ9.fksl8VGQfN2cxth5KvB8yg"
           >
             {showPopup && this.renderPopup()}

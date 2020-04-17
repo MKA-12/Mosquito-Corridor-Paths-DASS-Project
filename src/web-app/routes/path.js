@@ -1,9 +1,11 @@
 const express = require("express");
 const Sensor = require("../models/sensor");
 const PathRoute = express.Router();
-
+const logicBuilder = require("../models/logicbuilder");
 PathRoute.get('/', function (req, res) {
-    Sensor.find(function (err, result) {
+    Sensor.find(async function (err, result) {
+        await logicBuilder.find(function (error, logic) {
+            let reqLogic = logic[logic.length - 1]
         if (err) {
             console.log(err);
             res.status(400).send('Error');
@@ -22,7 +24,13 @@ PathRoute.get('/', function (req, res) {
                 if (((date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds() - dbtime) < 30) && ((date.getDate() + (date.getMonth() + 1) * 31 + date.getFullYear() * 12 * 31 - dbdate) <= 1)) {
                     temp = sensor["data"][sensor["data"].length - 1]["Temperature"]
                     hum = parseFloat(sensor["data"][sensor["data"].length - 1]["Humidity"])
-                    if (temp > 16 && temp < 32 && hum > 60) {
+                    wind = sensor["data"][sensor["data"].length - 1]["windSpeed"]
+                    totalParameters = 3
+                    count = 0
+                    count = count + (temp >= reqLogic.tempMin && temp < reqLogic.tempMax)
+                    count = count + (hum >= reqLogic.humidityMin && hum <= reqLogic.humidityMax)
+                    count = count + (wind >= reqLogic.windMin && wind <= reqLogic.windMax)
+                    if (count >= (totalParameters / 2)) {
                         finalSensor.push(sensor)
                     }
                 }
@@ -47,13 +55,14 @@ PathRoute.get('/', function (req, res) {
                     var d = R * c
                     console.log(d)
                     if (d<0.16) {
-                        allpaths.push([[lon1, lat1], [lon2, lat2], "Hello"])
+                        allpaths.push([[lon1, lat1], [lon2, lat2]])
                     }
                 }
             }
             console.log(allpaths.length)
             res.status(200).send(allpaths)
         }
+    })
     })
 })
 

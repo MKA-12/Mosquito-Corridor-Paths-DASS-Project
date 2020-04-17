@@ -17,12 +17,14 @@ macroWeatherDataRouter.get('/', function(req, res) {
 })
 
 macroWeatherDataRouter.put('/', function(req, res) {
-    macroWeatherData.find({ date: { $gte: req.body.fromDate }, date: { $lte: req.body.toDate } }, function(err, result) {
+    console.log(req.body.fromDate,req.body.toDate)
+    macroWeatherData.find({ date: { $gte: req.body.fromDate ,$lte: req.body.toDate } }, function(err, result) {
         // res.status(200).send(true)
         if (err) {
             console.log(err);
             res.status(400).send('Error');
         } else {
+            console.log("heii sadlkfj ",result)
             res.json(result);
         }
     })
