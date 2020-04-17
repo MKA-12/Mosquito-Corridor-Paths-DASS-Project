@@ -1,7 +1,7 @@
 const express = require("express");
 const Sensor = require("../models/sensor");
-const random = require('random')
-
+const random = require('random');
+const axios = require('axios');
 const sensorAddRouter = express.Router();
 let a = 1;
 async function todo() {
@@ -36,9 +36,10 @@ sensorAddRouter.get('/', function(req, res) {
 });
 
 sensorAddRouter.post("/", function(req, res) {
-
-    console.log(req.body);
-    let sensor = new Sensor(req.body);
+    console.log(CheckAllChannelIDS(req.body.channelId,req.body.channelKey));
+    if (CheckAllChannelIDS(req.body.channelId,req.body.channelKey))
+    {
+        let sensor = new Sensor(req.body);
     sensor.save().then(sensor => {
             res.status(200).send(true);
         })
@@ -46,8 +47,11 @@ sensorAddRouter.post("/", function(req, res) {
             console.log(err)
             res.status(400).send('Error');
         });
-    // }
-    // })
+    }
+    else{
+        res.status(200).send(false);
+    }
+
 });
 sensorAddRouter.delete("/:id", function(req, res) {
     // console.log(req);
@@ -55,13 +59,30 @@ sensorAddRouter.delete("/:id", function(req, res) {
     let id = req.params.id
     Sensor.findByIdAndDelete(id)
         .then(() => {
-            console.log(id, "Yeahhhhh");
+            // console.log(id, "Yeahhhhh");
         })
         .catch((err) => {
             console.log("shit" + err);
         });
 });
 
+async function CheckAllChannelIDS(ID,Key){
 
+	Temp_URL = (
+		"https://api.thingspeak.com/channels/"
+		+ ID
+		+ "/fields/1.json?api_key="
+		+ Key
+		+ "&results=1"
+		);
+	await axios.get(Temp_URL).then(res=>{
+			console.log(res.status);
+			if(res.status === 200)
+				return true;
+			else
+				return false;
+		})
+
+}
 
 module.exports = sensorAddRouter;

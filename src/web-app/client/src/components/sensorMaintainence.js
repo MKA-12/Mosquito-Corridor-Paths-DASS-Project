@@ -4,6 +4,8 @@ export default class SensorMaintainence extends Component {
     state = {
         latitude: '',
         longitude: '',
+        ChannelId: '',
+        ChannelKey: '',
         allsensors: [],
         dummy: '',
     }
@@ -14,19 +16,35 @@ export default class SensorMaintainence extends Component {
     onChangeLongitude = (e) => {
         this.setState({ longitude: e.target.value })
     }
+    onChangeChannelid = (e) => {
+        this.setState({ ChannelId: e.target.value })
+    }
+    onChangeChannelKey = (e) => {
+        this.setState({ ChannelKey: e.target.value })
+    }
     onSubmit = (e) => {
         e.preventDefault();
         if (Number(this.state.latitude) < 17.448810090060803 && Number(this.state.longitude) > 17.44263033504224 && Number(this.state.longitude) < 78.35107557927012 && Number(this.state.longitude) > 78.34463589731887) {
             const Sensor = {
                 latitude: this.state.latitude,
                 longitude: this.state.longitude,
+                channelId: this.state.ChannelId,
+                channelKey: this.state.ChannelKey,
                 data: [],
             }
 
             axios.post("http://localhost:4000/api/addSensor", Sensor)
                 .then(res => {
-                    this.setState({ latitude: '', longitude: '' })
-                    alert("New Sensor added")
+                    if (res.status === 200 && res.data == true) {
+                        this.setState({ latitude: '', longitude: '', ChannelId: '', ChannelKey: '' })
+                        alert("New Sensor added")
+                    }
+                    else if (res.status === 200 && res.data == false){
+                        alert("Given Channel ID and key combination doesn't exist")
+                    }
+                    else{
+                        alert("Couldn't add new sensor")
+                    }
                 })
                 .catch(err => {
                     console.log(err)
@@ -60,7 +78,7 @@ export default class SensorMaintainence extends Component {
         return (
             <React.Fragment>
                 <br />
-                <form class="form-inline" onSubmit={this.onSubmit} style={{position:"-moz-initial"}}>
+                <form class="form-inline" onSubmit={this.onSubmit} style={{ position: "-moz-initial" }}>
                     <div class="form-group mx-sm-3 mb-2">
                         <label for="latitude" class="sr-only">Latitude</label>
                         <input type="text" class="form-control" id="latitude" placeholder="Latitude" value={this.state.latitude} onChange={this.onChangeLatitude} />
@@ -69,9 +87,17 @@ export default class SensorMaintainence extends Component {
                         <label for="longitude" class="sr-only">Longitude</label>
                         <input type="text" class="form-control" id="longitude" placeholder="Longitude" value={this.state.longitude} onChange={this.onChangeLongitude} />
                     </div>
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label for="ChannelId" class="sr-only">Channel Id</label>
+                        <input type="text" class="form-control" id="ChannelId" placeholder="Channel ID" value={this.state.ChannelId} onChange={this.onChangeChannelid} />
+                    </div>
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label for="ChannelKey" class="sr-only">ChannelKey</label>
+                        <input type="text" class="form-control" id="ChannelKey" placeholder="Channel Key" value={this.state.ChannelKey} onChange={this.onChangeChannelKey} />
+                    </div>
                     <input type="submit" value="Add Sensor" class="btn btn-primary mb-2" />
                 </form>
-                <div style={{background:"#FFFFFF"}}>
+                <div style={{ background: "#FFFFFF" }}>
                     <table className="table table-striped">
                         <thead class="thead-dark">
                             <tr>
