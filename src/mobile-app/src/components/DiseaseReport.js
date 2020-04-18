@@ -5,12 +5,11 @@ import {
   View,
   Picker,
   Alert,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import { DefaultTheme, Paragraph } from "react-native-paper";
 import { Card, Button } from "react-native-elements";
 import { BACKEND_CONFIG } from "../core/config";
-
 const DiseaseReport = () => {
   const [isDisabled, setButton] = useState({ value: false });
   class DiseaseButton extends Component {
@@ -19,7 +18,7 @@ const DiseaseReport = () => {
     }
     render() {
       return (
-        <TouchableOpacity
+        <Button
           onPress={() => {
             SubmitDiseaseReport(this.props.value);
             setButton({ value: true });
@@ -29,60 +28,59 @@ const DiseaseReport = () => {
             //     });
             //   }, 10000);
           }}
-          style={{
+          buttonStyle={{
             padding: 15,
+            margin:10,
             // borderWidth: 1,
             borderRadius: 10,
-            backgroundColor: isDisabled.value == false ? "#0a96c9" : "#bed7f7"
+            backgroundColor: isDisabled.value == false ? "#0a96c9" : "#bed7f7",
           }}
           disabled={isDisabled.value}
+          title={this.props.value}
         >
-          <Text style={{ fontWeight: "bold", color: "white" }}>
+          {/* <Text style={{ fontWeight: "bold", color: "white" }}>
             {this.props.value}
-          </Text>
-        </TouchableOpacity>
+          </Text> */}
+        </Button>
       );
     }
   }
   async function SubmitDiseaseReport(place) {
     console.log(place);
     navigator.geolocation.getCurrentPosition(
-      position => {
+      (position) => {
         // console.log(position);
         const location = {
           longitude: position.coords.longitude,
-          latitude: position.coords.latitude
+          latitude: position.coords.latitude,
         };
-        fetch(
-          "https://geocode.xyz/" +
-            location.latitude +
-            "," +
-            location.longitude +
-            "?geoit=json"
-        )
-          .then(res => res.json())
-          .then(out => {
-            fetch(BACKEND_CONFIG.backendURL + "/api/diseaseReport", {
-              method: "POST",
-              headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify({
-                diseaseName: place,
-                area: out.staddress + " , " + out.postal + "."
-              })
-            }).then(() => {
-              Alert.alert("Report Submitted");
-              setTimeout(() => {
-                setButton({
-                  value: false
-                });
-              }, 10000);
+        fetch(BACKEND_CONFIG.backendURL + "/api/diseaseReport", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            diseaseName: place,
+            location: location,
+          }),
+        }).then((res) => {
+          if (res.status === 200) {
+            Alert.alert("Report Submitted");
+          } else {
+            Alert.alert(
+              "Sorry!",
+              "Unable to submit your report. Please Try Again."
+            );
+          }
+          setTimeout(() => {
+            setButton({
+              value: false,
             });
-          });
+          }, 10000);
+        });
       },
-      error => alert(error.message),
+      (error) => alert(error.message),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
   }
@@ -127,12 +125,20 @@ const DiseaseReport = () => {
         {/* <Card.Actions> */}
         <View
           style={{
-            flex: 1,
+            display: "flex",
             flexDirection: "row",
-            justifyContent: "space-evenly"
+            flexWrap: "wrap",
+            justifyContent: "space-between",
           }}
         >
-          <DiseaseButton value="Malaria" />
+          {BACKEND_CONFIG.diseases.map((curr,i)=>{
+            return(
+              // <View style={{marginRight:"auto"}}>
+              <DiseaseButton key={i} value={curr}/>
+              // </View>
+            )
+          })}
+          {/* <DiseaseButton value="Malaria" />
           <DiseaseButton value="Zika Virus" />
           <DiseaseButton value="Dengue" />
         </View>
@@ -141,11 +147,11 @@ const DiseaseReport = () => {
           style={{
             flex: 1,
             flexDirection: "row",
-            justifyContent: "space-evenly"
+            justifyContent: "space-evenly",
           }}
         >
           <DiseaseButton value="Chickengunya" />
-          <DiseaseButton value="Yellow Fever" />
+          <DiseaseButton value="Yellow Fever" /> */}
         </View>
         {/* </Card.Actions> */}
       </Card>
@@ -156,5 +162,5 @@ const DiseaseReport = () => {
 export default DiseaseReport;
 
 const styles = StyleSheet.create({
-  container: {}
+  container: {},
 });

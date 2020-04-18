@@ -13,6 +13,17 @@ VideoRouter.get("/", function (req, res) {
     }
   });
 });
+VideoRouter.get("/random", function (req, res) {
+  TargetedVideo.find(function (err, videos) {
+    if (err) {
+      console.log(err);
+      res.status(400).send("Error");
+    } else {
+      var video = videos[Math.floor(Math.random()*videos.length)]
+      res.json(video);
+    }
+  });
+});
 VideoRouter.get("/:id", function (req, res) {
   let id = req.params.id;
   TargetedVideo.findById(id, function (err, video) {
@@ -33,7 +44,6 @@ VideoRouter.post("/", function (req, res) {
       const URL = req.body.url
 
       axios.get(URL).then(response => {
-        console.log(response.status)
         if (response.status === 200) {
           let video = new TargetedVideo(req.body);
           video

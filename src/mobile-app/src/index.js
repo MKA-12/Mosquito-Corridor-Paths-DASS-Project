@@ -8,12 +8,13 @@ import {
   Alert,
   TouchableOpacity,
   Clipboard,
-  Linking
+  Linking,
 } from "react-native";
 import SOSButton from "./components/SOSButton";
 import DiseaseReport from "./components/DiseaseReport";
 import TargetedVideo from "./components/TargetedVideo";
-import Notification from "./components/Notification"
+import TargetedMessage from "./components/TargetedMessage";
+import Notification from "./components/Notification";
 import { BACKEND_CONFIG } from "./core/config";
 import { theme } from "./core/theme";
 import { Appbar, Portal, Dialog, Paragraph, Button } from "react-native-paper";
@@ -21,9 +22,14 @@ import { Icon } from "react-native-elements";
 export default class App extends Component {
   // class MyComponent extends React.Component {
   state = {
-    visible: false
+    visible: false,
+    showMessage: false,
   };
-
+  toggle = () => {
+    this.setState({
+      showMessage: !this.state.showMessage,
+    });
+  };
   _showDialog = () => this.setState({ visible: true });
 
   _hideDialog = () => this.setState({ visible: false });
@@ -38,9 +44,7 @@ export default class App extends Component {
     Linking.openURL(number);
   };
   openMailScreen = () => {
-    Linking.openURL(
-      "mailto:"+BACKEND_CONFIG.contactEmail
-    );
+    Linking.openURL("mailto:" + BACKEND_CONFIG.contactEmail);
   };
   render() {
     return (
@@ -65,7 +69,7 @@ export default class App extends Component {
                 <View
                   style={{
                     flexDirection: "row",
-                    justifyContent: "flex-start"
+                    justifyContent: "flex-start",
                   }}
                 >
                   <Text selectable>Please contact us at : </Text>
@@ -85,7 +89,7 @@ export default class App extends Component {
                 <View
                   style={{
                     flexDirection: "row",
-                    justifyContent: "flex-start"
+                    justifyContent: "flex-start",
                   }}
                 >
                   <Text selectable>Email us at : </Text>
@@ -108,11 +112,21 @@ export default class App extends Component {
             </Dialog>
           </Portal>
         </View>
-        <TargetedVideo />
+        {this.state.showMessage ? (
+          <TargetedMessage
+            toggle={this.toggle}
+            showMessage={this.state.showMessage}
+          />
+        ) : (
+          <TargetedVideo
+            toggle={this.toggle}
+            showMessage={this.state.showMessage}
+          />
+        )}
         <SOSButton />
         <DiseaseReport />
         {/* <Comp/> */}
-        <Notification/>
+        <Notification />
       </ScrollView>
     );
   }

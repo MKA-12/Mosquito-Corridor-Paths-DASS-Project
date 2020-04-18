@@ -12,6 +12,17 @@ MessageRouter.get("/", function(req, res) {
     }
   });
 });
+MessageRouter.get("/random", function(req, res) {
+  TargetedMessage.find(function(err, messages) {
+    if (err) {
+      console.log(err);
+      res.status(400).send("Error");
+    } else {
+      var message = messages[Math.floor(Math.random()*messages.length)]
+      res.json(message);
+    }
+  });
+});
 MessageRouter.get("/:id", function(req, res) {
   let id = req.params.id;
   TargetedMessage.findById(id, function(err, message) {

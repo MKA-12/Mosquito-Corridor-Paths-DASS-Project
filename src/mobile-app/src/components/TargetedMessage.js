@@ -7,67 +7,57 @@ import GestureRecognizer, {
 } from "react-native-swipe-gestures";
 import { BACKEND_CONFIG } from "../core/config";
 import FadeInView from "../core/FadeInView"
-export default class TargetedVideo extends Component {
+export default class TargetedMessage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      url: "https://www.youtube.com/embed/Y1eGOwLVhTc"
+      message:
+        "Eliminate mosquito breeding grounds in your immediate environment by removing all sources of standing water.",
     };
   }
   componentDidMount() {
-    fetch(BACKEND_CONFIG.backendURL + "/api/TargetedVideo/random", {
+    fetch(BACKEND_CONFIG.backendURL + "/api/TargetedMessage/random", {
       method: "GET",
     })
       .then((res) => res.json())
       .then((res) => {
-        this.setState({ url: String(res.url) });
+        this.setState({ message: String(res.message) });
       });
   }
   render() {
     return (
       <View>
           <GestureRecognizer
-            onSwipeLeft={this.props.toggle}
+            onSwipeRight={this.props.toggle}
           >
             <FadeInView>
             <Card
               title={
-                <View style={{ flex: 1, flexDirection: "row" }}>
-                  <Text style={{ fontWeight: "bold", fontSize: 18 }}>
-                    Educational Video {"\n"}
-                  </Text>
-                  <View style={{ flexGrow: 1 }} />
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  {/* <View style={{ flexGrow: 1 }} /> */}
                   <TouchableOpacity
                     style={{ width: 50, height: 50 }}
                     onPress={this.props.toggle}
                   >
-                    <Icon name="angle-double-right" type="font-awesome" />
+                    <Icon name="angle-double-left" type="font-awesome" />
                   </TouchableOpacity>
+                  <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+                    Educational Message {"\n"}
+                  </Text>
                 </View>
               }
             >
-              <TouchableOpacity
-                onPress={() => {
-                  Linking.openURL(this.state.url);
-                }}
-              >
-                <View style={{ flex: 1, height: 300 }}>
-                  <Divider />
-                  <WebView
-                    javaScriptEnabled={true}
-                    domStorageEnabled={true}
-                    source={{ uri: this.state.url }}
-                    scalesPageToFit={true}
-                    allowsFullscreenVideo
-                    scrollEnabled={false}
-                    style={{
-                      width: 400,
-                      height: 100,
-                      // marginBottom: 20
-                    }}
-                  />
-                </View>
-              </TouchableOpacity>
+              <Divider />
+              <View style={{ height:300}}>
+                <Text>{"\n"}</Text>
+                <Text>{this.state.message}</Text>
+              </View>
             </Card>
             </FadeInView>
           </GestureRecognizer>
