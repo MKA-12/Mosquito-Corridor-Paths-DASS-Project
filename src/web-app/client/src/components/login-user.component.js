@@ -187,6 +187,11 @@ export default class LoginUser extends Component {
                 <option value="admin">Admin</option>
               </select>
               <p></p>
+              <a href = "http://localhost:3000/forgotPassword">
+              Forgot Password?
+              </a>
+              <br/>
+              <br/>
               <div className="form-group">
                 <input
                   type="submit"

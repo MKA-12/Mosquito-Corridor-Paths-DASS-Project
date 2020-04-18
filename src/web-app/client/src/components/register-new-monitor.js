@@ -5,30 +5,24 @@ export default class NewMonitor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
-      password: "",
+      // username: "",
+      email: "",
       name: "",
       success: 2,
     };
   }
-  onChangeUsername = (event) => {
-    this.setState({ username: event.target.value });
-  };
+
   onChangeName = (event) => {
     this.setState({
       name: event.target.value,
     });
   };
-  onChangePassword = (event) => {
-    this.setState({ password: event.target.value });
+  onChangeEmail = (event) => {
+    this.setState({ email: event.target.value });
   };
   onSubmit = (e) => {
     e.preventDefault();
-    if (
-      this.state.username === "" ||
-      this.state.password === "" ||
-      this.state.name === ""
-    ) {
+    if (this.state.email === "" || this.state.name === "") {
       this.setState({
         success: 2,
       });
@@ -36,24 +30,18 @@ export default class NewMonitor extends Component {
     }
     const newuser = {
       name: this.state.name,
-      username: this.state.username,
-      password: this.state.password,
+      email: this.state.email.trim(),
+      password: 'default',
+      username: 'default',
+      forgotPassCount: 0,
+      verified: false
     };
     axios.post("http://localhost:4000/api/monitor/", newuser).then((res) => {
-      if (res.data === true) {
-        this.setState({
-          success: 1,
-        });
-      } else {
-        this.setState({
-          success: 0,
-        });
-      }
+      this.setState({ success: res.data })
     });
     this.setState({
       name: "",
-      username: "",
-      password: "",
+      email: "",
     });
   };
   render() {
@@ -76,31 +64,22 @@ export default class NewMonitor extends Component {
               />
             </div>
             <div className="form-group">
-              <label>Your Username: </label>
+              <label>Client Email: </label>
               <input
                 type="text"
                 className="form-control"
-                value={this.state.username}
-                onChange={this.onChangeUsername}
-              />
-            </div>
-            <div className="form-group">
-              <label>Your Password: </label>
-              <input
-                type="password"
-                className="form-control"
-                value={this.state.password}
-                onChange={this.onChangePassword}
+                value={this.state.email}
+                onChange={this.onChangeEmail}
               />
             </div>
           </form>
-          {this.state.success === 0 ? (
+          {this.state.success === false ? (
             <p className="alert-danger">
-              Username already exists, please choose a different username
+              Invalid Email or Email already exists.
             </p>
           ) : null}
-          {this.state.success === 1 ? (
-            <p className="alert-success">User successfully registered.</p>
+          {this.state.success === true ? (
+            <p className="alert-success">Mail has been sent succesfully.</p>
           ) : null}
         </div>
       </ModalTemplate>

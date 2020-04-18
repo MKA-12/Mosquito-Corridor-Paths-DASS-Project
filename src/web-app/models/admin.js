@@ -12,6 +12,14 @@ const AdminSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
+  },
+  email : {
+    type : String,
+    required: true
+  },
+  forgotPassCount :{
+    type : Number,
+    required:true
   }
 });
 

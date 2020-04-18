@@ -91,6 +91,7 @@ const userRouter = require("./routes/user")
 const sensorCheckRouter = require("./routes/checkSensor")
 const PathRouter = require("./routes/path")
 const LogicBuilderRouter = require("./routes/logicBuilder")
+const VerificationRouter = require("./routes/verification")
 app.use("/api/diseaseReport", diseaseRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/monitor", monitorRouter);
@@ -104,7 +105,9 @@ app.use("/api/Notify",userRouter);
 app.use("/api/getSensor",sensorCheckRouter);
 app.use("/api/logic",LogicBuilderRouter);
 app.use("/api/getPath",PathRouter);
+app.use("/api/verify", VerificationRouter);
 app.use('/static', express.static(path.join(__dirname, 'static')))
+
 app.listen(PORT, function() {
     console.log("Server is running on port: " + PORT);
 });
