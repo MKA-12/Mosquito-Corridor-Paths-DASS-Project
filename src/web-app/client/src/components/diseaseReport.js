@@ -32,7 +32,7 @@ export default class DiseaseReport extends Component {
   }
   render() {
     return (
-      <ModalTemplate active={true} title="Add Targeted Video" reset={this.props.reset}>
+      <ModalTemplate active={true} title="Disease Reports - Area Wise" reset={this.props.reset}>
             <table className="table table-striped">
               <thead class="thead-dark">
                 <tr>
