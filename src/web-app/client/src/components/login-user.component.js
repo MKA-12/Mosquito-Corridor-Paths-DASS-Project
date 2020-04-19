@@ -52,7 +52,7 @@ export default class LoginUser extends Component {
       password: this.state.password,
       type: this.state.type
     };
-    console.log(loginData);
+    // console.log(loginData);
     axios
       .post("http://localhost:4000/api/validate", loginData)
       .then(res => {
@@ -187,7 +187,7 @@ export default class LoginUser extends Component {
                 <option value="admin">Admin</option>
               </select>
               <p></p>
-              <a href = "http://localhost:3000/forgotPassword">
+              <a href = "http://localhost:3000/forgotPassword/">
               Forgot Password?
               </a>
               <br/>

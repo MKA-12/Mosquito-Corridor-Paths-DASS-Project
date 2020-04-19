@@ -54,12 +54,4 @@ MonitorRouter.post('/', function (req, res) {
 
 
 })
-
-
-
-
-
-
-
-
 module.exports = MonitorRouter;

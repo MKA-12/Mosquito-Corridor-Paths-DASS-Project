@@ -29,11 +29,9 @@ monitorRouter.post(('/'), function (req, res) {
     Monitor.findOne({ email: req.body.email}, async function (err, monitor) {
         console.log(monitor);
         if (monitor != null) {
-            console.log("suygfigdsibvibdsuigvudsbhbsdgv8shv9hf9hv9ebviygf87gbvu");
             res.status(200).send(false);
             return;
         } else {
-            console.log("fsifbosvbosdoichiosonbsdubvousbo");
             await kickbox.verify(req.body.email, async function (testErr, response) {
                 // Let's see some results
                 if (response.body.result === 'deliverable') {
