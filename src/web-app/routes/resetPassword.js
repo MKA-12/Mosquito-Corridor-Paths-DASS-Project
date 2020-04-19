@@ -3,47 +3,22 @@ const Admin = require("../models/admin");
 const Monitor = require("../models/monitor");
 var crypto = require('crypto');
 const resetPasswordRouter = express.Router();
+var check = 0;
 
 resetPasswordRouter.get('/:id', async function (req, res) {
     let hashId = req.params.id
-    var check = 0;
     // console.log(hashId)
     await Monitor.find(async function (err, monitors) {
-        if (err) {
-            console.log(err);
-            res.status(400).send('Error');
-        }
-        else {
-            for (var i = 0; i < monitors.length; i++) {
-                if (hashId == crypto.createHash('md5').update((monitors[i]._id + monitors[i].forgotPassCount).toString()).digest('hex')) {
-                    check = 1
-                    res.status(200).send(true);
-                    return;
-                }
+        iterate(err,monitors,hashId,res)
+        .then((error, empty) => {
+            setTimeout(explode, 2000);
+            if (check === 0) {
+                console.log("shfhsuo")
+                res.status(200).send(false)
             }
-            await Admin.find(function (err, admins) {
-                if (err) {
-                    console.log(err);
-                    res.status(400).send('Error');
-                } else {
-                    for (var i = 0; i < admins.length; i++) {
-                        if (hashId === crypto.createHash('md5').update((admins[i]._id + admins[i].forgotPassCount).toString()).digest('hex')) {
-                            check = 1;
-                            res.status(200).send(true);
-                            return;
-                        }
-                    }
-
-                }
-
-            });
-        }
+        })
     })
-    .then((error, empty) => {
-        if (check === 0) {
-            res.status(200).send(false)
-        }
-    })
+
 })
 
 resetPasswordRouter.post('/', function (req, res) {
@@ -103,6 +78,38 @@ resetPasswordRouter.post('/', function (req, res) {
 
 
 
+async function iterate(err,monitors,hashId,res) {
+    if (err) {
+        console.log(err);
+        res.status(400).send('Error');
+    }
+    else {
+        for (var i = 0; i < monitors.length; i++) {
+            if (hashId == crypto.createHash('md5').update((monitors[i]._id + monitors[i].forgotPassCount).toString()).digest('hex')) {
+                check = 1
+                res.status(200).send(true);
+                return;
+            }
+        }
+        await Admin.find(function (err, admins) {
+            if (err) {
+                console.log(err);
+                check = 2;
+                res.status(400).send('Error');
+            } else {
+                for (var i = 0; i < admins.length; i++) {
+                    if (hashId == crypto.createHash('md5').update((admins[i]._id + admins[i].forgotPassCount).toString()).digest('hex')) {
+                        check = 1;
+                        res.status(200).send(true);
+                        return;
+                    }
+                }
+
+            }
+
+        });
+    }
+}
 
 
 
