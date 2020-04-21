@@ -10,7 +10,7 @@ export default class ChangePassword extends Component {
   
   onSubmit = (e) =>{
     e.preventDefault();
-    if (this.state.NewPassword !== this.state.ReNewPassword){
+    if (this.state.NewPassword !== this.state.ReNewPassword && this.state.NewPassword!=null){
       alert ("Passwords Donot match");
       return;
     }

@@ -111,7 +111,7 @@ export default class LoginUser extends Component {
           </NavbarBrand>
         </Navbar>
 
-        <Card style={{ width: "30rem", height: "25rem" }}>
+        <Card style={{ width: "30rem", height: "27rem" }}>
           {/* <Nav tabs>
                 <NavItem>
                   <NavLink>Admin</NavLink>
