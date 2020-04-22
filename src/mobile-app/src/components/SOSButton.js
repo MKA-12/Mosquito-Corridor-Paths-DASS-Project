@@ -71,8 +71,14 @@ async function SOSReport() {
             "Content-Type": "application/json"
           },
           body: JSON.stringify(location)
+        }).then(res => {
+          if(res.status === 200){
+            Alert.alert("Outbreak Reported!");
+          }
+          else{
+            Alert.alert("Error","Unable to report outbreak. Try Again");
+          }
         });
-        Alert.alert("Outbreak Reported!");
       },
       error => alert(error.message),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }

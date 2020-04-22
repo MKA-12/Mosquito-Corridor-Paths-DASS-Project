@@ -24,7 +24,7 @@ SOSReportRouter.get(('/:id'), function (req, res) {
 SOSReportRouter.post(('/'), function (req, res) {
     SOSReport.findOne({longitude: req.body.longitude, latitude: req.body.latitude},function(err,report){
         if(report != null){
-            res.status(400).send('Error');
+            res.status(200).send(false);
             return;
         }
         else{

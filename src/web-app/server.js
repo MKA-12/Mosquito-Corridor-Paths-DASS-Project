@@ -28,7 +28,7 @@ function data_retrieve(req, res) {
         json: true
     }, (err, response, body) => {
         if (body !== undefined) {
-            console.log(JSON.stringify(body.coord))
+            // console.log(JSON.stringify(body.coord))
             const date = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);;
             const time_date = date.getFullYear() + "/" +
                 (date.getMonth() + 1) + "/" +

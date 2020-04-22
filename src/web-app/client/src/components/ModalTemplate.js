@@ -5,7 +5,7 @@ export default class ModalTemplate extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      active: this.props.active
+      active: this.props.active,
     };
   }
   toggle = () => {
@@ -22,7 +22,7 @@ export default class ModalTemplate extends Component {
           backgroundColor: "black",
           borderRadius: 50,
           cursor: "pointer",
-          fontSize: 30
+          fontSize: 30,
         }}
       />
     );
@@ -40,12 +40,21 @@ export default class ModalTemplate extends Component {
           >
             {this.props.title}
           </ModalHeader>
-          <ModalBody>
-              {this.props.children}
+          <ModalBody
+            style={{
+              "max-height": "calc(100vh - 210px)",
+              "overflow-y": "auto",
+            }}
+          >
+            {this.props.children}
           </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={this.props.onSubmit}>Submit</Button>
-          </ModalFooter>
+          {this.props.showSubmit !== false ? (
+            <ModalFooter>
+              <Button color="primary" onClick={this.props.onSubmit}>
+                Submit
+              </Button>
+            </ModalFooter>
+          ) : null}
         </Modal>
       </div>
     );

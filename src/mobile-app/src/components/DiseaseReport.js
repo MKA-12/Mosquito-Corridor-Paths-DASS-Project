@@ -22,11 +22,11 @@ const DiseaseReport = () => {
           onPress={() => {
             SubmitDiseaseReport(this.props.value);
             setButton({ value: true });
-            // setTimeout(() => {
-            //     setButton({
-            //       value: false
-            //     });
-            //   }, 10000);
+            setTimeout(() => {
+                setButton({
+                  value: false
+                });
+              }, 10000);
           }}
           buttonStyle={{
             padding: 15,
@@ -73,11 +73,11 @@ const DiseaseReport = () => {
               "Unable to submit your report. Please Try Again."
             );
           }
-          setTimeout(() => {
-            setButton({
-              value: false,
-            });
-          }, 10000);
+          // setTimeout(() => {
+          //   setButton({
+          //     value: false,
+          //   });
+          // }, 10000);
         });
       },
       (error) => alert(error.message),

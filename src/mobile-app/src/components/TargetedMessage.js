@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, TouchableOpacity, Linking } from "react-native";
+import { View, Text, TouchableOpacity, Linking, ScrollView } from "react-native";
 import { Card, Icon, Divider, Badge } from "react-native-elements";
 import { WebView } from "react-native-webview";
 import GestureRecognizer, {
@@ -55,8 +55,10 @@ export default class TargetedMessage extends Component {
             >
               <Divider />
               <View style={{ height:300}}>
+                <ScrollView nestedScrollEnabled={true}>
                 <Text>{"\n"}</Text>
                 <Text>{this.state.message}</Text>
+                </ScrollView>
               </View>
             </Card>
             </FadeInView>

@@ -35,13 +35,13 @@ SensorCheckRoute.get('/conducive', function (req, res) {
                     windWeightage = ((wind - windMid) / (reqLogic.windMax - windMid))
                     let factor=''
                     if(tempWeightage<=(humidityWeightage)&&tempWeightage<=(windWeightage)){
-                        factor='T'
+                        factor='Do Thermal Fogging.'
                     }
                     else if(humidityWeightage<=(tempWeightage)&&humidityWeightage<=(windWeightage)){
-                        factor='H'
+                        factor='Humidity < 10% is fatal for mosquitos. Hence, the strategy is to keep the place dry.'
                     }
                     else if(windWeightage<=(humidityWeightage)&&windWeightage<=(tempWeightage)){
-                        factor='W'
+                        factor='Blow air at 20 mph speed.'
                     }
                     if (count >= (totalParameters / 2)) {
                         finalSensor.push(sensor)

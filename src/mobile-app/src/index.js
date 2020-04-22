@@ -48,7 +48,7 @@ export default class App extends Component {
   };
   render() {
     return (
-      <ScrollView>
+      <ScrollView nestedScrollEnabled={true}>
         <Appbar theme={theme}>
           <Appbar.Content
             title={<Text>DASS 45</Text>}
