@@ -29,11 +29,9 @@ validateRouter.post("/", function(req, res) {
     } else if (type === "monitor") {
         Monitor.findOne({ username: req.body.username }).then(monitor => {
             // Check if monitor exists
-            console.log("monitor:",monitor)
-            if (monitor === null) {
+            if (!monitor) {
                 // return res.status(404).json({ MonitorNamenotfound: "Monitor Name not found" });
-                res.status(200).send(false);
-                return;
+                res.status(400).send("unable to process request");
             }
 
             // Check password

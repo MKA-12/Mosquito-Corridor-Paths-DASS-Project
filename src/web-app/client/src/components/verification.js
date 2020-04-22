@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Card, CardBody, Button } from "reactstrap";
-import { FaUser, FaLock, FaSadCry } from "react-icons/fa";
+import { FaUser, FaLock } from "react-icons/fa";
 import axios from "axios";
 export default class Verification extends Component {
   state = {
@@ -10,8 +10,6 @@ export default class Verification extends Component {
     check: 0,
     idUser: "",
     success: 2,
-    emptyFields: false,
-    DonotMatch : false
   };
   componentDidMount() {
     var VerifyUrl = "http://localhost:3000/verify/";
@@ -42,14 +40,8 @@ export default class Verification extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    this.setState({emptyFields : false , DonotMatch : false })
-    if(this.state.password === ''|| this.state.confirmPassword === '' || this.state.username === ''){
-      this.setState({ emptyFields: true })
-      return
-    }
     if (this.state.password !== this.state.confirmPassword) {
-      // alert("Passwords Donot match");
-      this.setState({ DonotMatch: true })
+      alert("Passwords Donot match");
       return;
     }
     const User_obj = {
@@ -69,16 +61,6 @@ export default class Verification extends Component {
       success: 2,
     });
   };
-  emptyFields = () => {
-    return (
-      <div style={{ color: 'FireBrick', padding: 0 }}>Please fill the required fields.</div>
-    )
-  }
-    DonotMatch = () => {
-    return (
-      <div style={{ color: 'FireBrick', padding: 0 }}>Passwords don't match.</div>
-    )
-  }
   render() {
     return (
       <React.Fragment>
@@ -162,16 +144,14 @@ export default class Verification extends Component {
                 {this.state.success == false ? (
                   <p className="alert-danger">Username Already Exists.</p>
                 ) : null}
-                {this.state.emptyFields && this.emptyFields()}
-                {this.state.DonotMatch && this.DonotMatch()}
               </CardBody>
             </Card>
           </div>
         ) : (
-              <p className="alert-success">
-                You have Been successfully registered.
-              </p>
-            )}
+          <p className="alert-success">
+            You have Been successfully registered.
+          </p>
+        )}
       </React.Fragment>
     );
   }

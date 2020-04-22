@@ -2,21 +2,13 @@ import React, { Component } from "react";
 import ModalTemplate from "./ModalTemplate";
 import axios from "axios";
 export default class AddVideo extends Component {
-  state = {
-    URL: "",
-    FalseURL: false,
-    success: false,
-    error: false,
-    alreadyExists: false
-  };
+  state = { URL: "" };
 
 
   onSubmit = (e) => {
-    this.setState({error: false, success:false, FalseURL:false,AlreadyExistsprompt:false})
     e.preventDefault();
     if (this.state.URL == "") {
-      // alert("Please Enter a valid URL");
-      this.setState({ error: true })
+      alert("Please Enter a valid URL");
       return;
     }
     const URL_Obj = {
@@ -27,15 +19,10 @@ export default class AddVideo extends Component {
         // console.log(res)
         this.setState({ URL: '' })
         if (res.data === true) {
-          // alert("New URL added")
-          this.setState({ success: true })
+          alert("New URL added")
         }
-        else if(res.data === false) {
-          this.setState({ FalseURL: true })
-          // alert("Unable to add the URL")
-        }
-        else{
-          this.setState({alreadyExists:true})
+        else {
+          alert("Unable to add the URL")
         }
       })
       .catch(err => {
@@ -52,36 +39,12 @@ export default class AddVideo extends Component {
   }
 
 
-  errorprompt = () => {
-    return (
-      <div style={{ color: 'red' }}>The fields are empty</div>
-    )
-  }
-  successprompt = () => {
-    return (
-      <div style={{ color: 'green', background: 'lightgreen', padding: 0 }}>New URL added successfully</div>
-    )
-  }
 
-  FalseURLprompt = () => {
-    return (
-      <div style={{ color: 'red' }}>Please Enter a valid URL</div>
-    )
-  }
 
-  AlreadyExistsprompt = () => {
-    return (
-      <div style={{ color: 'red' }}>Please Enter a valid URL</div>
-    )
-  }
   render() {
     return (
       <ModalTemplate active={true} title="Add Targeted Video" reset={this.props.reset} onSubmit={this.onSubmit}>
         <input type="text" class="form-control" placeholder="Enter the URL here" value={this.state.URL} onChange={this.onChangeURL} />
-        {this.state.error && this.errorprompt()}
-        {this.state.success && this.successprompt()}
-        {this.state.FalseURL && this.FalseURLprompt()}
-        {this.state.alreadyExists && this.AlreadyExistsprompt()}
       </ModalTemplate>
     );
   }
