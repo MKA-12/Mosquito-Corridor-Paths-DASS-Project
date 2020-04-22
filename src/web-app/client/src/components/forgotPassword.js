@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import {
   Card,
   CardBody,
-  Button
+  Button,
+  Spinner
 } from "reactstrap";
 import { FaUser } from "react-icons/fa";
 import { MdLock } from "react-icons/md";
-
 import axios from "axios";
 
 export default class Verification extends Component {
@@ -15,6 +15,9 @@ export default class Verification extends Component {
     type: "monitor",
     idUser: "",
     success: 2,
+    loading: 2,
+    alert: false,
+    loading : false
   };
   onChangeUsername = (event) => {
     this.setState({ username: event.target.value });
@@ -27,15 +30,17 @@ export default class Verification extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
+    this.setState({ loading: false, success : 2, alert : false})
     // console.log("olaola");
     if (this.state.username === "") {
-      alert("Please fill the required fields.");
+      this.setState({alert : true })
       return;
     }
     const User_obj = {
       username: this.state.username,
       type: this.state.type,
     };
+    this.setState({loading:true})
     axios
       .post("http://localhost:4000/api/forgotPassword", User_obj)
       .then((res) => {
@@ -43,7 +48,11 @@ export default class Verification extends Component {
         console.log(this.state.success);
       });
   };
-
+  alertPrompt = () => {
+    return (
+        <div style={{ color: 'FireBrick' ,background:'LightSalmon', padding:0 }}>Please fill the required fields.</div>
+    )
+}
   render() {
     return (
       <div
@@ -53,7 +62,7 @@ export default class Verification extends Component {
           marginLeft: 360,
         }}
       >
-        <Card style={{ width: "25rem", height: "27rem" }}>
+        <Card style={{ width: "25rem", height: "29rem" }}>
           <CardBody
             style={{
               display: "flex",
@@ -76,7 +85,7 @@ export default class Verification extends Component {
                       </span>
                     </div>
                     <input
-                    //   style={{ fontSize: 20 }}
+                      //   style={{ fontSize: 20 }}
                       type="text"
                       class="form-control"
                       placeholder="Username"
@@ -99,14 +108,19 @@ export default class Verification extends Component {
                   </div>
                 </form>
               </React.Fragment>
-            ) : this.state.success == 1 ? (
+            ) : this.state.success === true ? (
               <p className="alert-success">
                 Reset link has been sent to your mail.
               </p>
             ) : null}
-            {this.state.success == 0 ? (
-              <p className="alert-danger">Invalid Details.</p>
+            {/* <br/> */}
+            {this.state.loading === true && this.state.success === 2 ? (
+              // <p className="alert-danger">Sending email...</p>
+              <Spinner type = "grow" color = "dark" style = {{alignSelf : "center"}}/>
             ) : null}
+            {this.state.success ===  false ? (
+              <p className="alert-danger">Invalid Details.</p>
+            ) : (this.state.alert && this.alertPrompt())}
           </CardBody>
         </Card>
       </div>

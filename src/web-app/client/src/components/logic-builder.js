@@ -59,19 +59,20 @@ export default class LogicBuilder extends Component {
   }
   onSubmit=(e)=>{
     e.preventDefault();
-    if((isNaN(this.state.tempMax)||
-    isNaN(this.state.tempMin)||
-    isNaN(this.state.humidityMax)||
-    isNaN(this.state.humidityMin)||
-    isNaN(this.state.windMax)||
-    isNaN(this.state.windMin))
+    // console.log(this.state.tempMin);
+    if(((this.state.tempMax) === ''||
+    (this.state.tempMin) === ''||
+    (this.state.humidityMax) === ''||
+    (this.state.humidityMin) === ''||
+    (this.state.windMax) === ''||
+    (this.state.windMin) === '')
     ||(this.state.humidityMax<0||
       this.state.humidityMin<0||
       this.state.windMax<0||
       this.state.windMax<0||
       this.state.humidityMax>100||
       this.state.humidityMin>100)){
-      console.log("no hi")
+      // console.log("no hi")
       this.setState({error: true, success:false})
     }
     else{
@@ -114,8 +115,8 @@ export default class LogicBuilder extends Component {
         Maximum Humidity: <input type="Number" class="form-control" value={this.state.humidityMax} min='0'max='100' onChange={this.onChangeHumidityMax}/><br/>
         Minimum Wind Speed: <input type="Number" class="form-control" value={this.state.windMin} min='0' onChange={this.onChangeWindMin}/><br/>
         Maximum Wind Speed: <input type="Number" class="form-control" value={this.state.windMax} min='0' onChange={this.onChangeWindMax}/><br/>
-        {this.state.error&&this.errorprompt()}
-        {this.state.success&&this.successprompt()}
+        {this.state.error && this.errorprompt()}
+        {this.state.success && this.successprompt()}
       </ModalTemplate>
     );
   }

@@ -25,7 +25,8 @@ export default class LoginUser extends Component {
       password: "",
       type: "monitor",
       auth: false,
-      logErr: false
+      logErr: false,
+      IncompleteFields:false
     };
   }
   onChangeType = event => {
@@ -43,8 +44,10 @@ export default class LoginUser extends Component {
 
   onSubmit = e => {
     e.preventDefault();
+    this.setState({IncompleteFields:false, logErr:false})
     if (this.state.username === "" || this.state.password === "") {
-      alert("Please fill the required fields.");
+      // alert("Please fill the required fields.");
+      this.setState({IncompleteFields : true})
       return;
     }
     const loginData = {
@@ -90,6 +93,11 @@ export default class LoginUser extends Component {
   // componentDidMount(){
   //   document.body.style.background="#000000"
   // }
+  IncompleteFieldsPrompt = () => {
+    return (
+        <div style={{ color: 'FireBrick' ,background:'LightSalmon', padding:0 }}>Please fill the required fields.</div>
+    )
+}
   render() {
     return (
       <div
@@ -210,6 +218,7 @@ export default class LoginUser extends Component {
                 )
               ) : null}
             </form>
+            {this.state.IncompleteFields && this.IncompleteFieldsPrompt()}
           </CardBody>
         </Card>
       </div>

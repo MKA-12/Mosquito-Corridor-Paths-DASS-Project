@@ -15,6 +15,8 @@ export default class Verification extends Component {
     check: false,
     idUser: "",
     success: 2,
+    noFields: false,
+    passwordsDonotMatch: false
   };
   componentDidMount() {
     var ResetUrl = "http://localhost:3000/resetPassword/";
@@ -43,8 +45,15 @@ export default class Verification extends Component {
   };
   onSubmit = (e) => {
     e.preventDefault();
+    this.setState({noFields:false, passwordsDonotMatch:false})
+    if (this.state.password === '' || this.state.confirmPassword === '') {
+      // alert("Empty Fields")
+      this.setState({ noFields: true })
+      return;
+    }
     if (this.state.password !== this.state.confirmPassword) {
-      alert("Passwords Donot match");
+      // alert("Passwords Donot match");
+      this.setState({ passwordsDonotMatch: true })
       return;
     }
     const User_obj = {
@@ -65,6 +74,16 @@ export default class Verification extends Component {
       success: 2,
     });
   };
+  noFieldsPrompt = () => {
+    return (
+      <div style={{ color: 'FireBrick', padding: 0 }}>Please fill the required fields.</div>
+    )
+  }
+  passwordsDonotMatchPrompt = () => {
+    return (
+      <div style={{ color: 'FireBrick', padding: 0 }}>Passwords don't match.</div>
+    )
+  }
   render() {
     return (
       <div
@@ -135,9 +154,11 @@ export default class Verification extends Component {
                   </form>
                 </React.Fragment>
               ) : (
-                <p className="alert-success">Password changed Succesfully.</p>
-              )}
+                    <p className="alert-success">Password changed Succesfully.</p>
+                  )}
             </React.Fragment>
+            {this.state.noFields && this.noFieldsPrompt()}
+            {this.state.passwordsDonotMatch && this.passwordsDonotMatchPrompt()}
           </CardBody>
         </Card>
       </div>
