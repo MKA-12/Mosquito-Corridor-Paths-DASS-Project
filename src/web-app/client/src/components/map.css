@@ -1,14 +1,46 @@
-.popup {
-    width: 500px;
-    word-wrap: break-word;
-}
-
 .mapContainer {
     position: absolute;
     top: 0;
     right: 0;
     left: 0;
     bottom: 0;
+}
+
+.mapClassSensorPlace {
+    position: relative;
+    width: 700px;
+    height: 600px;
+}
+
+#Table {
+    position: relative;
+    width: 1200px;
+    margin-right: 50px;
+}
+
+#container {
+    top: 50px;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    position: absolute;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+}
+
+.MapComponent {
+    position: relative;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    margin-right: 150px;
+}
+
+.mapInTable {
+    position: relative;
+    width: 400px;
+    height: 200px;
 }
 
 .marker {

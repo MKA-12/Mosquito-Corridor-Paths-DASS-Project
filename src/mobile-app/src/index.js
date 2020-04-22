@@ -5,9 +5,7 @@ import {
   Text,
   View,
   ScrollView,
-  Alert,
   TouchableOpacity,
-  Clipboard,
   Linking,
 } from "react-native";
 import SOSButton from "./components/SOSButton";
@@ -17,10 +15,8 @@ import TargetedMessage from "./components/TargetedMessage";
 import Notification from "./components/Notification";
 import { BACKEND_CONFIG } from "./core/config";
 import { theme } from "./core/theme";
-import { Appbar, Portal, Dialog, Paragraph, Button } from "react-native-paper";
-import { Icon } from "react-native-elements";
+import { Appbar, Portal, Dialog, Button } from "react-native-paper";
 export default class App extends Component {
-  // class MyComponent extends React.Component {
   state = {
     visible: false,
     showMessage: false,
@@ -73,19 +69,12 @@ export default class App extends Component {
                   }}
                 >
                   <Text selectable>Please contact us at : </Text>
-                  <TouchableOpacity
-                    onPress={() =>
-                      // Clipboard.setString("Contact at +91 6969696969")
-                      this.openDialScreen()
-                    }
-                  >
+                  <TouchableOpacity onPress={() => this.openDialScreen()}>
                     <Text style={{ color: "blue" }} color="blue">
-                      {/* +91 6969696969 */}
                       {BACKEND_CONFIG.contactNumber}
                     </Text>
                   </TouchableOpacity>
                 </View>
-                {/* <Text>{"\n"}</Text> */}
                 <View
                   style={{
                     flexDirection: "row",
@@ -93,14 +82,8 @@ export default class App extends Component {
                   }}
                 >
                   <Text selectable>Email us at : </Text>
-                  <TouchableOpacity
-                    onPress={() =>
-                      // Clipboard.setString("Contact at +91 6969696969")
-                      this.openMailScreen()
-                    }
-                  >
+                  <TouchableOpacity onPress={() => this.openMailScreen()}>
                     <Text style={{ color: "blue" }} color="blue">
-                      {/* +91 6969696969 */}
                       {BACKEND_CONFIG.contactEmail}
                     </Text>
                   </TouchableOpacity>
@@ -125,7 +108,6 @@ export default class App extends Component {
         )}
         <SOSButton />
         <DiseaseReport />
-        {/* <Comp/> */}
         <Notification />
       </ScrollView>
     );

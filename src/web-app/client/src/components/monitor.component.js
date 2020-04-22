@@ -28,81 +28,69 @@ export default class MonitorComponent extends Component {
   }
   render() {
     return (
-        <React.Fragment>
-          <div class="area"></div>
-          <nav class="main-menu" style={{ backgroundColor: "black" }}>
-            <ul>
-              <li>
-                <a
-                  onClick={() => {
-                    this.changeStatus(1);
-                  }}
-                >
-                  <i class="fa">
-                    <FaDownload />
-                  </i>
-                  <span class="nav-text">Export Data</span>
-                </a>
-              </li>
-              <li class="has-subnav">
-                <a
-                  onClick={() => {
-                    this.changeStatus(2);
-                  }}
-                >
-                  <i class="fa">
-                    <MdReportProblem />
-                  </i>
-                  <span class="nav-text">Disease Report View</span>
-                </a>
-              </li>
-              <li class="has-subnav">
-                <a
-                  onClick={() => {
-                    this.changeStatus(3);
-                  }}
-                >
-                  <i class="fa">
-                    <TiExport />
-                  </i>
-                  <span class="nav-text">Export Map</span>
-                </a>
-              </li>
-            </ul>
-            <ul class="logout">
-              <li>
-                <a
-                  onClick={() => {
-                    this.changeStatus(4);
-                  }}
-                >
-                  <i class="fa fa-lock fa-2x"></i>
-                  <span class="nav-text">Change Password</span>
-                </a>
-              </li>
-              <li>
-                {/* <a href="#">
-                  <i class="fa fa-power-off fa-2x"><LogoutUser/></i>
-                  <span class="nav-text">Logout</span>
-                </a> */}
-                <LogoutUser />
-              </li>
-            </ul>
-          </nav>
-          <MapComponent />
-          {this.state.active == 1 ? (
-            <ExportData reset={this.reset} />
-          ) : null}
-          {this.state.active == 2 ? (
-            <DiseaseReport reset={this.reset} />
-          ) : null}
-          {this.state.active == 3 ? (
-            <ExportMap reset={this.reset} />
-          ) : null}
-          {this.state.active == 4 ? (
-            <ChangePassword reset={this.reset} />
-          ) : null}
-        </React.Fragment>
+      <React.Fragment>
+        <div class="area"></div>
+        <nav class="main-menu" style={{ backgroundColor: "black" }}>
+          <ul>
+            <li>
+              <a
+                onClick={() => {
+                  this.changeStatus(1);
+                }}
+              >
+                <i class="fa">
+                  <FaDownload />
+                </i>
+                <span class="nav-text">Export Data</span>
+              </a>
+            </li>
+            <li class="has-subnav">
+              <a
+                onClick={() => {
+                  this.changeStatus(2);
+                }}
+              >
+                <i class="fa">
+                  <MdReportProblem />
+                </i>
+                <span class="nav-text">Disease Report View</span>
+              </a>
+            </li>
+            <li class="has-subnav">
+              <a
+                onClick={() => {
+                  this.changeStatus(3);
+                }}
+              >
+                <i class="fa">
+                  <TiExport />
+                </i>
+                <span class="nav-text">Export Map</span>
+              </a>
+            </li>
+          </ul>
+          <ul class="logout">
+            <li>
+              <a
+                onClick={() => {
+                  this.changeStatus(4);
+                }}
+              >
+                <i class="fa fa-lock fa-2x"></i>
+                <span class="nav-text">Change Password</span>
+              </a>
+            </li>
+            <li>
+              <LogoutUser />
+            </li>
+          </ul>
+        </nav>
+        <MapComponent />
+        {this.state.active == 1 ? <ExportData reset={this.reset} /> : null}
+        {this.state.active == 2 ? <DiseaseReport reset={this.reset} /> : null}
+        {this.state.active == 3 ? <ExportMap reset={this.reset} /> : null}
+        {this.state.active == 4 ? <ChangePassword reset={this.reset} /> : null}
+      </React.Fragment>
     );
   }
 }

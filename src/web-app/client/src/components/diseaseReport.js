@@ -15,7 +15,6 @@ export default class DiseaseReport extends Component {
       .get("http://localhost:4000/api/diseaseReport")
       .then((res) => {
         this.setState({ allDisease: res.data });
-        // console.log(this.state.allDisease)
       })
       .catch((err) => {
         console.log(err);
@@ -26,7 +25,6 @@ export default class DiseaseReport extends Component {
       .get("http://localhost:4000/api/diseaseReport")
       .then((res) => {
         this.setState({ allDisease: res.data, filter: res.data });
-        // console.log(this.state.allDisease)
       })
       .catch((err) => {
         console.log(err);

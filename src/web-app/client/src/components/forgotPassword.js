@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import {
-  Card,
-  CardBody,
-  Button,
-  Spinner
-} from "reactstrap";
+import { Card, CardBody, Button, Spinner } from "reactstrap";
 import { FaUser } from "react-icons/fa";
 import { MdLock } from "react-icons/md";
 import axios from "axios";
@@ -17,7 +12,7 @@ export default class Verification extends Component {
     success: 2,
     loading: 2,
     alert: false,
-    loading : false
+    loading: false,
   };
   onChangeUsername = (event) => {
     this.setState({ username: event.target.value });
@@ -30,17 +25,16 @@ export default class Verification extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    this.setState({ loading: false, success : 2, alert : false})
-    // console.log("olaola");
+    this.setState({ loading: false, success: 2, alert: false });
     if (this.state.username === "") {
-      this.setState({alert : true })
+      this.setState({ alert: true });
       return;
     }
     const User_obj = {
       username: this.state.username,
       type: this.state.type,
     };
-    this.setState({loading:true})
+    this.setState({ loading: true });
     axios
       .post("http://localhost:4000/api/forgotPassword", User_obj)
       .then((res) => {
@@ -50,9 +44,13 @@ export default class Verification extends Component {
   };
   alertPrompt = () => {
     return (
-        <div style={{ color: 'FireBrick' ,background:'LightSalmon', padding:0 }}>Please fill the required fields.</div>
-    )
-}
+      <div
+        style={{ color: "FireBrick", background: "LightSalmon", padding: 0 }}
+      >
+        Please fill the required fields.
+      </div>
+    );
+  };
   render() {
     return (
       <div
@@ -74,7 +72,9 @@ export default class Verification extends Component {
               <MdLock fontSize={100} />
             </div>
             <h2 style={{ alignSelf: "center" }}> Forgot Password ? </h2>
-            <p style={{ alignSelf: "center" }}>You can reset you password here!</p>
+            <p style={{ alignSelf: "center" }}>
+              You can reset you password here!
+            </p>
             {this.state.success == 2 || this.state.success == 0 ? (
               <React.Fragment>
                 <form onSubmit={this.onSubmit}>
@@ -85,7 +85,6 @@ export default class Verification extends Component {
                       </span>
                     </div>
                     <input
-                      //   style={{ fontSize: 20 }}
                       type="text"
                       class="form-control"
                       placeholder="Username"
@@ -94,7 +93,6 @@ export default class Verification extends Component {
                     />
                   </div>
                   <select
-                    // style={{ fontSize: 20 }}
                     className="browser-default custom-select"
                     onChange={this.onChangeType}
                   >
@@ -104,7 +102,14 @@ export default class Verification extends Component {
                   <br />
                   <br />
                   <div className="form-group">
-                    <Button onClick={this.onSubmit} color="primary" size="lg" block>Reset Password</Button>
+                    <Button
+                      onClick={this.onSubmit}
+                      color="primary"
+                      size="lg"
+                      block
+                    >
+                      Reset Password
+                    </Button>
                   </div>
                 </form>
               </React.Fragment>
@@ -113,14 +118,18 @@ export default class Verification extends Component {
                 Reset link has been sent to your mail.
               </p>
             ) : null}
-            {/* <br/> */}
             {this.state.loading === true && this.state.success === 2 ? (
-              // <p className="alert-danger">Sending email...</p>
-              <Spinner type = "grow" color = "dark" style = {{alignSelf : "center"}}/>
+              <Spinner
+                type="grow"
+                color="dark"
+                style={{ alignSelf: "center" }}
+              />
             ) : null}
-            {this.state.success ===  false ? (
+            {this.state.success === false ? (
               <p className="alert-danger">Invalid Details.</p>
-            ) : (this.state.alert && this.alertPrompt())}
+            ) : (
+              this.state.alert && this.alertPrompt()
+            )}
           </CardBody>
         </Card>
       </div>

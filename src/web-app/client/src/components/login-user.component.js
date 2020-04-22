@@ -11,7 +11,7 @@ import {
   TabContent,
   NavItem,
   NavLink,
-  TabPane
+  TabPane,
 } from "reactstrap";
 import { FaUser, FaLock } from "react-icons/fa";
 import axios from "axios";
@@ -26,85 +26,84 @@ export default class LoginUser extends Component {
       type: "monitor",
       auth: false,
       logErr: false,
-      IncompleteFields:false
+      IncompleteFields: false,
     };
   }
-  onChangeType = event => {
+  onChangeType = (event) => {
     this.setState({
-      type: event.target.value
+      type: event.target.value,
     });
   };
-  onChangeUsername = event => {
+  onChangeUsername = (event) => {
     this.setState({ username: event.target.value });
   };
 
-  onChangePassword = event => {
+  onChangePassword = (event) => {
     this.setState({ password: event.target.value });
   };
 
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
-    this.setState({IncompleteFields:false, logErr:false})
+    this.setState({ IncompleteFields: false, logErr: false });
     if (this.state.username === "" || this.state.password === "") {
-      // alert("Please fill the required fields.");
-      this.setState({IncompleteFields : true})
+      this.setState({ IncompleteFields: true });
       return;
     }
     const loginData = {
       username: this.state.username,
       password: this.state.password,
-      type: this.state.type
+      type: this.state.type,
     };
-    // console.log(loginData);
     axios
       .post("http://localhost:4000/api/validate", loginData)
-      .then(res => {
+      .then((res) => {
         console.log(res.data);
         if (res.data === false) {
           this.setState({
             auth: false,
-            logErr: true
+            logErr: true,
           });
           console.log(res.data);
         } else {
           this.setState({
             auth: true,
-            logErr: true
+            logErr: true,
           });
           console.log(res.data);
           let storageItem = {
             id: res.data._id,
             type: this.state.type,
             username: res.data.username,
-            name: res.data.name
+            name: res.data.name,
           };
           window.sessionStorage.setItem("User", JSON.stringify(storageItem));
           console.log(JSON.parse(window.sessionStorage.getItem("User")).id);
         }
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
 
     this.setState({
       username: "",
       password: "",
-      name: ""
+      name: "",
     });
   };
-  // componentDidMount(){
-  //   document.body.style.background="#000000"
-  // }
   IncompleteFieldsPrompt = () => {
     return (
-        <div style={{ color: 'FireBrick' ,background:'LightSalmon', padding:0 }}>Please fill the required fields.</div>
-    )
-}
+      <div
+        style={{ color: "FireBrick", background: "LightSalmon", padding: 0 }}
+      >
+        Please fill the required fields.
+      </div>
+    );
+  };
   render() {
     return (
       <div
         className="float-left"
         style={{
           "margin-top": 250,
-          marginLeft: 360
+          marginLeft: 360,
         }}
       >
         <Navbar
@@ -120,33 +119,14 @@ export default class LoginUser extends Component {
         </Navbar>
 
         <Card style={{ width: "30rem", height: "27rem" }}>
-          {/* <Nav tabs>
-                <NavItem>
-                  <NavLink>Admin</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink>Monitor</NavLink>
-                </NavItem>
-              </Nav> */}
           <CardHeader
-            style={{ backgroundColor: "black", color: "white",fontSize:25 }}
+            style={{ backgroundColor: "black", color: "white", fontSize: 25 }}
           >
             Sign in
           </CardHeader>
           <CardBody>
             <form onSubmit={this.onSubmit} style={{ marginTop: 0 }}>
-              <div className="form-group">
-                {/* <br /> */}
-                {/* <br /> */}
-                {/* <label>Username: </label> */}
-                {/* <CardText>Username: </CardText> */}
-                {/* <input
-                  type="text"
-                  className="form-control"
-                  value={this.state.username}
-                  onChange={this.onChangeUsername}
-                /> */}
-              </div>
+              <div className="form-group"></div>
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
                   <span class="input-group-text" id="basic-addon1">
@@ -177,15 +157,6 @@ export default class LoginUser extends Component {
                   onChange={this.onChangePassword}
                 />
               </div>
-              {/* <div className="form-group">
-                <label>Password: </label>
-                <input
-                  type="password"
-                  className="form-control"
-                  value={this.state.password}
-                  onChange={this.onChangePassword}
-                />
-              </div> */}
               <select
                 style={{ fontSize: 20 }}
                 className="browser-default custom-select"
@@ -195,11 +166,11 @@ export default class LoginUser extends Component {
                 <option value="admin">Admin</option>
               </select>
               <p></p>
-              <a href = "http://localhost:3000/forgotPassword/">
-              Forgot Password?
+              <a href="http://localhost:3000/forgotPassword/">
+                Forgot Password?
               </a>
-              <br/>
-              <br/>
+              <br />
+              <br />
               <div className="form-group">
                 <input
                   type="submit"

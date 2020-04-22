@@ -19,7 +19,7 @@ export default class ExportMap extends Component {
         reset={this.props.reset}
         showSubmit={false}
       >
-        <a href={this.state.img} download="a.png" style={{ color: "white" }}>
+        <a href={this.state.img} download="map.png" style={{ color: "white" }}>
           <button className="btn btn-primary">Download Map </button>
         </a>
       </ModalTemplate>

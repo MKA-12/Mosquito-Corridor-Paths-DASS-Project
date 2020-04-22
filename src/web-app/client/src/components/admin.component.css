@@ -38,6 +38,7 @@ transition: 500ms;
 
 .main-menu>ul {
 margin:7px 0;
+margin-top: 60px;
 }
 
 .main-menu li {

@@ -171,10 +171,7 @@ export default class MapComponent extends Component {
           this.renderPaths(map);
           console.log(this.state);
         });
-    }, 200);
-    setTimeout(() => {
-      console.log(map.getCanvas().toDataURL());
-    }, 2000);
+    }, 500);
   }
   render() {
     return (

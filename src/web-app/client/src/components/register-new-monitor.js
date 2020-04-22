@@ -31,7 +31,6 @@ export default class NewMonitor extends Component {
         success: 2,
         emptyFields : true
       });
-      // alert("Please enter all the fields provided")
       return;
     }
     const newuser = {
@@ -52,11 +51,7 @@ export default class NewMonitor extends Component {
         });
       }
     });
-    // this.setState({
-    //   name: "",
-    //   email: "",
-    // });
-  };
+   };
   emptyFields = () => {
     return (
       <div style={{ color: 'FireBrick', padding: 0 }}>Please fill the required fields.</div>
