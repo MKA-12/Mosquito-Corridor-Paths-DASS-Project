@@ -35,7 +35,6 @@ monitorRouter.get("/:id", function (req, res) {
 });
 monitorRouter.post("/", function (req, res) {
   Monitor.findOne({ email: req.body.email }, async function (err, monitor) {
-    console.log(monitor);
     if (monitor != null) {
       res.status(200).send(false);
       return;
@@ -81,7 +80,6 @@ monitorRouter.post("/", function (req, res) {
               res.status(400).send("Error");
             });
         } else {
-          console.log(response.body.result);
           res.status(200).send(false);
         }
       });

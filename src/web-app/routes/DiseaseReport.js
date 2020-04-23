@@ -43,7 +43,6 @@ DiseaseReportRouter.post("/", function (req, res) {
             "?geoit=json"
         )
         .then((out) => {
-          // console.log(out)
           const ReportBody = {
             diseaseName: req.body["diseaseName"],
             area: out.data.staddress + " , " + out.data.postal + ".",

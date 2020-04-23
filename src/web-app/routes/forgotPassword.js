@@ -7,7 +7,6 @@ const nodemailer = require('nodemailer');
 
 forgotPasswordRouter.post("/", function (req, res) {
     let type = req.body.type;
-    console.log(type);
     if (type === "admin") {
         //find if username exists in admin and send mail to him
         var extractEmail, found = 0,id_admin,countForgot;
@@ -23,7 +22,6 @@ forgotPasswordRouter.post("/", function (req, res) {
                         id_admin = admins[i]._id;
                         countForgot = admins[i].forgotPassCount;
                         found = 1
-                        // console.log(found)
                     }
                 }
                 if (found === 0) {

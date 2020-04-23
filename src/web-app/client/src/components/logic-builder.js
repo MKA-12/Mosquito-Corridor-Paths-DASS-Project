@@ -54,7 +54,6 @@ export default class LogicBuilder extends Component {
           windMin: res.data.windMin,
           windMax: res.data.windMax,
         });
-        console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -78,8 +77,6 @@ export default class LogicBuilder extends Component {
     ) {
       this.setState({ error: true, success: false });
     } else {
-      console.log(this.state.humidityMin);
-      console.log("hi");
       const logic = {
         tempMax: this.state.tempMax,
         tempMin: this.state.tempMin,

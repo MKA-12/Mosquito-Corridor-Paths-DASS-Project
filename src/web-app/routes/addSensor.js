@@ -54,7 +54,7 @@ sensorAddRouter.post("/", function (req, res) {
 sensorAddRouter.delete("/:id", function (req, res) {
   let id = req.params.id;
   Sensor.findByIdAndDelete(id).catch((err) => {
-    console.log("shit" + err);
+    console.log(err);
   });
 });
 
@@ -69,7 +69,6 @@ sensorAddRouter.put('/export', function (req, res) {
       if (isNaN(data['date'])) {
         dataparts = data['date'].toString().split('/')
         let dataDate = new Date(dataparts[2] + "/" + dataparts[1] + "/" + dataparts[0])
-        // console.log(data['date'],dataDate)
         if (fromDate <= dataDate && dataDate <= toDate) {
           exportdata.push(data)
         }
@@ -87,7 +86,6 @@ async function CheckAllChannelIDS(ID, Key) {
     Key +
     "&results=1";
   await axios.get(Temp_URL).then((res) => {
-    console.log(res.status);
     if (res.status === 200) return true;
     else return false;
   });

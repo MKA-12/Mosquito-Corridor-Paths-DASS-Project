@@ -11,7 +11,6 @@ var check = 0;
 
 resetPasswordRouter.get('/:id', async function(req, res) {
     let hashId = req.params.id
-        // console.log(hashId)
     await Monitor.find(async function(err, monitors) {
         iterate(err, monitors, hashId, res)
             .then((error, empty) => {

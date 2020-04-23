@@ -45,7 +45,6 @@ export default class ExportData extends Component {
   }
   async getReport(res) {
     const got = await res;
-    console.log(got);
     const data = got.data.map((row) => ({
       Date: row.date.split("T")[0],
       Time: row.time,
@@ -60,7 +59,6 @@ export default class ExportData extends Component {
     if (data.length != 0) {
       const csvdata = this.objecttoCSV(data);
       this.download(csvdata);
-      console.log(data);
     }
   }
 
@@ -82,13 +80,11 @@ export default class ExportData extends Component {
           new Date(this.state.toDate).getTime() + 24 * 60 * 60 * 1000
         ).toISOString(),
       };
-      console.log(DataAttr);
       axios
         .put("http://localhost:4000/api/macroWeatherData", DataAttr)
         .then((res) => {
           this.setState({ fromDate: "", toDate: "" });
           this.getReport(res);
-          console.log(res);
           this.setState({ Success: true });
         })
         .catch((err) => {

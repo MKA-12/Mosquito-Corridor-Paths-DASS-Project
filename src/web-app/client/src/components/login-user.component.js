@@ -57,19 +57,16 @@ export default class LoginUser extends Component {
     axios
       .post("http://localhost:4000/api/validate", loginData)
       .then((res) => {
-        console.log(res.data);
         if (res.data === false) {
           this.setState({
             auth: false,
             logErr: true,
           });
-          console.log(res.data);
         } else {
           this.setState({
             auth: true,
             logErr: true,
           });
-          console.log(res.data);
           let storageItem = {
             id: res.data._id,
             type: this.state.type,
@@ -77,7 +74,6 @@ export default class LoginUser extends Component {
             name: res.data.name,
           };
           window.sessionStorage.setItem("User", JSON.stringify(storageItem));
-          console.log(JSON.parse(window.sessionStorage.getItem("User")).id);
         }
       })
       .catch((err) => console.log(err));
@@ -175,7 +171,7 @@ export default class LoginUser extends Component {
                 <input
                   type="submit"
                   value="Login"
-                  className="btn btn-primary"
+                  className="btn btn-primary btn-block"
                   onClick={this.onSubmit}
                 />
               </div>

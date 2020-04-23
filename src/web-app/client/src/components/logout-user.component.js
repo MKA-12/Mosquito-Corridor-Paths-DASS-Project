@@ -4,7 +4,6 @@ export default class LogoutUser extends Component {
     super(props);
   }
   onClick() {
-    console.log("clear");
     sessionStorage.clear();
     window.location.reload();
   }

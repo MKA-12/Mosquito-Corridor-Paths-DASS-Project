@@ -53,13 +53,11 @@ PathRoute.get('/', function (req, res) {
                         Math.sin(dLon / 2) * Math.sin(dLon / 2);
                     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
                     var d = R * c
-                    console.log(d)
                     if (d<0.16) {
                         allpaths.push([[lon1, lat1], [lon2, lat2]])
                     }
                 }
             }
-            console.log(allpaths.length)
             res.status(200).send(allpaths)
         }
     })

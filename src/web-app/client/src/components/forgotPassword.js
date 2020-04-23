@@ -39,7 +39,6 @@ export default class Verification extends Component {
       .post("http://localhost:4000/api/forgotPassword", User_obj)
       .then((res) => {
         this.setState({ success: res.data });
-        console.log(this.state.success);
       });
   };
   alertPrompt = () => {

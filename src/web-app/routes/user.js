@@ -53,12 +53,11 @@ userRouter.post("/reportLocation", function (req, res) {
       res.status(200).send(true);
       User.findByIdAndUpdate(user._id, req.body, function (err) {
         if (err) {
-          console.log("Unable to Update User", err);
+          console.log(err);
         }
       });
       getConduciveSensors().then(() => {
         for (sensor of sensorList) {
-          console.log(sensor);
           lat1 = parseFloat(sensor.latitude);
           lon1 = parseFloat(sensor.longitude);
           lat2 = parseFloat(req.body.location.latitude);
@@ -74,7 +73,6 @@ userRouter.post("/reportLocation", function (req, res) {
               Math.sin(dLon / 2);
           var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
           var d = R * c;
-          console.log(d);
           if (d < 16) {
             axios
               .post("https://exp.host/--/api/v2/push/send", {
@@ -85,7 +83,6 @@ userRouter.post("/reportLocation", function (req, res) {
               .catch((err) => {
                 console.log(err);
               });
-            console.log("Notification Sent");
             break;
           }
         }
@@ -161,7 +158,6 @@ async function getConduciveSensors() {
         }
       }
       sensorList = finalSensor;
-      console.log(sensorList, "inside func");
       // return finalSensor
     });
   });

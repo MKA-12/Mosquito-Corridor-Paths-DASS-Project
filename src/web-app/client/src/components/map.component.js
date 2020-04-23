@@ -169,7 +169,6 @@ export default class MapComponent extends Component {
         })
         .then(() => {
           this.renderPaths(map);
-          console.log(this.state);
         });
     }, 500);
   }

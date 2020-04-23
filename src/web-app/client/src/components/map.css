@@ -9,7 +9,7 @@
 .mapClassSensorPlace {
     position: relative;
     width: 700px;
-    height: 600px;
+    height: 550px;
 }
 
 #Table {
@@ -57,4 +57,8 @@
 
 .marker-conducive {
     background-image: url('../images/conduciveSensor.svg');
+}
+h2{
+    padding: 1%;
+    text-align: center;
 }

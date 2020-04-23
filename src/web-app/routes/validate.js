@@ -60,7 +60,6 @@ validateRouter.post("/", function(req, res) {
                     );
                     res.status(200).send(monitor);
                 } else {
-                    console.log("not match");
                     res.status(200).send(false);
                 }
             });

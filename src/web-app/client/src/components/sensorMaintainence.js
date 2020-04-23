@@ -29,6 +29,7 @@ export default class SensorMaintainence extends Component {
       exportlat: "",
       exportlng: "",
       exportid: "",
+      noData: false,
     };
     this.objecttoCSV = this.objecttoCSV.bind(this);
     this.download = this.download.bind(this);
@@ -63,7 +64,6 @@ export default class SensorMaintainence extends Component {
   }
   async getReport(res) {
     const got = await res;
-    console.log(got);
     const data = got.data.map((row) => ({
       Date: row.date,
       Time: row.time,
@@ -76,15 +76,17 @@ export default class SensorMaintainence extends Component {
     if (data.length != 0) {
       const csvdata = this.objecttoCSV(data);
       this.download(csvdata);
-      console.log(data);
     }
+    else {
+      this.setState({ noData: true, Success: false, InvalidAttributes: false })
+    }
+
   }
   setLatLongMarker = (obj) => {
     this.setState({ latitude: obj.lat, longitude: obj.lng });
   };
   onChangeLatitude = (e) => {
     this.setState({ latitude: e.target.value });
-    console.log(e.target.value);
   };
   onChangeLongitude = (e) => {
     this.setState({ longitude: e.target.value });
@@ -151,12 +153,10 @@ export default class SensorMaintainence extends Component {
     }
   };
   resetState = () => {
-    console.log("reset");
     axios
       .get("http://localhost:4000/api/addSensor")
       .then((res) => {
         this.setState({ allsensors: res.data });
-        console.log("upfateeeeeeeeeeeeeeeeeeee");
       })
       .catch((err) => {
         console.log(err);
@@ -172,7 +172,7 @@ export default class SensorMaintainence extends Component {
     this.setState({ exportPopup: true, exportid: curr._id, exportlat: curr.latitude, exportlng: curr.longitude })
   }
   reset = () => {
-    this.setState({ exportPopup: false, exportid: '', exportlat: '', exportlng: '',Success:false,InvalidAttributes:false })
+    this.setState({ exportPopup: false, exportid: '', exportlat: '', exportlng: '', Success: false, InvalidAttributes: false, noData: false })
   }
   renderMapSensor = () => {
     var map = new mapboxgl.Map({
@@ -260,6 +260,13 @@ export default class SensorMaintainence extends Component {
       </div>
     );
   };
+  noDataPrompt = () => {
+    return (
+      <div style={{ color: "red" }}>
+        No Data available for the required time frame
+      </div>
+    )
+  }
   onExportSubmit = (e) => {
     e.preventDefault();
     const DataAttr = {
@@ -271,20 +278,19 @@ export default class SensorMaintainence extends Component {
       moment(this.state.fromDate, "YYYY-MM-DD", true).isValid() &&
       moment(this.state.toDate, "YYYY-MM-DD", true).isValid()
     ) {
-      console.log("send data",DataAttr)
+
       axios
         .put("http://localhost:4000/api/addSensor/export", DataAttr)
         .then((res) => {
           this.setState({ fromDate: "", toDate: "" });
           this.getReport(res);
-          console.log(res);
-          this.setState({ Success: true });
+          this.setState({ Success: true, InvalidAttributesPrompt: false, noData: false });
         })
         .catch((err) => {
           console.log(err);
         });
     } else {
-      this.setState({ InvalidAttributes: true });
+      this.setState({ InvalidAttributes: true, Success: false, noData: false });
     }
   }
   render() {
@@ -302,159 +308,173 @@ export default class SensorMaintainence extends Component {
           </NavbarBrand>
         </Navbar>
 
-        <div id="container">
-          <div className="MapComponent">
-            <div
-              id="map"
-              ref={(el) => (this.mapClassSensorPlace = el)}
-              className="mapClassSensorPlace"
-            />
-            <br />
-            <form
-              class="form-inline"
-              onSubmit={this.onSubmit}
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-              }}
-            >
-              <div class="form-group mx-sm-3 mb-2">
-                <label for="latitude" class="sr-only">
-                  Latitude
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="latitude"
-                  placeholder="Latitude"
-                  value={this.state.latitude}
-                  onChange={this.onChangeLatitude}
-                />
-              </div>
-              <div class="form-group mx-sm-3 mb-2">
-                <label for="longitude" class="sr-only">
-                  Longitude
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="longitude"
-                  placeholder="Longitude"
-                  value={this.state.longitude}
-                  onChange={this.onChangeLongitude}
-                />
-              </div>
-              <div class="form-group mx-sm-3 mb-2">
-                <label for="ChannelId" class="sr-only">
-                  Channel Id
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="ChannelId"
-                  placeholder="Channel ID"
-                  value={this.state.ChannelId}
-                  onChange={this.onChangeChannelid}
-                />
-              </div>
-              <div class="form-group mx-sm-3 mb-2">
-                <label for="ChannelKey" class="sr-only">
-                  ChannelKey
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="ChannelKey"
-                  placeholder="Channel Key"
-                  value={this.state.ChannelKey}
-                  onChange={this.onChangeChannelKey}
-                />
-              </div>
-              <input
-                type="submit"
-                value="Add Sensor"
-                class="btn btn-primary mb-2"
+        <div id="container" style={{backgroundColor:"#D3D3D3"}}>
+          <div className="MapComponent" style={{borderStyle:'solid'}}>
+          <Navbar
+          style={{ backgroundColor: "black"}}
+          dark
+        >
+          <NavbarBrand>
+            Add Sensor
+          </NavbarBrand>
+        </Navbar>
+            <div style={{padding:10}}>
+              <div
+                id="map"
+                ref={(el) => (this.mapClassSensorPlace = el)}
+                className="mapClassSensorPlace"
               />
-            </form>
+              <br />
+              <form
+                class="form-inline"
+                onSubmit={this.onSubmit}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
+              >
+                <div class="form-group mx-sm-3 mb-2">
+                  <label for="latitude" class="sr-only">
+                    Latitude
+                </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="latitude"
+                    placeholder="Latitude"
+                    value={this.state.latitude}
+                    onChange={this.onChangeLatitude}
+                  />
+                </div>
+                <div class="form-group mx-sm-3 mb-2">
+                  <label for="longitude" class="sr-only">
+                    Longitude
+                </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="longitude"
+                    placeholder="Longitude"
+                    value={this.state.longitude}
+                    onChange={this.onChangeLongitude}
+                  />
+                </div>
+                <div class="form-group mx-sm-3 mb-2">
+                  <label for="ChannelId" class="sr-only">
+                    Channel Id
+                </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="ChannelId"
+                    placeholder="Channel ID"
+                    value={this.state.ChannelId}
+                    onChange={this.onChangeChannelid}
+                  />
+                </div>
+                <div class="form-group mx-sm-3 mb-2">
+                  <label for="ChannelKey" class="sr-only">
+                    ChannelKey
+                </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="ChannelKey"
+                    placeholder="Channel Key"
+                    value={this.state.ChannelKey}
+                    onChange={this.onChangeChannelKey}
+                  />
+                </div>
+                <input
+                  type="submit"
+                  value="Add Sensor"
+                  class="btn btn-primary mb-2"
+                />
+              </form>
+            </div>
           </div>
           <div
             id="Table"
             style={{
               // "max-height": "calc(100vh - 210px)",
               "overflow-y": "auto",
+              backgroundColor:"white"
             }}
           >
-            <table className="table table-striped">
-              <thead class="thead-dark">
-                <tr>
-                  <th>Sensor id</th>
-                  <th>Map</th>
-                  <th>data</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.state.allsensors.map((curr, i) => {
-                  return (
-                    <tr>
-                      <td>{i + 1}</td>
-                      {/* <td>{curr.latitude}</td>
+            <div>
+
+              <table className="table table-striped">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>Sensor id</th>
+                    <th>Map</th>
+                    <th>data</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.state.allsensors.map((curr, i) => {
+                    return (
+                      <tr>
+                        <td>{i + 1}</td>
+                        {/* <td>{curr.latitude}</td>
                       <td>{curr.longitude}</td> */}
-                      <td id={"sensor" + i}>
-                        {/* <div
+                        <td id={"sensor" + i}>
+                          {/* <div
                           id={"map" + i}
                           ref={(el) => (this["mapInTable" + i] = el)}
                           className="mapInTable"
                         /> */}
-                        <ReactMapGL
-                          width={400}
-                          height={200}
-                          latitude={parseFloat(curr.latitude)}
-                          longitude={parseFloat(curr.longitude)}
-                          zoom={16.5}
-                          mapStyle="mapbox://styles/mapbox/streets-v9"
-                          mapboxApiAccessToken="pk.eyJ1IjoiamFpd2FudGgiLCJhIjoiY2s3cXAzNHl4MDUxOTNlb2E0c25wZ3MxYyJ9.fksl8VGQfN2cxth5KvB8yg"
-                        >
-                          <Marker
-                            latitude={parseFloat(curr.latitude) - 0.0001}
-                            longitude={parseFloat(curr.longitude) - 0.0001}
-                            offsetTop={-30}
+                          <ReactMapGL
+                            width={400}
+                            height={200}
+                            latitude={parseFloat(curr.latitude)}
+                            longitude={parseFloat(curr.longitude)}
+                            zoom={16.5}
+                            mapStyle="mapbox://styles/mapbox/streets-v9"
+                            mapboxApiAccessToken="pk.eyJ1IjoiamFpd2FudGgiLCJhIjoiY2s3cXAzNHl4MDUxOTNlb2E0c25wZ3MxYyJ9.fksl8VGQfN2cxth5KvB8yg"
                           >
-                            <div>
-                              <GoRadioTower size={28} />
-                            </div>
-                          </Marker>
-                        </ReactMapGL>
-                        {/* {this.renderMap(curr, i)} */}
-                        <span>Latitude : {Number(curr.latitude).toFixed(4)} </span><br />
-                        <span>Longitude :{Number(curr.longitude).toFixed(4)}</span>
-                      </td>
-                      <td>
-                        <span>Temperature : {Number(curr.data[curr.data.length - 1].Temperature).toFixed(3)}</span><br />
-                        <span>Humidity : {Number(parseFloat(curr.data[curr.data.length - 1].Humidity)).toFixed(3)}</span><br />
-                        <span>Wind Speed : {Number(curr.data[curr.data.length - 1].windSpeed).toFixed(3)}</span>
-                      </td>
-                      <td>
-                        <button
-                          class="btn btn-danger"
-                          onClick={() => this.onDelete(curr)}
-                        >
-                          Delete
+                            <Marker
+                              latitude={parseFloat(curr.latitude) - 0.0001}
+                              longitude={parseFloat(curr.longitude) - 0.0001}
+                              offsetTop={-30}
+                            >
+                              <div>
+                                <GoRadioTower size={28} />
+                              </div>
+                            </Marker>
+                          </ReactMapGL>
+                          {/* {this.renderMap(curr, i)} */}
+                          <span>Latitude : {Number(curr.latitude).toFixed(4)} </span><br />
+                          <span>Longitude :{Number(curr.longitude).toFixed(4)}</span>
+                        </td>
+                        <td>
+                          <span>Temperature : {Number(curr.data[curr.data.length - 1].Temperature).toFixed(3)}</span><br />
+                          <span>Humidity : {Number(parseFloat(curr.data[curr.data.length - 1].Humidity)).toFixed(3)}</span><br />
+                          <span>Wind Speed : {Number(curr.data[curr.data.length - 1].windSpeed).toFixed(3)}</span>
+                        </td>
+                        <td>
+                          <button
+                            class="btn btn-danger"
+                            onClick={() => this.onDelete(curr)}
+                          >
+                            Delete
                         </button>
-                        <br />
-                        <button
-                          class="btn btn-info"
-                          onClick={() => this.onExport(curr)}
-                        >
-                          Export Data
+                          <br />
+                          <button
+                            class="btn btn-info"
+                            onClick={() => this.onExport(curr)}
+                          >
+                            Export Data
                         </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           </div>
           {
             this.state.exportPopup == true ?
@@ -496,6 +516,7 @@ export default class SensorMaintainence extends Component {
                 </form>
                 {this.state.InvalidAttributes && this.InvalidAttributesPrompt()}
                 {this.state.Success && this.successprompt()}
+                {this.state.noData && this.noDataPrompt()}
               </ModalTemplate>
               : null
           }

@@ -19,16 +19,13 @@ export default class Verification extends Component {
     if (idUser[idUser.length - 1] === "/") {
       idUser = idUser.slice(0, idUser.length - 1);
     }
-    console.log("final:", idUser);
     this.setState({ idUser });
     axios
       .get("http://localhost:4000/api/resetPassword/" + idUser)
       .then((res) => {
         this.setState({ check: res.data });
-        console.log("success:", this.state.check);
       })
       .catch((err) => {
-        console.log("fucked up");
         console.log(err);
       });
   }
