@@ -58,6 +58,27 @@ sensorAddRouter.delete("/:id", function (req, res) {
   });
 });
 
+sensorAddRouter.put('/export', function (req, res) {
+  Sensor.findById(req.body.id, function (err, result) {
+    exportdata = []
+    fromparts = req.body.fromDate.split('-')
+    toparts = req.body.toDate.split('-')
+    let fromDate = new Date(Number(fromparts[0]) + "/" + Number(fromparts[1]) + "/" + Number(fromparts[2]))
+    let toDate = new Date(Number(toparts[0]) + "/" + Number(toparts[1]) + "/" + Number(toparts[2]))
+    for (let data of result['data']) {
+      if (isNaN(data['date'])) {
+        dataparts = data['date'].toString().split('/')
+        let dataDate = new Date(dataparts[2] + "/" + dataparts[1] + "/" + dataparts[0])
+        // console.log(data['date'],dataDate)
+        if (fromDate <= dataDate && dataDate <= toDate) {
+          exportdata.push(data)
+        }
+      }
+    }
+    res.status(200).send(exportdata)
+  })
+})
+
 async function CheckAllChannelIDS(ID, Key) {
   Temp_URL =
     "https://api.thingspeak.com/channels/" +

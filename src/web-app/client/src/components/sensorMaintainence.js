@@ -5,20 +5,80 @@ import "./map.css";
 import { Navbar, NavbarBrand } from "reactstrap";
 import ReactMapGL, { Marker } from "react-map-gl";
 import { GoRadioTower } from "react-icons/go";
+import ModalTemplate from "./ModalTemplate";
+var moment = require("moment");
 // mapboxgl.accessToken =
 //   "pk.eyJ1IjoiamFpd2FudGgiLCJhIjoiY2s3cXAzNHl4MDUxOTNlb2E0c25wZ3MxYyJ9.fksl8VGQfN2cxth5KvB8yg";
 export default class SensorMaintainence extends Component {
-  state = {
-    lng: 78.34839,
-    lat: 17.445806,
-    zoom: 16.5,
-    latitude: "",
-    longitude: "",
-    ChannelId: "",
-    ChannelKey: "",
-    allsensors: [],
-    showPopUp: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      lng: 78.34839,
+      lat: 17.445806,
+      zoom: 16.5,
+      latitude: "",
+      longitude: "",
+      ChannelId: "",
+      ChannelKey: "",
+      allsensors: [],
+      exportPopup: false,
+      fromDate: "",
+      toDate: "",
+      InvalidAttributes: false,
+      Success: false,
+      exportlat: "",
+      exportlng: "",
+      exportid: "",
+    };
+    this.objecttoCSV = this.objecttoCSV.bind(this);
+    this.download = this.download.bind(this);
+    this.getReport = this.getReport.bind(this);
+  }
+  objecttoCSV(data) {
+    const csvrows = [];
+    const headers = Object.keys(data[0]);
+    csvrows.push(headers.join(","));
+
+    for (const row of data) {
+      const values = headers.map((header) => {
+        const escaped = ("" + row[header]).replace(/"/g, '\\"');
+        return `"${escaped}"`;
+      });
+      csvrows.push(values.join(","));
+    }
+    return csvrows.join("\n");
+  }
+  download(data) {
+    const blob = new Blob([data], {
+      type: "text/csv",
+    });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.setAttribute("hidden", "");
+    a.setAttribute("href", url);
+    a.setAttribute("download", "download.csv");
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+  async getReport(res) {
+    const got = await res;
+    console.log(got);
+    const data = got.data.map((row) => ({
+      Date: row.date,
+      Time: row.time,
+      Longitude: this.state.exportlng,
+      Latitude: this.state.exportlat,
+      Temperature: row.Temperature,
+      Humidity: row.Humidity,
+      WindSpeed: row.windSpeed,
+    }));
+    if (data.length != 0) {
+      const csvdata = this.objecttoCSV(data);
+      this.download(csvdata);
+      console.log(data);
+    }
+  }
   setLatLongMarker = (obj) => {
     this.setState({ latitude: obj.lat, longitude: obj.lng });
   };
@@ -107,6 +167,13 @@ export default class SensorMaintainence extends Component {
     axios.delete(route);
     this.resetState();
   };
+  onExport = (curr) => {
+
+    this.setState({ exportPopup: true, exportid: curr._id, exportlat: curr.latitude, exportlng: curr.longitude })
+  }
+  reset = () => {
+    this.setState({ exportPopup: false, exportid: '', exportlat: '', exportlng: '',Success:false,InvalidAttributes:false })
+  }
   renderMapSensor = () => {
     var map = new mapboxgl.Map({
       container: this.mapClassSensorPlace,
@@ -177,6 +244,49 @@ export default class SensorMaintainence extends Component {
   toggle = () => {
     this.setState({ showPopUp: !this.state.showPopUp });
   };
+  onChangeFromDate = (e) => {
+    this.setState({ fromDate: e.target.value });
+  };
+  onChangeToDate = (e) => {
+    this.setState({ toDate: e.target.value });
+  };
+  InvalidAttributesPrompt = () => {
+    return <div style={{ color: "red" }}> Enter the attributes required</div>;
+  };
+  successprompt = () => {
+    return (
+      <div style={{ color: "green", background: "lightgreen", padding: 0 }}>
+        Data Got Exported
+      </div>
+    );
+  };
+  onExportSubmit = (e) => {
+    e.preventDefault();
+    const DataAttr = {
+      id: this.state.exportid,
+      fromDate: this.state.fromDate,
+      toDate: this.state.toDate,
+    }
+    if (
+      moment(this.state.fromDate, "YYYY-MM-DD", true).isValid() &&
+      moment(this.state.toDate, "YYYY-MM-DD", true).isValid()
+    ) {
+      console.log("send data",DataAttr)
+      axios
+        .put("http://localhost:4000/api/addSensor/export", DataAttr)
+        .then((res) => {
+          this.setState({ fromDate: "", toDate: "" });
+          this.getReport(res);
+          console.log(res);
+          this.setState({ Success: true });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      this.setState({ InvalidAttributes: true });
+    }
+  }
   render() {
     return (
       <React.Fragment>
@@ -317,20 +427,27 @@ export default class SensorMaintainence extends Component {
                           </Marker>
                         </ReactMapGL>
                         {/* {this.renderMap(curr, i)} */}
-                        <span>Latitude : {Number(curr.latitude).toFixed(4)} </span><br/>
+                        <span>Latitude : {Number(curr.latitude).toFixed(4)} </span><br />
                         <span>Longitude :{Number(curr.longitude).toFixed(4)}</span>
                       </td>
                       <td>
-                        <span>Temperature : {Number(curr.data[curr.data.length-1].Temperature).toFixed(3)}</span><br/>
-                        <span>Humidity : {Number(parseFloat(curr.data[curr.data.length-1].Humidity)).toFixed(3) }</span><br/>
-                        <span>Wind Speed : {Number(curr.data[curr.data.length-1].windSpeed).toFixed(3)}</span>
-                        </td>
+                        <span>Temperature : {Number(curr.data[curr.data.length - 1].Temperature).toFixed(3)}</span><br />
+                        <span>Humidity : {Number(parseFloat(curr.data[curr.data.length - 1].Humidity)).toFixed(3)}</span><br />
+                        <span>Wind Speed : {Number(curr.data[curr.data.length - 1].windSpeed).toFixed(3)}</span>
+                      </td>
                       <td>
                         <button
                           class="btn btn-danger"
                           onClick={() => this.onDelete(curr)}
                         >
                           Delete
+                        </button>
+                        <br />
+                        <button
+                          class="btn btn-info"
+                          onClick={() => this.onExport(curr)}
+                        >
+                          Export Data
                         </button>
                       </td>
                     </tr>
@@ -339,6 +456,49 @@ export default class SensorMaintainence extends Component {
               </tbody>
             </table>
           </div>
+          {
+            this.state.exportPopup == true ?
+              <ModalTemplate
+                active={true}
+                title="Export Data"
+                reset={this.reset}
+                onSubmit={this.onExportSubmit}
+              >
+                <br />
+                <form class="form-inline" onSubmit={this.onSubmit}>
+                  <div class="form-group mx-sm-3 mb-2">
+                    <label for="fromDate" class="sr-only">
+                      FromDate
+                </label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="fromDate"
+                      placeholder="fromDate"
+                      value={this.state.fromDate}
+                      onChange={this.onChangeFromDate}
+                    />
+                  </div>
+                  <div class="form-group mx-sm-3 mb-2">
+                    <label for="toDate" class="sr-only">
+                      ToDate
+                </label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="toDate"
+                      placeholder="toDate"
+                      value={this.state.toDate}
+                      onChange={this.onChangeToDate}
+                    />
+                  </div>
+                  {/* <input type="submit" value="Export Data" class="btn btn-primary mb-2" /> */}
+                </form>
+                {this.state.InvalidAttributes && this.InvalidAttributesPrompt()}
+                {this.state.Success && this.successprompt()}
+              </ModalTemplate>
+              : null
+          }
         </div>
       </React.Fragment>
     );
