@@ -12,6 +12,7 @@ import AddMessage from "./targeted-message";
 import NewMonitor from "./register-new-monitor";
 import ExportMap from "./exportMap";
 import ChangePassword from "./change-password";
+import {Redirect} from "react-router-dom"
 import "./admin.component.css";
 import {
   FaBroadcastTower,
@@ -45,6 +46,7 @@ export default class AdminComponent extends Component {
   render() {
     return (
       <React.Fragment>
+        {(JSON.parse(window.sessionStorage.getItem("User")!==null))?(JSON.parse(window.sessionStorage.getItem("User")).type === "monitor")?<Redirect to="/monitor/" />:null:null}
         <div class="area"></div>
         <nav class="main-menu" style={{ backgroundColor: "black" }}>
           <ul>
@@ -73,7 +75,7 @@ export default class AdminComponent extends Component {
                 <i class="fa">
                   <FaDownload />
                 </i>
-                <span class="nav-text">Export Data</span>
+                <span class="nav-text">Export Weather Data</span>
               </a>
             </li>
             <li>

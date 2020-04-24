@@ -7,6 +7,7 @@ import ExportData from "./exportData";
 import MapComponent from "./map.component";
 import ExportMap from "./exportMap";
 import ChangePassword from "./change-password";
+import {Redirect} from "react-router-dom"
 import { TiExport } from "react-icons/ti";
 import { MdReportProblem } from "react-icons/md";
 import { FaDownload } from "react-icons/fa";
@@ -29,6 +30,7 @@ export default class MonitorComponent extends Component {
   render() {
     return (
       <React.Fragment>
+        {(JSON.parse(window.sessionStorage.getItem("User")!==null))?(JSON.parse(window.sessionStorage.getItem("User")).type === "admin")?<Redirect to="/admin/" />:null:null}
         <div class="area"></div>
         <nav class="main-menu" style={{ backgroundColor: "black" }}>
           <ul>
@@ -41,7 +43,7 @@ export default class MonitorComponent extends Component {
                 <i class="fa">
                   <FaDownload />
                 </i>
-                <span class="nav-text">Export Data</span>
+                <span class="nav-text">Export Weather Data</span>
               </a>
             </li>
             <li class="has-subnav">

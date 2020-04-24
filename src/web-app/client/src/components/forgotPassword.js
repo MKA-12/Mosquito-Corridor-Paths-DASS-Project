@@ -57,6 +57,7 @@ export default class Verification extends Component {
         style={{
           "margin-top": 250,
           marginLeft: 360,
+          backgroundColor:"white",
         }}
       >
         <Card style={{ width: "25rem", height: "29rem" }}>
