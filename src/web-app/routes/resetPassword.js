@@ -28,7 +28,6 @@ resetPasswordRouter.post('/', function(req, res) {
     bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(req.body.password, salt, (err, hash) => {
             if (err) throw err;
-            req.body.password = hash;
 
             Monitor.find(async function(err, monitors) {
                 if (err) {
