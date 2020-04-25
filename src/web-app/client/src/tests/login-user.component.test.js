@@ -11,19 +11,19 @@ let wrapper;
 test('username check',()=>
 {
     wrapper = shallow(<LoginUser/>);
-    wrapper.find('input[type="text"]').simulate('change', {target: {placeholder: 'username', value: 'sai'}});
-    expect(wrapper.state('username')).toEqual('sai');
+    wrapper.find('input[type="text"]').simulate('change', {target: {placeholder: 'username', value: 'TestingUser'}});
+    expect(wrapper.state('username')).toEqual('TestingUser');
 })
 it('password check',()=>{
     wrapper = shallow(<LoginUser/>);
-    wrapper.find('input[type="password"]').simulate('change', {target: {placeholder: 'password', value: 'sai'}});
-    expect(wrapper.state('password')).toEqual('sai');
+    wrapper.find('input[type="password"]').simulate('change', {target: {placeholder: 'password', value: 'TestingUser'}});
+    expect(wrapper.state('password')).toEqual('TestingUser');
 })
 test('Checking a valid login for admin', async() => {
     const axios = require('axios');
     const res=await axios.post('http://localhost:4000/api/validate', {
         username: "sai",
-        password: "sai",
+        password: "test",
         type: "admin"
     })
     // console.log(res);
@@ -32,8 +32,8 @@ test('Checking a valid login for admin', async() => {
 test('Checking an invalid login for admin', async() => {
     const axios = require('axios');
     const res=await axios.post('http://localhost:4000/api/validate', {
-        username: "sai",
-        password: "sa",
+        username: "TestingUser",
+        password: "TestingUser",
         type: "admin"
     })
     // console.log(res);
@@ -42,8 +42,8 @@ test('Checking an invalid login for admin', async() => {
 test('Checking a valid login for monitor', async() => {
     const axios = require('axios');
     const res=await axios.post('http://localhost:4000/api/validate', {
-        username: "sai",
-        password: "new",
+        username: "TestingMonitor",
+        password: "TestingPassword",
         type: "monitor"
     })
     // console.log(res);
@@ -52,8 +52,8 @@ test('Checking a valid login for monitor', async() => {
 test('Checking an invalid login for monitor', async() => {
     const axios = require('axios');
     const res=await axios.post('http://localhost:4000/api/validate', {
-        username: "sai",
-        password: "sa",
+        username: "TestingMonitor",
+        password: "WrongPassword",
         type: "monitor"
     })
     // console.log(res);
