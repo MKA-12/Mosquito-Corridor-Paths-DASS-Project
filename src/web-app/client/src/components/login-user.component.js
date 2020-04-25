@@ -1,18 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import {
-  Navbar,
-  NavbarBrand,
-  Nav,
-  Card,
-  CardText,
-  CardBody,
-  CardHeader,
-  TabContent,
-  NavItem,
-  NavLink,
-  TabPane,
-} from "reactstrap";
+import { Navbar, NavbarBrand, Card, CardBody, CardHeader } from "reactstrap";
 import { FaUser, FaLock } from "react-icons/fa";
 import axios from "axios";
 import "../App.css";
@@ -104,7 +92,7 @@ export default class LoginUser extends Component {
       >
         <Navbar
           style={{ backgroundColor: "black" }}
-          inverse
+          inverse="true"
           className="fixed-top collapseOnSelect nav-bar"
           // color="dark"
           dark
@@ -123,31 +111,31 @@ export default class LoginUser extends Component {
           <CardBody>
             <form onSubmit={this.onSubmit} style={{ marginTop: 0 }}>
               <div className="form-group"></div>
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="basic-addon1">
+              <div className="input-group mb-3">
+                <div className="input-group-prepend">
+                  <span className="input-group-text" id="basic-addon1">
                     <FaUser />
                   </span>
                 </div>
                 <input
                   style={{ fontSize: 20 }}
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   placeholder="Username"
                   value={this.state.username}
                   onChange={this.onChangeUsername}
                 />
               </div>
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="basic-addon1">
+              <div className="input-group mb-3">
+                <div className="input-group-prepend">
+                  <span className="input-group-text" id="basic-addon1">
                     <FaLock />
                   </span>
                 </div>
                 <input
                   style={{ fontSize: 20 }}
                   type="password"
-                  class="form-control"
+                  className="form-control"
                   placeholder="Password"
                   value={this.state.password}
                   onChange={this.onChangePassword}

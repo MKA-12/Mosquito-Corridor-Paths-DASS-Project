@@ -68,7 +68,7 @@ export default class Notification extends Component {
   componentDidMount() {
     registerForPushNotificationsAsync();
     Notifications.addListener(this._handleNotification);
-    setInterval(()=>{sendlocation()}, 3000);
+    setInterval(()=>{sendlocation()}, 60000);
     // this.sendlocation()
   }
   render() {

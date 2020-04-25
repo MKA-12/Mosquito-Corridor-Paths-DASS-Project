@@ -10,7 +10,6 @@ export default class Verification extends Component {
     type: "monitor",
     idUser: "",
     success: 2,
-    loading: 2,
     alert: false,
     loading: false,
   };
@@ -75,18 +74,18 @@ export default class Verification extends Component {
             <p style={{ alignSelf: "center" }}>
               You can reset you password here!
             </p>
-            {this.state.success == 2 || this.state.success == 0 ? (
+            {this.state.success === 2 || this.state.success === 0 ? (
               <React.Fragment>
                 <form onSubmit={this.onSubmit}>
-                  <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="basic-addon1">
+                  <div className="input-group mb-3">
+                    <div className="input-group-prepend">
+                      <span className="input-group-text" id="basic-addon1">
                         <FaUser />
                       </span>
                     </div>
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       placeholder="Username"
                       value={this.state.username}
                       onChange={this.onChangeUsername}

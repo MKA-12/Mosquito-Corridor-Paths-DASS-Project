@@ -121,7 +121,7 @@ export default class MapComponent extends Component {
   };
   renderBlips = (map) => {
     this.state.blipLocation.map((curr, i) => {
-      var marker = new mapboxgl.Marker()
+      new mapboxgl.Marker()
         .setLngLat([curr.longitude, curr.latitude])
         .addTo(map);
     });

@@ -15,6 +15,7 @@ app.use(bodyParser.json());
 // Connection to mongodb
 mongoose.connect("mongodb://127.0.0.1:27017/Dass45", {
   useNewUrlParser: true,
+  useUnifiedTopology: true
 });
 const connection = mongoose.connection;
 connection.once("open", function () {

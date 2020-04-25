@@ -121,7 +121,7 @@ export default class LogicBuilder extends Component {
         Minimum Temperature:{" "}
         <input
           type="Number"
-          class="form-control"
+          className="form-control"
           value={this.state.tempMin}
           onChange={this.onChangeTempMin}
         />
@@ -129,7 +129,7 @@ export default class LogicBuilder extends Component {
         Maximum Temperature:{" "}
         <input
           type="Number"
-          class="form-control"
+          className="form-control"
           value={this.state.tempMax}
           onChange={this.onChangeTempMax}
         />
@@ -137,7 +137,7 @@ export default class LogicBuilder extends Component {
         Minimum Humidity:{" "}
         <input
           type="Number"
-          class="form-control"
+          className="form-control"
           value={this.state.humidityMin}
           min="0"
           max="100"
@@ -147,7 +147,7 @@ export default class LogicBuilder extends Component {
         Maximum Humidity:{" "}
         <input
           type="Number"
-          class="form-control"
+          className="form-control"
           value={this.state.humidityMax}
           min="0"
           max="100"
@@ -157,7 +157,7 @@ export default class LogicBuilder extends Component {
         Minimum Wind Speed:{" "}
         <input
           type="Number"
-          class="form-control"
+          className="form-control"
           value={this.state.windMin}
           min="0"
           onChange={this.onChangeWindMin}
@@ -166,7 +166,7 @@ export default class LogicBuilder extends Component {
         Maximum Wind Speed:{" "}
         <input
           type="Number"
-          class="form-control"
+          className="form-control"
           value={this.state.windMax}
           min="0"
           onChange={this.onChangeWindMax}

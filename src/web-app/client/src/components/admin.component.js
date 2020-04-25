@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
 import LogoutUser from "./logout-user.component";
-import ConfigData from "../config";
 import SensorMaintainence from "./sensorMaintainence";
 import ExportData from "./exportData";
 import DiseaseReport from "./diseaseReport";
@@ -47,23 +46,23 @@ export default class AdminComponent extends Component {
     return (
       <React.Fragment>
         {(JSON.parse(window.sessionStorage.getItem("User")!==null))?(JSON.parse(window.sessionStorage.getItem("User")).type === "monitor")?<Redirect to="/monitor/" />:null:null}
-        <div class="area"></div>
-        <nav class="main-menu" style={{ backgroundColor: "black" }}>
+        <div className="area"></div>
+        <nav className="main-menu" style={{ backgroundColor: "black" }}>
           <ul>
             <li>
               <a href="/admin/">
-                <i class="fa">
+                <i className="fa">
                   <FaMapMarkedAlt />
                 </i>
-                <span class="nav-text">Map</span>
+                <span className="nav-text">Map</span>
               </a>
             </li>
             <li>
               <a href="/admin/SensorManagement">
-                <i class="fa ">
+                <i className="fa ">
                   <FaBroadcastTower />
                 </i>
-                <span class="nav-text">Sensor Management</span>
+                <span className="nav-text">Sensor Management</span>
               </a>
             </li>
             <li>
@@ -72,10 +71,10 @@ export default class AdminComponent extends Component {
                   this.changeStatus(1);
                 }}
               >
-                <i class="fa">
+                <i className="fa">
                   <FaDownload />
                 </i>
-                <span class="nav-text">Export Weather Data</span>
+                <span className="nav-text">Export Weather Data</span>
               </a>
             </li>
             <li>
@@ -84,10 +83,10 @@ export default class AdminComponent extends Component {
                   this.changeStatus(2);
                 }}
               >
-                <i class="fa">
+                <i className="fa">
                   <MdAddAPhoto />
                 </i>
-                <span class="nav-text">Add Targeted Video</span>
+                <span className="nav-text">Add Targeted Video</span>
               </a>
             </li>
             <li>
@@ -96,10 +95,10 @@ export default class AdminComponent extends Component {
                   this.changeStatus(3);
                 }}
               >
-                <i class="fa">
+                <i className="fa">
                   <MdMessage />
                 </i>
-                <span class="nav-text">Add Targeted Message</span>
+                <span className="nav-text">Add Targeted Message</span>
               </a>
             </li>
             <li>
@@ -108,10 +107,10 @@ export default class AdminComponent extends Component {
                   this.changeStatus(4);
                 }}
               >
-                <i class="fa">
+                <i className="fa">
                   <FaTools />
                 </i>
-                <span class="nav-text">Logic Builder</span>
+                <span className="nav-text">Logic Builder</span>
               </a>
             </li>
             <li>
@@ -120,48 +119,48 @@ export default class AdminComponent extends Component {
                   this.changeStatus(5);
                 }}
               >
-                <i class="fa">
+                <i className="fa">
                   <MdPersonAdd />
                 </i>
-                <span class="nav-text">Register New Monitor</span>
+                <span className="nav-text">Register New Monitor</span>
               </a>
             </li>
-            <li class="has-subnav">
+            <li className="has-subnav">
               <a
                 onClick={() => {
                   this.changeStatus(6);
                 }}
               >
-                <i class="fa">
+                <i className="fa">
                   <MdReportProblem />
                 </i>
-                <span class="nav-text">Disease Report View</span>
+                <span className="nav-text">Disease Report View</span>
               </a>
             </li>
             {window.location.pathname === "/admin/" ? (
-              <li class="has-subnav">
+              <li className="has-subnav">
                 <a
                   onClick={() => {
                     this.changeStatus(7);
                   }}
                 >
-                  <i class="fa">
+                  <i className="fa">
                     <TiExport />
                   </i>
-                  <span class="nav-text">Export Map</span>
+                  <span className="nav-text">Export Map</span>
                 </a>
               </li>
             ) : null}
           </ul>
-          <ul class="logout">
+          <ul className="logout">
             <li>
               <a
                 onClick={() => {
                   this.changeStatus(8);
                 }}
               >
-                <i class="fa fa-lock fa-2x"></i>
-                <span class="nav-text">Change Password</span>
+                <i className="fa fa-lock fa-2x"></i>
+                <span className="nav-text">Change Password</span>
               </a>
             </li>
             <li>
@@ -177,14 +176,14 @@ export default class AdminComponent extends Component {
           />
           <Route path="/admin/" exact component={MapComponent} />
         </div>
-        {this.state.active == 1 ? <ExportData reset={this.reset} /> : null}
-        {this.state.active == 2 ? <AddVideo reset={this.reset} /> : null}
-        {this.state.active == 3 ? <AddMessage reset={this.reset} /> : null}
-        {this.state.active == 4 ? <LogicBuilder reset={this.reset} /> : null}
-        {this.state.active == 5 ? <NewMonitor reset={this.reset} /> : null}
-        {this.state.active == 6 ? <DiseaseReport reset={this.reset} /> : null}
-        {this.state.active == 7 ? <ExportMap reset={this.reset} /> : null}
-        {this.state.active == 8 ? <ChangePassword reset={this.reset} /> : null}
+        {this.state.active === 1 ? <ExportData reset={this.reset} /> : null}
+        {this.state.active === 2 ? <AddVideo reset={this.reset} /> : null}
+        {this.state.active === 3 ? <AddMessage reset={this.reset} /> : null}
+        {this.state.active === 4 ? <LogicBuilder reset={this.reset} /> : null}
+        {this.state.active === 5 ? <NewMonitor reset={this.reset} /> : null}
+        {this.state.active === 6 ? <DiseaseReport reset={this.reset} /> : null}
+        {this.state.active === 7 ? <ExportMap reset={this.reset} /> : null}
+        {this.state.active === 8 ? <ChangePassword reset={this.reset} /> : null}
       </React.Fragment>
     );
   }

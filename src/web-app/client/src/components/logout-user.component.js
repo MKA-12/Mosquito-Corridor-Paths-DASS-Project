@@ -1,8 +1,5 @@
 import React, { Component } from "react";
 export default class LogoutUser extends Component {
-  constructor(props) {
-    super(props);
-  }
   onClick() {
     sessionStorage.clear();
     window.location.reload();
@@ -10,8 +7,8 @@ export default class LogoutUser extends Component {
   render() {
     return (
       <a onClick={this.onClick}>
-        <i class="fa fa-power-off fa-2x"></i>
-        <span class="nav-text">Logout</span>
+        <i className="fa fa-power-off fa-2x"></i>
+        <span className="nav-text">Logout</span>
       </a>
     );
   }

@@ -1,12 +1,18 @@
 import React, { Component } from "react";
-import { View, Text, TouchableOpacity, Linking, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Linking,
+  ScrollView,
+} from "react-native";
 import { Card, Icon, Divider, Badge } from "react-native-elements";
 import { WebView } from "react-native-webview";
 import GestureRecognizer, {
   swipeDirections,
 } from "react-native-swipe-gestures";
 import { BACKEND_CONFIG } from "../core/config";
-import FadeInView from "../core/FadeInView"
+import FadeInView from "../core/FadeInView";
 export default class TargetedMessage extends Component {
   constructor(props) {
     super(props);
@@ -22,15 +28,14 @@ export default class TargetedMessage extends Component {
       .then((res) => res.json())
       .then((res) => {
         this.setState({ message: String(res.message) });
-      });
+      })
+      .catch((err) => console.log(err));
   }
   render() {
     return (
       <View>
-          <GestureRecognizer
-            onSwipeRight={this.props.toggle}
-          >
-            <FadeInView>
+        <GestureRecognizer onSwipeRight={this.props.toggle}>
+          <FadeInView>
             <Card
               title={
                 <View
@@ -54,22 +59,36 @@ export default class TargetedMessage extends Component {
               }
             >
               <Divider />
-              <View style={{ height:300}}>
+              <View style={{ height: 300 }}>
                 <ScrollView nestedScrollEnabled={true}>
-                <Text>{"\n"}</Text>
-                <Text>{this.state.message}</Text>
+                  <Text>{"\n"}</Text>
+                  <Text>{this.state.message}</Text>
                 </ScrollView>
               </View>
             </Card>
-            </FadeInView>
-          </GestureRecognizer>
-        <View style={{display:"flex",flexDirection:"row" , justifyContent:"center"}}>
-        <Badge
-          badgeStyle={{ marginTop: 10, backgroundColor: "black", opacity: this.props.showMessage==false?1:0.5 }}
-        />
-        <Badge
-          badgeStyle={{ marginTop: 10, backgroundColor: "black", opacity: this.props.showMessage==true?1:0.5 }}
-        />
+          </FadeInView>
+        </GestureRecognizer>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+          }}
+        >
+          <Badge
+            badgeStyle={{
+              marginTop: 10,
+              backgroundColor: "black",
+              opacity: this.props.showMessage == false ? 1 : 0.5,
+            }}
+          />
+          <Badge
+            badgeStyle={{
+              marginTop: 10,
+              backgroundColor: "black",
+              opacity: this.props.showMessage == true ? 1 : 0.5,
+            }}
+          />
         </View>
       </View>
     );

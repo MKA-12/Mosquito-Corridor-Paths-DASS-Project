@@ -298,7 +298,7 @@ export default class SensorMaintainence extends Component {
       <React.Fragment>
         <Navbar
           style={{ backgroundColor: "black" }}
-          inverse
+          inverse="true"
           className="fixed-top"
           // color="dark"
           dark
@@ -326,7 +326,7 @@ export default class SensorMaintainence extends Component {
               />
               <br />
               <form
-                class="form-inline"
+                className="form-inline"
                 onSubmit={this.onSubmit}
                 style={{
                   display: "flex",
@@ -334,52 +334,52 @@ export default class SensorMaintainence extends Component {
                   justifyContent: "center",
                 }}
               >
-                <div class="form-group mx-sm-3 mb-2">
-                  <label for="latitude" class="sr-only">
+                <div className="form-group mx-sm-3 mb-2">
+                  <label for="latitude" className="sr-only">
                     Latitude
                 </label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="latitude"
                     placeholder="Latitude"
                     value={this.state.latitude}
                     onChange={this.onChangeLatitude}
                   />
                 </div>
-                <div class="form-group mx-sm-3 mb-2">
-                  <label for="longitude" class="sr-only">
+                <div className="form-group mx-sm-3 mb-2">
+                  <label for="longitude" className="sr-only">
                     Longitude
                 </label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="longitude"
                     placeholder="Longitude"
                     value={this.state.longitude}
                     onChange={this.onChangeLongitude}
                   />
                 </div>
-                <div class="form-group mx-sm-3 mb-2">
-                  <label for="ChannelId" class="sr-only">
+                <div className="form-group mx-sm-3 mb-2">
+                  <label for="ChannelId" className="sr-only">
                     Channel Id
                 </label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="ChannelId"
                     placeholder="Channel ID"
                     value={this.state.ChannelId}
                     onChange={this.onChangeChannelid}
                   />
                 </div>
-                <div class="form-group mx-sm-3 mb-2">
-                  <label for="ChannelKey" class="sr-only">
+                <div className="form-group mx-sm-3 mb-2">
+                  <label for="ChannelKey" className="sr-only">
                     ChannelKey
                 </label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="ChannelKey"
                     placeholder="Channel Key"
                     value={this.state.ChannelKey}
@@ -389,7 +389,7 @@ export default class SensorMaintainence extends Component {
                 <input
                   type="submit"
                   value="Add Sensor"
-                  class="btn btn-primary mb-2"
+                  className="btn btn-primary mb-2"
                 />
               </form>
             </div>
@@ -405,7 +405,7 @@ export default class SensorMaintainence extends Component {
             <div>
 
               <table className="table table-striped">
-                <thead class="thead-dark">
+                <thead className="thead-dark">
                   <tr>
                     <th>Sensor id</th>
                     <th>Map</th>
@@ -416,7 +416,7 @@ export default class SensorMaintainence extends Component {
                 <tbody>
                   {this.state.allsensors.map((curr, i) => {
                     return (
-                      <tr>
+                      <tr key={i.toString()}>
                         <td>{i + 1}</td>
                         {/* <td>{curr.latitude}</td>
                       <td>{curr.longitude}</td> */}
@@ -456,14 +456,14 @@ export default class SensorMaintainence extends Component {
                         </td>
                         <td>
                           <button
-                            class="btn btn-danger"
+                            className="btn btn-danger"
                             onClick={() => this.onDelete(curr)}
                           >
                             Delete
                         </button>
                           <br />
                           <button
-                            class="btn btn-info"
+                            className="btn btn-info"
                             onClick={() => this.onExport(curr)}
                           >
                             Export Data
@@ -485,27 +485,27 @@ export default class SensorMaintainence extends Component {
                 onSubmit={this.onExportSubmit}
               >
                 <br />
-                <form class="form-inline" onSubmit={this.onSubmit}>
-                  <div class="form-group mx-sm-3 mb-2">
-                    <label for="fromDate" class="sr-only">
+                <form className="form-inline" onSubmit={this.onSubmit}>
+                  <div className="form-group mx-sm-3 mb-2">
+                    <label for="fromDate" className="sr-only">
                       FromDate
                 </label>
                     <input
                       type="date"
-                      class="form-control"
+                      className="form-control"
                       id="fromDate"
                       placeholder="fromDate"
                       value={this.state.fromDate}
                       onChange={this.onChangeFromDate}
                     />
                   </div>
-                  <div class="form-group mx-sm-3 mb-2">
-                    <label for="toDate" class="sr-only">
+                  <div className="form-group mx-sm-3 mb-2">
+                    <label for="toDate" className="sr-only">
                       ToDate
                 </label>
                     <input
                       type="date"
-                      class="form-control"
+                      className="form-control"
                       id="toDate"
                       placeholder="toDate"
                       value={this.state.toDate}

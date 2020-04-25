@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
 import ModalTemplate from "./ModalTemplate";
-import { FaSadCry } from "react-icons/fa";
 export default class ChangePassword extends Component {
   state = {
     NewPassword: "",
@@ -73,9 +72,9 @@ export default class ChangePassword extends Component {
   render() {
     return (
       <ModalTemplate active={true} title="Change Your Password" reset={this.props.reset} onSubmit={this.onSubmit}>
-        <input type="password" class="form-control" placeholder="Enter New Password" value={this.state.NewPassword} onChange={this.onChangeNewPass} />
+        <input type="password" className="form-control" placeholder="Enter New Password" value={this.state.NewPassword} onChange={this.onChangeNewPass} />
         <br />
-        <input type="password" class="form-control" placeholder="Re-Enter New Password" value={this.state.ReNewPassword} onChange={this.onChangeReNewPass} />
+        <input type="password" className="form-control" placeholder="Re-Enter New Password" value={this.state.ReNewPassword} onChange={this.onChangeReNewPass} />
         {this.state.EmptyFields && this.EmptyFields()}
         {this.state.PasswordsDonotMatch && this.PasswordsDonotMatch()}
         {this.state.Success && this.Success()}

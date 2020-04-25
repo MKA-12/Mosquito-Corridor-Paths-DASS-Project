@@ -10,7 +10,7 @@ export default class AddMessage extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    if (this.state.Message == "") {
+    if (this.state.Message === "") {
       this.setState({ error: 1 });
       return;
     }
@@ -23,12 +23,13 @@ export default class AddMessage extends Component {
         this.setState({ Message: "", error: false, success: true });
       })
       .catch((err) => {
+        this.setState({ Message: "", error: true, success: false });
         console.log(err);
       });
   };
 
   errorprompt = () => {
-    return <div style={{ color: "red" }}>Please Enter a valid message</div>;
+    return <div style={{ color: "red" }}>Unable to add the message</div>;
   };
   successprompt = () => {
     return (

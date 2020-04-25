@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 // import { Link, Route } from "react-router-dom";
-import { NavbarBrand, Navbar, Button } from "reactstrap";
 import LogoutUser from "./logout-user.component";
 import DiseaseReport from "./diseaseReport";
 import ExportData from "./exportData";
 import MapComponent from "./map.component";
 import ExportMap from "./exportMap";
 import ChangePassword from "./change-password";
-import {Redirect} from "react-router-dom"
+import { Redirect } from "react-router-dom";
 import { TiExport } from "react-icons/ti";
 import { MdReportProblem } from "react-icons/md";
 import { FaDownload } from "react-icons/fa";
@@ -30,9 +29,13 @@ export default class MonitorComponent extends Component {
   render() {
     return (
       <React.Fragment>
-        {(JSON.parse(window.sessionStorage.getItem("User")!==null))?(JSON.parse(window.sessionStorage.getItem("User")).type === "admin")?<Redirect to="/admin/" />:null:null}
-        <div class="area"></div>
-        <nav class="main-menu" style={{ backgroundColor: "black" }}>
+        {JSON.parse(window.sessionStorage.getItem("User") !== null) ? (
+          JSON.parse(window.sessionStorage.getItem("User")).type === "admin" ? (
+            <Redirect to="/admin/" />
+          ) : null
+        ) : null}
+        <div className="area"></div>
+        <nav className="main-menu" style={{ backgroundColor: "black" }}>
           <ul>
             <li>
               <a
@@ -40,46 +43,46 @@ export default class MonitorComponent extends Component {
                   this.changeStatus(1);
                 }}
               >
-                <i class="fa">
+                <i className="fa">
                   <FaDownload />
                 </i>
-                <span class="nav-text">Export Weather Data</span>
+                <span className="nav-text">Export Weather Data</span>
               </a>
             </li>
-            <li class="has-subnav">
+            <li className="has-subnav">
               <a
                 onClick={() => {
                   this.changeStatus(2);
                 }}
               >
-                <i class="fa">
+                <i className="fa">
                   <MdReportProblem />
                 </i>
-                <span class="nav-text">Disease Report View</span>
+                <span className="nav-text">Disease Report View</span>
               </a>
             </li>
-            <li class="has-subnav">
+            <li className="has-subnav">
               <a
                 onClick={() => {
                   this.changeStatus(3);
                 }}
               >
-                <i class="fa">
+                <i className="fa">
                   <TiExport />
                 </i>
-                <span class="nav-text">Export Map</span>
+                <span className="nav-text">Export Map</span>
               </a>
             </li>
           </ul>
-          <ul class="logout">
+          <ul className="logout">
             <li>
               <a
                 onClick={() => {
                   this.changeStatus(4);
                 }}
               >
-                <i class="fa fa-lock fa-2x"></i>
-                <span class="nav-text">Change Password</span>
+                <i className="fa fa-lock fa-2x"></i>
+                <span className="nav-text">Change Password</span>
               </a>
             </li>
             <li>
@@ -88,11 +91,12 @@ export default class MonitorComponent extends Component {
           </ul>
         </nav>
         <MapComponent />
-        {this.state.active == 1 ? <ExportData reset={this.reset} /> : null}
-        {this.state.active == 2 ? <DiseaseReport reset={this.reset} /> : null}
-        {this.state.active == 3 ? <ExportMap reset={this.reset} /> : null}
-        {this.state.active == 4 ? <ChangePassword reset={this.reset} /> : null}
+        {this.state.active === 1 ? <ExportData reset={this.reset} /> : null}
+        {this.state.active === 2 ? <DiseaseReport reset={this.reset} /> : null}
+        {this.state.active === 3 ? <ExportMap reset={this.reset} /> : null}
+        {this.state.active === 4 ? <ChangePassword reset={this.reset} /> : null}
       </React.Fragment>
     );
   }
 }
+  

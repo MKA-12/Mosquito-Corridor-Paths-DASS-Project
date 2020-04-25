@@ -19,7 +19,7 @@ VideoRouter.get("/random", function (req, res) {
       console.log(err);
       res.status(400).send("Error");
     } else {
-      var video = videos[Math.floor(Math.random()*videos.length)]
+      var video = videos[Math.floor(Math.random() * videos.length)];
       res.json(video);
     }
   });
@@ -35,34 +35,35 @@ VideoRouter.get("/:id", function (req, res) {
   });
 });
 VideoRouter.post("/", function (req, res) {
-  TargetedVideo.findOne({ url: req.body.url }, function (err, video) {
+  var url = req.body.url;
+  const URL = "http://youtube.com/embed/" + url.split(/=|\//).pop();
+  TargetedVideo.findOne({ url: URL }, function (err, video) {
     if (video != null) {
       res.status(200).send("Already Exists");
       return;
-    }
-    else {
-      const URL = req.body.url
-
-      axios.get(URL).then(response => {
-        if (response.status === 200) {
-          let video = new TargetedVideo(req.body);
-          video
-            .save()
-            .then(video => {
-              res.status(200).send(true);
-            })
-            .catch(err => {
-              console.log(err);
-              res.status(400).send("Error");
-            });
-        }
-        else {
-          res.status(200).send(false)
-        }
-      })
-      .catch(err => {
-        res.status(200).send(false)
-      })
+    } else {
+      axios
+        .get(URL)
+        .then((response) => {
+          if (response.status === 200) {
+            let video = new TargetedVideo({url:URL});
+            video
+              .save()
+              .then((video) => {
+                res.status(200).send(true);
+              })
+              .catch((err) => {
+                console.log(err);
+                res.status(400).send("Error");
+              });
+          } else {
+            res.status(200).send(false);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(200).send(false);
+        });
     }
   });
 });

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Card, CardBody, Button } from "reactstrap";
-import { FaUser, FaLock, FaSadCry } from "react-icons/fa";
+import { FaUser, FaLock } from "react-icons/fa";
 import axios from "axios";
 export default class Verification extends Component {
   state = {
@@ -88,9 +88,9 @@ export default class Verification extends Component {
   render() {
     return (
       <React.Fragment>
-        {this.state.check == 0 ? (
+        {this.state.check === 0 ? (
           <p className="alert-danger">access denied</p>
-        ) : this.state.check == 1 ? (
+        ) : this.state.check === 1 ? (
           <div
             className="float-left"
             style={{
@@ -111,43 +111,43 @@ export default class Verification extends Component {
                   Use these login details while signing in as monitor.
                 </p>
                 <form onSubmit={this.onSubmit}>
-                  <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="basic-addon1">
+                  <div className="input-group mb-3">
+                    <div className="input-group-prepend">
+                      <span className="input-group-text" id="basic-addon1">
                         <FaUser />
                       </span>
                     </div>
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       placeholder="Username"
                       value={this.state.username}
                       onChange={this.onChangeUsername}
                     />
                   </div>
-                  <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="basic-addon1">
+                  <div className="input-group mb-3">
+                    <div className="input-group-prepend">
+                      <span className="input-group-text" id="basic-addon1">
                         <FaLock />
                       </span>
                     </div>
                     <input
                       type="password"
-                      class="form-control"
+                      className="form-control"
                       placeholder="Password"
                       value={this.state.password}
                       onChange={this.onChangePassword}
                     />
                   </div>
-                  <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="basic-addon1">
+                  <div className="input-group mb-3">
+                    <div className="input-group-prepend">
+                      <span className="input-group-text" id="basic-addon1">
                         <FaLock />
                       </span>
                     </div>
                     <input
                       type="password"
-                      class="form-control"
+                      className="form-control"
                       id="ConfirmPassword"
                       placeholder="Confirm Password"
                       value={this.state.confirmPassword}
@@ -165,7 +165,7 @@ export default class Verification extends Component {
                     </Button>
                   </div>
                 </form>
-                {this.state.success == false ? (
+                {this.state.success === false ? (
                   <p className="alert-danger">Username Already Exists.</p>
                 ) : null}
                 {this.state.emptyFields && this.emptyFields()}

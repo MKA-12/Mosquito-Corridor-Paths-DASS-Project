@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React from "react";
 // import { Navbar, NavbarBrand, CustomInput } from "reactstrap";
 import "./App.css";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
@@ -57,10 +57,6 @@ function App() {
         <Route path="/" exact component={LoginUser} />
         <Route path="/admin/*" exact component={AdminComponent} />
         <Route path="/monitor/*" exact component={MonitorComponent} />
-        {
-          // console.log("hi,")
-          console.log("Hi,", window.location.href.split('/')[(window.location.href.split('/').length) - 1])
-        }
         {(JSON.parse(window.sessionStorage.getItem("User")) === null) && CheckVerify() && CheckforgotPass() && CheckResetPassword()? (
           <Redirect to="/" />
         ) : null}

@@ -53,7 +53,7 @@ export default class DiseaseReport extends Component {
         showSubmit={false}
       >
         <table className="table table-striped">
-          <thead class="thead-dark">
+          <thead className="thead-dark">
             <input
               type="text"
               className="form-control mb-4"

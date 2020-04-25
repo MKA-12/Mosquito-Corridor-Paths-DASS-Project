@@ -56,7 +56,7 @@ export default class ExportData extends Component {
       Humidity: row.main.humidity,
       WindSpeed: row.wind.speed,
     }));
-    if (data.length != 0) {
+    if (data.length !== 0) {
       const csvdata = this.objecttoCSV(data);
       this.download(csvdata);
     }
@@ -113,34 +113,34 @@ export default class ExportData extends Component {
         onSubmit={this.onSubmit}
       >
         <br />
-        <form class="form-inline" onSubmit={this.onSubmit}>
-          <div class="form-group mx-sm-3 mb-2">
-            <label for="fromDate" class="sr-only">
+        <form className="form-inline" onSubmit={this.onSubmit}>
+          <div className="form-group mx-sm-3 mb-2">
+            <label for="fromDate" className="sr-only">
               FromDate
             </label>
             <input
               type="date"
-              class="form-control"
+              className="form-control"
               id="fromDate"
               placeholder="fromDate"
               value={this.state.fromDate}
               onChange={this.onChangeFromDate}
             />
           </div>
-          <div class="form-group mx-sm-3 mb-2">
-            <label for="toDate" class="sr-only">
+          <div className="form-group mx-sm-3 mb-2">
+            <label for="toDate" className="sr-only">
               ToDate
             </label>
             <input
               type="date"
-              class="form-control"
+              className="form-control"
               id="toDate"
               placeholder="toDate"
               value={this.state.toDate}
               onChange={this.onChangeToDate}
             />
           </div>
-          {/* <input type="submit" value="Export Data" class="btn btn-primary mb-2" /> */}
+          {/* <input type="submit" value="Export Data" className="btn btn-primary mb-2" /> */}
         </form>
         {this.state.InvalidAttributes && this.InvalidAttributesPrompt()}
         {this.state.Success && this.successprompt()}
