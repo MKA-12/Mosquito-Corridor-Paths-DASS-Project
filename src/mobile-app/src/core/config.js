@@ -1,5 +1,5 @@
 export const BACKEND_CONFIG = {
-  backendURL: "http://10.0.0.8:4000",
+  backendURL: "http://10.0.0.6:4000",
   contactNumber: "+91 6969696969",
   contactEmail: "support@example.com",
   diseases:[

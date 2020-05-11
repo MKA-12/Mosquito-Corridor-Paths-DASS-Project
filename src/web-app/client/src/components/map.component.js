@@ -170,7 +170,7 @@ export default class MapComponent extends Component {
         .then(() => {
           this.renderPaths(map);
         });
-    }, 500);
+    }, 1000);
   }
   render() {
     return (

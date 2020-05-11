@@ -1,6 +1,6 @@
 var kickbox = require("kickbox")
   .client(
-    "live_54ea97fcbd4e5ba95f6b5ad181d9998e20230063bee4a7e249b1c247228a856d"
+    "live_fa70a4d10f2c08cc2759e7b103ef9c5a402f9bbee94dba4a13a298e2eb2abea4"
   )
   .kickbox();
 const express = require("express");
