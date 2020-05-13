@@ -1,8 +1,8 @@
-var kickbox = require("kickbox")
-  .client(
-    "live_fa70a4d10f2c08cc2759e7b103ef9c5a402f9bbee94dba4a13a298e2eb2abea4"
-  )
-  .kickbox();
+// var kickbox = require("kickbox")
+//   .client(
+//     "live_fa70a4d10f2c08cc2759e7b103ef9c5a402f9bbee94dba4a13a298e2eb2abea4"
+//   )
+//   .kickbox();
 const express = require("express");
 const monitorRouter = express.Router();
 const Monitor = require("../models/monitor");
@@ -39,9 +39,10 @@ monitorRouter.post("/", function (req, res) {
       res.status(200).send(false);
       return;
     } else {
-      await kickbox.verify(req.body.email, async function (testErr, response) {
+      // await kickbox.verify(req.body.email, async function (testErr, response) {
         // Let's see some results
-        if (response.body.result === "deliverable") {
+        console.log(validateEmail(req.body.email));
+        if (validateEmail(req.body.email) === true) {
           let monitor = new Monitor(req.body);
           monitor
             .save()
@@ -79,10 +80,11 @@ monitorRouter.post("/", function (req, res) {
               console.log(err);
               res.status(400).send("Error");
             });
-        } else {
+        } 
+        else {
           res.status(200).send(false);
         }
-      });
+      // });
     }
   });
 });
@@ -112,4 +114,8 @@ monitorRouter.put("/:id", function (req, res) {
     });
   });
 });
+function validateEmail(elementValue){      
+  var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  return emailPattern.test(elementValue); 
+} 
 module.exports = monitorRouter;
