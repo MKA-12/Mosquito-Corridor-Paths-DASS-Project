@@ -9,17 +9,59 @@ const StoreThingSpeakData = require("./scraping");
 const app = express();
 const PORT = 4000;
 const macroWeatherData = require("./models/macroWeatherData");
+const logicBuilder = require("./models/logicbuilder");
+const Admin = require("./models/admin");
 app.use(cors());
 app.use(bodyParser.json());
 
 // Connection to mongodb
 mongoose.connect("mongodb://127.0.0.1:27017/Dass45", {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
 });
 const connection = mongoose.connection;
+
 connection.once("open", function () {
   console.log("MongoDB database connection established succesfully.");
+  mongoose.connection.db
+    .listCollections({ name: "logics" })
+    .next((err, collectionInfo) => {
+      if (err) {
+        console.log(err);
+      } else {
+        if (collectionInfo === null) {
+          const logicObject = {
+            tempMin: 16,
+            tempMax: 38,
+            humidityMin: 60,
+            humidityMax: 100,
+            windMin: 0,
+            windMax: 10,
+          };
+          const logicEntry = new logicBuilder(logicObject);
+          logicEntry.save().catch((err) => console.log(err));
+        }
+      }
+    });
+  mongoose.connection.db
+    .listCollections({ name: "admins" })
+    .next((err, collectionInfo) => {
+      if (err) {
+        console.log(err);
+      } else {
+        if (collectionInfo === null) {
+          const adminObject = {
+            name: "dass45Admin",
+            username: "admin",
+            password: "admin",
+            email: "kalyanadithya12@gmail.com",
+            forgotPassCount: 0,
+          };
+          const adminEntry = new Admin(adminObject);
+          adminEntry.save().catch((err) => console.log(err));
+        }
+      }
+    });
 });
 
 function data_retrieve(req, res) {
