@@ -1,0 +1,64 @@
+.mapContainer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+
+.mapClassSensorPlace {
+    position: relative;
+    width: 700px;
+    height: 550px;
+}
+
+#Table {
+    position: relative;
+    width: 1200px;
+    margin-right: 50px;
+}
+
+#container {
+    top: 50px;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    position: absolute;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+}
+
+.MapComponent {
+    position: relative;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    margin-right: 150px;
+}
+
+.mapInTable {
+    position: relative;
+    width: 400px;
+    height: 200px;
+}
+
+.marker {
+    background-size: cover;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.marker-nonconducive {
+    background-image: url('../images/nonconduciveSensor.svg');
+}
+
+.marker-conducive {
+    background-image: url('../images/conduciveSensor.svg');
+}
+h2{
+    padding: 1%;
+    text-align: center;
+}

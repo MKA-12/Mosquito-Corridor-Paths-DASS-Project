@@ -1,0 +1,31 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server --ignore node_modules/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "date": "^1.0.2",
+    "email-existence": "^0.1.6",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "kickbox": "^2.0.4",
+    "mongoose": "^5.8.11",
+    "nodemailer": "^6.4.6",
+    "random": "^2.1.1",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
